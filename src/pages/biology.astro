@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SpoilerGate from '../components/SpoilerGate.astro';
+import ScienceDiagram from '../components/ScienceDiagram.astro';
 ---
 <BaseLayout title="生物編 — ヘイルメアリー サイエンスガイド" currentPath="/biology">
 
@@ -46,6 +47,11 @@ import SpoilerGate from '../components/SpoilerGate.astro';
         <p>実際に地球には高温（100℃以上）、強酸、強アルカリなどの極限環境で生きる「<span class="hl-green">極限環境微生物（extremophile）</span>」が多数存在する。</p>
       </div>
     </div>
+    <ScienceDiagram
+      kind="photosynthesis"
+      title="光合成は「光を受け取る段階」と「糖へ固定する段階」に分かれる"
+      caption="光反応で ATP / NADPH を作り、それを使って CO₂ から糖を合成する。アストロファージはこの流れの極端に高効率な版として描かれる。"
+    />
     <div class="formula-box" data-label="CONCEPT / MECHANISM">
       <span class="formula">6CO₂ + 6H₂O + 光エネルギー → C₆H₁₂O₆ + 6O₂</span>
       <div class="formula-note">
