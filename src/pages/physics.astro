@@ -99,7 +99,7 @@ import SpoilerGate from '../components/SpoilerGate.astro';
     <div class="level-badge level-both">▶ 中2〜高1（本書最重要シーン）</div>
     <div class="story-block">
       <div class="block-label">📖 ストーリー</div>
-      グレースは自分がいる惑星の重力加速度を知る必要があった。計器がないため、手持ちの材料で振り子を作り、その周期を測ることで重力を算出する。科学者としての真骨頂が発揮される場面。
+      グレースは、自分がいる場所でどれくらいの「重さ」を感じるのかを知る必要があった。計器がないため、手持ちの材料で振り子を作り、その周期を測ることで局所的な加速度を見積もる。宇宙船内の人工重力や加速の状態を、自分の実験だけで読み解いていく場面だ。
     </div>
     <div class="science-block">
       <div class="block-label">🔬 科学解説：単振動と重力</div>
@@ -228,7 +228,7 @@ import SpoilerGate from '../components/SpoilerGate.astro';
         <span>E</span>：エネルギー（ジュール）<br>
         <span>m</span>：質量（kg）<br>
         <span>c</span>：光速（約3×10⁸ m/s）<br><br>
-        1gの質量が完全にエネルギーに変換されると → 約9×10¹³ J（広島型原爆の約2倍）
+        1gの質量が完全にエネルギーに変換されると → 約9×10¹³ J（広島型原爆の数発分に相当）
       </div>
     </div>
     <div class="person-block">
@@ -330,7 +330,7 @@ import SpoilerGate from '../components/SpoilerGate.astro';
       <div class="level-badge level-high">▶ 高校〜大学入門レベル（発展）</div>
       <div class="story-block">
         <div class="block-label">📖 ストーリー</div>
-        ヘイルメアリー号は光速の数パーセントという高速で旅をしている。地球で経過した時間と、船内で経過した時間がずれていることが示唆される。
+        ヘイルメアリー号は、相対論的な効果が無視できないほどの高速で旅をしている。地球で経過した時間と、船内で経過した時間がずれていることが示唆される。
       </div>
       <div class="science-block">
         <div class="block-label">🔬 科学解説：速く動くと時間が遅れる</div>
@@ -341,13 +341,13 @@ import SpoilerGate from '../components/SpoilerGate.astro';
         </div>
       </div>
       <div class="formula-box" data-label="FORMULA">
-        <span class="formula">t' = t / √(1 − v²/c²)</span>
+        <span class="formula">t' = t × √(1 − v²/c²)</span>
         <div class="formula-note">
           <span>t'</span>：動く側が感じる時間<br>
           <span>t</span>：静止した観測者が感じる時間<br>
           <span>v</span>：速度<br>
           <span>c</span>：光速（約3×10⁸ m/s）<br><br>
-          v = 0.99c のとき：t' = t / 7.09（地球の7年 = 船内の1年）
+          v = 0.99c のとき：t' ≈ 0.141t（地球の約7年 = 船内の約1年）
         </div>
       </div>
       <div class="important-note">
