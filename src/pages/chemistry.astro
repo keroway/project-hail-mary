@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ScienceDiagram from '../components/ScienceDiagram.astro';
 ---
 <BaseLayout title="化学編 — ヘイルメアリー サイエンスガイド" currentPath="/chemistry">
 
@@ -108,6 +109,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <p>光子1個のエネルギーは波長で決まる。<span class="hl-purple">波長が短いほど高エネルギー（紫外線・X線）、長いほど低エネルギー（赤外線・電波）</span>。</p>
       </div>
     </div>
+    <ScienceDiagram
+      kind="spectrum"
+      title="分光では、電磁波のどの位置に線が出るかを読んで物質を推定する"
+      caption="ペトロヴァ線の数値自体は作中設定だが、「特定の波長の線を目印に現象を追う」という見方は現実の分光観測そのもの。"
+    />
     <div class="formula-box" data-label="FORMULA / REACTION">
       <span class="formula">E = h × f = hc / λ</span>
       <div class="formula-note">

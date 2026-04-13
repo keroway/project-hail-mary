@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SpoilerGate from '../components/SpoilerGate.astro';
+import ScienceDiagram from '../components/ScienceDiagram.astro';
 ---
 <BaseLayout title="物理学編 — ヘイルメアリー サイエンスガイド" currentPath="/physics">
 
@@ -44,6 +45,11 @@ import SpoilerGate from '../components/SpoilerGate.astro';
         <p>船の中のものも、船と同じ速度で落ち続けているので、<span class="hl-yellow">お互いに「落ちている感覚」がなくなる</span>。これが「無重力に見える」理由だ。</p>
       </div>
     </div>
+    <ScienceDiagram
+      kind="orbit"
+      title="軌道上では「前へ進む運動」と「地球へ落ちる運動」が同時に起きている"
+      caption="重力が消えているのではなく、宇宙船も中の物体も同じように自由落下しているため、互いの位置関係がほとんど変わらない。"
+    />
     <div class="formula-box" data-label="FORMULA">
       <span class="formula">F = G × (m₁ × m₂) / r²</span>
       <div class="formula-note">
@@ -108,6 +114,11 @@ import SpoilerGate from '../components/SpoilerGate.astro';
         <p>なぜそうなるのか？重い物体は重力を強く受けるが、同時に「動かしにくさ（慣性）」も大きい。この2つがちょうど打ち消し合うため、質量が消える。残るのは<span class="hl-green">「紐の長さ」と「重力加速度 g」だけ</span>だ。</p>
       </div>
     </div>
+    <ScienceDiagram
+      kind="pendulum"
+      title="振り子の周期は、おもりの重さではなく長さ L と重力 g で決まる"
+      caption="同じ長さなら重いおもりでも軽いおもりでも同じ周期になる。グレースはこの性質を使って船内の加速度を逆算した。"
+    />
     <div class="formula-box" data-label="FORMULA">
       <span class="formula">T = 2π√(L / g)</span>
       <div class="formula-note">
@@ -176,6 +187,11 @@ import SpoilerGate from '../components/SpoilerGate.astro';
         <p>宇宙ステーションで同じ「重力感覚」を作るには、半径 r で角速度 ω で回転させると、向心加速度 a = ω²r が発生する。これを地球の g（9.8 m/s²）と等しくすれば「地球と同じ重力感覚」になる。</p>
       </div>
     </div>
+    <ScienceDiagram
+      kind="centrifuge"
+      title="人工重力は、回転する壁が体を内向きに押すことで生まれる"
+      caption="乗っている人からは外側が床に感じられるが、物理的には壁が常に進行方向を曲げている。必要な加速度は a = ω²r で決まる。"
+    />
     <div class="formula-box" data-label="FORMULA">
       <span class="formula">a = ω² × r = v² / r</span>
       <div class="formula-note">
@@ -340,6 +356,11 @@ import SpoilerGate from '../components/SpoilerGate.astro';
           <p>これはSFの「嘘」ではない。GPS衛星は高速で動くため、この補正をしないと位置誤差が1日で数kmに達する。<span class="hl-yellow">スマートフォンのGPSは相対性理論で動いている</span>。</p>
         </div>
       </div>
+      <ScienceDiagram
+        kind="relativity"
+        title="速い宇宙船の中では、同じ出来事でも経過時間の刻み方が短くなる"
+        caption="地球側の時間 t に対して、動く側の時間 t&apos; は短くなる。作品でもこの時間差が旅の重みを増している。"
+      />
       <div class="formula-box" data-label="FORMULA">
         <span class="formula">t' = t × √(1 − v²/c²)</span>
         <div class="formula-note">
