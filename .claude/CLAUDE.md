@@ -8,12 +8,9 @@
 - **ホスティング**: Cloudflare Pages（静的サイト）
 - **フレームワーク**: Astro 5（静的出力）
 - **ビルド出力**: `dist/`
-- **本番ブランチ**: `main`（プッシュ → Cloudflare Pages 自動ビルド・デプロイ）
-
-> **Cloudflare Pages のビルド設定変更が必要：**
-> - Build command: `npm run build`
-> - Build output directory: `dist`
-> （旧設定 `public/` から変更してください）
+- **本番URL**: https://hailmary.keroway.com
+- **本番ブランチ**: `main`（プッシュ → GitHub Actions → Cloudflare Pages 自動デプロイ）
+- **デプロイ方式**: GitHub Actions（`.github/workflows/deploy.yml`）で `wrangler pages deploy` を実行
 
 ## リポジトリ構成
 
@@ -34,8 +31,8 @@ src/
     └── math.astro             # 数学編
 public/
 └── _headers                   # Cloudflare セキュリティヘッダー（変更不要）
-tmp/
-└── *.html                     # 移行元の旧HTMLファイル（参考用）
+.github/workflows/
+└── deploy.yml                 # main push → Cloudflare Pages デプロイ
 ```
 
 ## よくある作業
@@ -75,11 +72,12 @@ npm run preview  # ビルド結果をプレビュー
 
 - 宇宙・深夜をイメージした暗色テーマ（変更しない）
 - 各教科にアクセントカラーあり（物理=青、化学=紫、生物=緑、数学=アンバー）
-- Astro View Transitions でページ遷移アニメーション
+- Astro ClientRouter でページ遷移アニメーション
 - ボタン・カードのホバー/アクティブアニメーションは `global.css` で管理
 
 ## 注意事項
 
 - `public/_headers` は Cloudflare Pages のセキュリティヘッダー設定。変更不要。
-- `tmp/` は旧HTMLファイルの保管場所。本番デプロイには含まれない。
 - `main` ブランチへの直接プッシュ可（小規模プロジェクトのため）。
+- GitHub Secrets に `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID` が必要（設定済み）。
+- 依存更新は Renovate が公開後5日経過したバージョンのみ PR を作成する。
