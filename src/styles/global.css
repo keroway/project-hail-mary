@@ -47,6 +47,45 @@ body {
   min-height: 100vh;
 }
 
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: 12px;
+  z-index: 1000;
+  padding: 10px 14px;
+  background: var(--warm-star);
+  color: var(--void);
+  text-decoration: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  transform: translateY(-140%);
+  transition: transform var(--transition-base);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--warm-star);
+  outline-offset: 3px;
+}
+
 /* Star-field (subject tint via --star-tint-a / --star-tint-b, set per page) */
 body::before {
   content: '';
@@ -287,7 +326,7 @@ h1 {
   font-weight: 600;
   color: var(--white-star);
   line-height: 1.3;
-  margin-bottom: 4px;
+  margin: 0 0 4px;
 }
 
 .phase-topic {
@@ -708,6 +747,7 @@ footer {
   font-weight: 600;
   color: var(--white-star);
   line-height: 1.4;
+  margin: 0;
 }
 .subject-card-desc {
   font-size: 12px;
@@ -785,6 +825,15 @@ footer {
   pointer-events: none;
 }
 .timeline-item.is-locked:hover { transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 
 /* ===== Responsive ===== */
 @media (max-width: 600px) {
