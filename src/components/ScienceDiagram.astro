@@ -39,9 +39,9 @@ const { kind, title, caption } = Astro.props;
       <circle cx="267" cy="120" r="5" class="diagram-fill-accent" />
       <line x1="267" y1="120" x2="345" y2="120" class="diagram-accent-line" marker-end="url(#arrowAccent)" />
       <line x1="267" y1="120" x2="220" y2="120" class="diagram-warm-line" marker-end="url(#arrowWarm)" />
-      <!-- Animated tracer: orbiting dot -->
+      <!-- Animated tracer: orbiting dot (cx=267 is 92px from center 175) -->
       <g class="diagram-anim diagram-orbit-spin">
-        <circle cx="92" cy="0" r="4" class="diagram-tracer" />
+        <circle cx="267" cy="120" r="4" class="diagram-tracer" />
       </g>
       <text x="360" y="114" class="diagram-label">進む速さ</text>
       <text x="215" y="108" class="diagram-label diagram-label-warm">重力</text>
@@ -113,9 +113,9 @@ const { kind, title, caption } = Astro.props;
       <circle cx="293" cy="120" r="10" class="diagram-fill-accent" />
       <line x1="205" y1="120" x2="293" y2="120" class="diagram-muted-line" />
       <line x1="293" y1="120" x2="247" y2="120" class="diagram-accent-line" marker-end="url(#arrowAccentCentrifuge)" />
-      <!-- Animated tracer: orbiting dot -->
+      <!-- Animated tracer: orbiting dot (cx=293 is 88px from center 205) -->
       <g class="diagram-anim diagram-centrifuge-spin">
-        <circle cx="88" cy="0" r="4" class="diagram-tracer" />
+        <circle cx="293" cy="120" r="4" class="diagram-tracer" />
       </g>
       <path d="M164 54 A86 86 0 0 1 246 52" class="diagram-warm-line" fill="none" marker-end="url(#arrowWarmCentrifuge)" />
       <text x="254" y="107" class="diagram-label">壁が押す</text>
@@ -142,7 +142,6 @@ const { kind, title, caption } = Astro.props;
       <circle cx="112" cy="74" r="24" class="diagram-fill-warm-soft" />
       <g class="diagram-warm-line">
         <line x1="112" y1="34" x2="112" y2="18" />
-        <line x1="112" y1="114" x2="112" y2="130" />
         <line x1="72" y1="74" x2="56" y2="74" />
         <line x1="152" y1="74" x2="168" y2="74" />
         <line x1="84" y1="46" x2="72" y2="34" />
@@ -152,10 +151,19 @@ const { kind, title, caption } = Astro.props;
       </g>
       <rect x="206" y="54" width="150" height="52" rx="12" class="diagram-panel" />
       <rect x="404" y="54" width="164" height="52" rx="12" class="diagram-panel" />
-      <line x1="356" y1="80" x2="404" y2="80" class="diagram-accent-line" marker-end="url(#arrowAccentPhoto)" />
-      <line x1="112" y1="98" x2="206" y2="80" class="diagram-warm-line" marker-end="url(#arrowWarmPhoto)" />
-      <line x1="280" y1="106" x2="280" y2="150" class="diagram-muted-line" marker-end="url(#arrowDimPhoto)" />
-      <line x1="478" y1="106" x2="478" y2="150" class="diagram-accent-line" marker-end="url(#arrowAccentPhoto)" />
+      <!-- Animated flow triangles instead of static arrows -->
+      <polygon points="-5,-3.5 5,0 -5,3.5" class="diagram-anim diagram-flow-warm" opacity="0.6">
+        <animateMotion dur="2s" repeatCount="indefinite" rotate="auto" path="M112,98 L206,80" calcMode="spline" keySplines="0.4 0 0.6 1" keyTimes="0;1" />
+      </polygon>
+      <polygon points="-5,-3.5 5,0 -5,3.5" class="diagram-anim diagram-flow-accent" opacity="0.6">
+        <animateMotion dur="1.5s" repeatCount="indefinite" rotate="auto" path="M356,80 L404,80" calcMode="spline" keySplines="0.4 0 0.6 1" keyTimes="0;1" />
+      </polygon>
+      <polygon points="-3.5,-3.5 0,5 3.5,-3.5" class="diagram-anim diagram-flow-dim" opacity="0.5">
+        <animateMotion dur="2s" repeatCount="indefinite" path="M280,108 L280,144" calcMode="spline" keySplines="0.4 0 0.6 1" keyTimes="0;1" />
+      </polygon>
+      <polygon points="-3.5,-3.5 0,5 3.5,-3.5" class="diagram-anim diagram-flow-accent" opacity="0.5">
+        <animateMotion dur="2s" repeatCount="indefinite" path="M478,108 L478,144" calcMode="spline" keySplines="0.4 0 0.6 1" keyTimes="0;1" />
+      </polygon>
       <text x="78" y="152" class="diagram-label diagram-label-warm">光</text>
       <text x="228" y="84" class="diagram-label">光反応</text>
       <text x="214" y="150" class="diagram-caption">H₂O → O₂</text>
@@ -163,17 +171,6 @@ const { kind, title, caption } = Astro.props;
       <text x="438" y="150" class="diagram-caption">CO₂ → 糖</text>
       <text x="366" y="69" class="diagram-caption">ATP / NADPH</text>
       <text x="404" y="188" class="diagram-caption">光エネルギーを化学エネルギーへ</text>
-      <defs>
-        <marker id="arrowAccentPhoto" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" class="diagram-fill-accent" />
-        </marker>
-        <marker id="arrowWarmPhoto" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" class="diagram-fill-warm" />
-        </marker>
-        <marker id="arrowDimPhoto" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" class="diagram-fill-dim" />
-        </marker>
-      </defs>
     </svg>
   )}
 
@@ -456,6 +453,20 @@ const { kind, title, caption } = Astro.props;
     fill: var(--accent);
     opacity: 0.55;
     filter: drop-shadow(0 0 6px var(--accent));
+  }
+
+  .diagram-flow-accent {
+    fill: var(--accent);
+    filter: drop-shadow(0 0 4px var(--accent));
+  }
+
+  .diagram-flow-warm {
+    fill: var(--warm-star);
+    filter: drop-shadow(0 0 4px var(--warm-star));
+  }
+
+  .diagram-flow-dim {
+    fill: rgba(232, 244, 253, 0.5);
   }
 
   .diagram-orbit-spin {
