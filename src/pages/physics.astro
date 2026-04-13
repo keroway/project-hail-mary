@@ -271,6 +271,66 @@ import ScienceDiagram from '../components/ScienceDiagram.astro';
 
   <div class="section-divider"><span class="divider-label">— SCIENCE LOG —</span></div>
 
+  <!-- PHASE 07 -->
+  <div class="phase" id="phase07">
+    <img class="phase-hero" src="/images/ph07-solarsail.jpg" alt="宇宙に広がるソーラーセイル" loading="lazy" />
+    <div class="phase-header">
+      <div class="phase-number">PHASE 07</div>
+      <div class="phase-title-group">
+        <h2 class="phase-title">光の圧力とソーラーセイル——光子が持つ「力」</h2>
+        <div class="phase-topic">光子の運動量 / 光圧 / 電磁放射圧</div>
+      </div>
+    </div>
+    <div class="level-badge level-both">▶ 中3〜高1（発展）</div>
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      アストロファージは光（光子）を「食べて」エネルギーを蓄える。この過程で見落とされがちな事実がある——光はエネルギーを持つだけでなく、<strong>運動量も持つ</strong>。光子が吸収されるとき、その運動量は相手に移る。これが「光が押す力」＝光圧だ。宇宙ではその微小な力が、エンジンなしで船を動かす「ソーラーセイル」として実用化されている。
+    </div>
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：光に質量はないが、運動量はある</div>
+      <div class="science-content">
+        <p>ニュートン力学では「運動量 = 質量 × 速度」だ。光子には質量がない——では運動量もゼロか？<span class="hl-blue">いや、相対性理論によれば光子は「E = pc」という関係を持つ</span>。エネルギーを持つ光子は必ず運動量も持つ。</p><br>
+        <p>例えば太陽光が完全反射する鏡1m²に当たるとき、光圧は約<span class="hl-green">9 × 10⁻⁶ N（マイクロニュートン）</span>。人の指1本で触れる程度の力——地球上では全く無視できる。しかし宇宙空間では空気抵抗ゼロ・重力勾配が小さいため、この微力でも何週間・何ヶ月も加速し続ければ、かなりの速度に達する。</p><br>
+        <p><span class="hl-yellow">アストロファージが光を「食べる」仕組みも同じ物理が支える</span>。光子を吸収するごとに運動量が蓄積される。これがアストロファージを「光のある方向へ引き寄せる」力になり、太陽に近づく動きにつながる。</p>
+      </div>
+    </div>
+    <div class="formula-box" data-label="FORMULA">
+      <span class="formula">p = E / c = hf / c</span>
+      <div class="formula-note">
+        光子の運動量<br>
+        <span>p</span>：運動量（kg·m/s）<br>
+        <span>E</span>：光子のエネルギー（J）<br>
+        <span>c</span>：光速（3×10⁸ m/s）<br>
+        <span>h</span>：プランク定数（6.63×10⁻³⁴ J·s）<br>
+        <span>f</span>：光の周波数（Hz）<br><br>
+        光圧 P = I/c（吸収）または P = 2I/c（完全反射）<br>
+        <span>I</span>：光の強度（W/m²）——地球軌道での太陽光：約1361 W/m²
+      </div>
+    </div>
+    <div class="science-block">
+      <div class="block-label">🛸 実際に飛んだソーラーセイル</div>
+      <div class="science-content">
+        <p>JAXA（宇宙航空研究開発機構）は2010年、<span class="hl-blue">IKAROS（イカロス）</span>を打ち上げた。14m四方の薄膜セイルを展開し、金星へ向かう惑星間飛行で太陽光圧による加速に世界で初めて成功した実証機だ。</p><br>
+        <p>燃料を積まずに光だけで加速する——これは長距離宇宙旅行における燃料問題を根本から変える技術だ。「ヘイルメアリー号」は別の推進方式（アストロファージ燃料）だが、<span class="hl-green">「光をエネルギー・運動量の源として利用する」という発想は同じ</span>。</p>
+      </div>
+    </div>
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=0-KQbN-DKPU" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">Kurzgesagt「Solar Sails」</span><span class="link-desc">英語アニメ / ソーラーセイルの仕組みと可能性</span></span>
+        </a>
+        <a class="link-item" href="https://www.youtube.com/watch?v=5HOHqLKjHHc" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">JAXA「IKAROS プロジェクト」</span><span class="link-desc">日本語 / 世界初の惑星間ソーラーセイル</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— SCIENCE LOG —</span></div>
+
   <!-- PHASE 05 — SPOILER ch9 -->
   <SpoilerGate id="phase05" minChapter={9} label="第9章以降のネタバレ" hint="ロッキー（異星人）との出会いと、音波によるコミュニケーションの内容を含みます。">
     <div class="phase">
@@ -389,66 +449,6 @@ import ScienceDiagram from '../components/ScienceDiagram.astro';
       </div>
     </div>
   </SpoilerGate>
-
-  <div class="section-divider"><span class="divider-label">— SCIENCE LOG —</span></div>
-
-  <!-- PHASE 07 -->
-  <div class="phase" id="phase07">
-    <img class="phase-hero" src="/images/ph07-solarsail.jpg" alt="宇宙に広がるソーラーセイル" loading="lazy" />
-    <div class="phase-header">
-      <div class="phase-number">PHASE 07</div>
-      <div class="phase-title-group">
-        <h2 class="phase-title">光の圧力とソーラーセイル——光子が持つ「力」</h2>
-        <div class="phase-topic">光子の運動量 / 光圧 / 電磁放射圧</div>
-      </div>
-    </div>
-    <div class="level-badge level-both">▶ 中3〜高1（発展）</div>
-    <div class="story-block">
-      <div class="block-label">📖 ストーリー</div>
-      アストロファージは光（光子）を「食べて」エネルギーを蓄える。この過程で見落とされがちな事実がある——光はエネルギーを持つだけでなく、<strong>運動量も持つ</strong>。光子が吸収されるとき、その運動量は相手に移る。これが「光が押す力」＝光圧だ。宇宙ではその微小な力が、エンジンなしで船を動かす「ソーラーセイル」として実用化されている。
-    </div>
-    <div class="science-block">
-      <div class="block-label">🔬 科学解説：光に質量はないが、運動量はある</div>
-      <div class="science-content">
-        <p>ニュートン力学では「運動量 = 質量 × 速度」だ。光子には質量がない——では運動量もゼロか？<span class="hl-blue">いや、相対性理論によれば光子は「E = pc」という関係を持つ</span>。エネルギーを持つ光子は必ず運動量も持つ。</p><br>
-        <p>例えば太陽光が完全反射する鏡1m²に当たるとき、光圧は約<span class="hl-green">9 × 10⁻⁶ N（マイクロニュートン）</span>。人の指1本で触れる程度の力——地球上では全く無視できる。しかし宇宙空間では空気抵抗ゼロ・重力勾配が小さいため、この微力でも何週間・何ヶ月も加速し続ければ、かなりの速度に達する。</p><br>
-        <p><span class="hl-yellow">アストロファージが光を「食べる」仕組みも同じ物理が支える</span>。光子を吸収するごとに運動量が蓄積される。これがアストロファージを「光のある方向へ引き寄せる」力になり、太陽に近づく動きにつながる。</p>
-      </div>
-    </div>
-    <div class="formula-box" data-label="FORMULA">
-      <span class="formula">p = E / c = hf / c</span>
-      <div class="formula-note">
-        光子の運動量<br>
-        <span>p</span>：運動量（kg·m/s）<br>
-        <span>E</span>：光子のエネルギー（J）<br>
-        <span>c</span>：光速（3×10⁸ m/s）<br>
-        <span>h</span>：プランク定数（6.63×10⁻³⁴ J·s）<br>
-        <span>f</span>：光の周波数（Hz）<br><br>
-        光圧 P = I/c（吸収）または P = 2I/c（完全反射）<br>
-        <span>I</span>：光の強度（W/m²）——地球軌道での太陽光：約1361 W/m²
-      </div>
-    </div>
-    <div class="science-block">
-      <div class="block-label">🛸 実際に飛んだソーラーセイル</div>
-      <div class="science-content">
-        <p>JAXA（宇宙航空研究開発機構）は2010年、<span class="hl-blue">IKAROS（イカロス）</span>を打ち上げた。14m四方の薄膜セイルを展開し、金星へ向かう惑星間飛行で太陽光圧による加速に世界で初めて成功した実証機だ。</p><br>
-        <p>燃料を積まずに光だけで加速する——これは長距離宇宙旅行における燃料問題を根本から変える技術だ。「ヘイルメアリー号」は別の推進方式（アストロファージ燃料）だが、<span class="hl-green">「光をエネルギー・運動量の源として利用する」という発想は同じ</span>。</p>
-      </div>
-    </div>
-    <div class="links-block">
-      <div class="block-label">🔗 参考リンク</div>
-      <div class="link-grid">
-        <a class="link-item" href="https://www.youtube.com/watch?v=0-KQbN-DKPU" target="_blank" rel="noopener noreferrer">
-          <span class="link-icon">▶</span>
-          <span class="link-text"><span class="link-title">Kurzgesagt「Solar Sails」</span><span class="link-desc">英語アニメ / ソーラーセイルの仕組みと可能性</span></span>
-        </a>
-        <a class="link-item" href="https://www.youtube.com/watch?v=5HOHqLKjHHc" target="_blank" rel="noopener noreferrer">
-          <span class="link-icon">▶</span>
-          <span class="link-text"><span class="link-title">JAXA「IKAROS プロジェクト」</span><span class="link-desc">日本語 / 世界初の惑星間ソーラーセイル</span></span>
-        </a>
-      </div>
-    </div>
-  </div>
 
   <div class="section-divider"><span class="divider-label">— APPENDIX —</span></div>
 
