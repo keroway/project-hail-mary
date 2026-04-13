@@ -1,0 +1,290 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SpoilerGate from '../components/SpoilerGate.astro';
+---
+<BaseLayout title="生物編 — ヘイルメアリー サイエンスガイド" currentPath="/biology">
+
+<div class="container">
+
+  <header>
+    <div class="subject-badge">BIOLOGY</div>
+    <h1>プロジェクト・ヘイルメアリー<br>サイエンスガイド — 生物編</h1>
+    <p class="header-sub">細胞・光合成・昏睡・収束進化——生命とは何かを問い直す</p>
+    <div class="header-meta">
+      <span class="meta-tag">TARGET: 中学2年〜高校生</span>
+      <span class="meta-tag">SUBJECT: 生物</span>
+      <span class="meta-tag">⚠ ネタバレあり</span>
+    </div>
+  </header>
+
+  <div class="intro">
+    <p>ヘイルメアリーが他のSFと一線を画す理由のひとつは、<strong>「生命とは何か」という問いに真剣に向き合っている</strong>ことだ。アストロファージは地球の生命と似た構造を持ちながら全く異なる代謝をする。ロッキーは地球生命と全く異なる進化の道をたどりながら「知性」を獲得した。この2つの謎は、現代生物学の最前線と直結している。</p>
+  </div>
+
+  <!-- BIO 01 -->
+  <div class="phase" id="bio01">
+    <div class="phase-header">
+      <div class="phase-number">BIO 01</div>
+      <div class="phase-title-group">
+        <div class="phase-title">アストロファージの細胞生物学</div>
+        <div class="phase-topic">光合成 / 細胞構造 / 極限環境生物</div>
+      </div>
+    </div>
+    <div class="level-badge level-middle">▶ 中2〜高1レベル</div>
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      アストロファージは太陽に近い極高温の環境で生き、光エネルギーを直接物質エネルギーに変換する。顕微鏡で観察すると細胞のような構造を持つが、地球の細胞よりはるかに高効率だ。光合成生物との共通点と差異が研究の鍵になる。
+    </div>
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：光合成——生命が光を食べる仕組み</div>
+      <div class="science-content">
+        <p>植物・藻・シアノバクテリアは<span class="hl-green">光合成</span>によって光エネルギーを化学エネルギーに変換する。大きく2段階に分かれる：</p><br>
+        <p><span class="hl-green">① 光反応（チラコイド膜）</span>：光を吸収してATP（エネルギー分子）とNADPHを生成。水を分解して酸素を放出。</p>
+        <p><span class="hl-green">② カルビン回路（ストロマ）</span>：ATPとNADPHを使ってCO₂から糖（グルコース）を合成。</p><br>
+        <p>アストロファージはこのプロセスの「超進化版」と見なせる。通常の光合成効率は約1〜8%だが、アストロファージは<span class="hl-yellow">ほぼ100%の効率でエネルギーを捕捉・蓄積</span>するという設定だ。</p><br>
+        <p>実際に地球には高温（100℃以上）、強酸、強アルカリなどの極限環境で生きる「<span class="hl-green">極限環境微生物（extremophile）</span>」が多数存在する。</p>
+      </div>
+    </div>
+    <div class="formula-box" data-label="CONCEPT / MECHANISM">
+      <span class="formula">6CO₂ + 6H₂O + 光エネルギー → C₆H₁₂O₆ + 6O₂</span>
+      <div class="formula-note">
+        光合成の全体式<br>
+        <span>CO₂</span>：二酸化炭素（原料）<br>
+        <span>H₂O</span>：水（原料 / O₂の供給源）<br>
+        <span>C₆H₁₂O₆</span>：グルコース（エネルギーの蓄積形）<br>
+        <span>O₂</span>：酸素（副産物——地球大気の酸素はここから来た）<br><br>
+        地球大気の酸素は約27億年前にシアノバクテリアの光合成で生まれた（大酸化イベント）。
+      </div>
+    </div>
+    <div class="person-block">
+      <div class="person-icon">🌱</div>
+      <div class="person-info">
+        <div class="person-name">ヤン・インゲンホウス（1730〜1799）</div>
+        <p>光合成を「光があるときだけ植物が酸素を出す」という実験で初めて実証した。光が必須条件であることを示した先駆者。</p>
+      </div>
+    </div>
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=uixA8ZnOs40" target="_blank" rel="noopener">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">Crash Course Biology「Photosynthesis」</span><span class="link-desc">英語 / 光反応・カルビン回路を図解</span></span>
+        </a>
+        <a class="link-item" href="https://www.youtube.com/watch?v=oBsMstmNQlE" target="_blank" rel="noopener">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">Kurzgesagt「Life in the Deep Sea」</span><span class="link-desc">英語 / 極限環境生物のアニメ解説</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— BIO LOG —</span></div>
+
+  <!-- BIO 02 -->
+  <div class="phase" id="bio02">
+    <div class="phase-header">
+      <div class="phase-number">BIO 02</div>
+      <div class="phase-title-group">
+        <div class="phase-title">医学的誘発昏睡——グレースが眠った理由</div>
+        <div class="phase-topic">神経科学 / 麻酔・昏睡 / 遺伝子マーカー / 冬眠の科学</div>
+      </div>
+    </div>
+    <div class="level-badge level-middle">▶ 中3〜高1レベル</div>
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      タウ・セチまでの旅は約4年（船内時間）。閉鎖空間で意識を保ったまま過ごせば、精神崩壊や乗員同士の衝突が避けられない。ミッションリーダーのストラットは「医学的誘発昏睡（suspended animation）」を選択する。ただしこの昏睡には特殊な遺伝子マーカーを持つ人しか耐えられず、候補者は7万人に1人という。グレースはその適性保持者だったが、任務を拒否したため強制的に昏睡させられ、記憶喪失薬まで投与されて船に乗せられた。他の2名の乗組員は昏睡中に死亡し、グレースだけが生き残った。
+    </div>
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：昏睡・麻酔・そして人工冬眠の科学</div>
+      <div class="science-content">
+        <p>医学的昏睡（薬物誘発昏睡）は、脳の活動を薬で抑制して意識を失わせる処置だ。現実でも重篤な脳損傷患者に対して「脳を休めるため」に使われる。しかし<span class="hl-green">数週間以上の昏睡維持は現代医学でも非常に危険</span>で、筋肉萎縮・血栓・感染リスクが急増する。</p><br>
+        <p>グレースの設定が「遺伝子マーカーを持つ人だけが耐えられる」としているのはリアルな発想だ。実際に<span class="hl-green">冬眠する哺乳類（ジリス・ハムスターなど）は、体温・代謝・心拍数を劇的に下げる遺伝的能力</span>を持っている。</p><br>
+        <p>神経科学の観点では、意識は脳の複数領域の協調的な活動から生まれる。麻酔薬はGABA受容体を強化し興奮性シナプスを抑制することで、<span class="hl-yellow">意識の「統合」を切断する</span>。</p>
+      </div>
+    </div>
+    <div class="formula-box" data-label="CONCEPT / MECHANISM">
+      <span class="formula">ニューロン → シナプス → 受容体 → 次のニューロン</span>
+      <div class="formula-note">
+        神経信号伝達の基本回路<br><br>
+        ① 電気信号（活動電位）がニューロンを伝わる<br>
+        ② シナプス末端で神経伝達物質（GABA・グルタミン酸等）が放出される<br>
+        ③ 次のニューロンの受容体に結合し、信号が続く or 止まる<br><br>
+        麻酔薬はGABAの作用を増強し、脳全体の活動を抑制。<br>
+        記憶消去薬は海馬の記憶固定プロセスを阻害する。
+      </div>
+    </div>
+    <div class="important-note">
+      📌 作者アンディ・ウィアー自身が、「乗組員の死は昏睡技術の失敗によるもので、人間生物学的な限界ではない」とコメントしている。
+    </div>
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=NMo3nZHVrFI" target="_blank" rel="noopener">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">Kurzgesagt「Hibernation」</span><span class="link-desc">英語 / 冬眠の科学とtorporの仕組み</span></span>
+        </a>
+        <a class="link-item" href="https://www.youtube.com/watch?v=WhowH0kb7n0" target="_blank" rel="noopener">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">TED-Ed「How do anesthetics work?」</span><span class="link-desc">英語アニメ / 麻酔と意識の科学</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— BIO LOG —</span></div>
+
+  <!-- BIO 03 — SPOILER ch9 -->
+  <SpoilerGate id="bio03" minChapter={9} label="第9章以降のネタバレ" hint="ロッキー（異星人）の描写と、収束進化の観点からの考察を含みます。">
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-number">BIO 03</div>
+        <div class="phase-title-group">
+          <div class="phase-title">収束進化——異なる道をたどって同じ形に至る</div>
+          <div class="phase-topic">進化論 / 収束進化 / 知性の普遍性</div>
+        </div>
+      </div>
+      <div class="spoiler-warn">⚠ SPOILER: ロッキーの描写を含む</div>
+      <div class="level-badge level-both">▶ 中3〜高2レベル</div>
+      <div class="story-block">
+        <div class="block-label">📖 ストーリー</div>
+        ロッキーはエリディアン（異星人）であり、地球生命と全く異なる進化をたどったが、工具を使い、数学を理解し、宇宙船を建造する「知性」を持つ。地球の生命と全く異なる形をしているのに、驚くほど似た問題解決能力を持っている。
+      </div>
+      <div class="science-block">
+        <div class="block-label">🔬 科学解説：収束進化——自然が同じ「答え」に辿り着く</div>
+        <div class="science-content">
+          <p><span class="hl-green">収束進化（convergent evolution）</span>とは、系統的に無関係な生物が、似た環境的圧力のもとで独立に似た形質を獲得する現象だ。</p><br>
+          <div class="compare-grid">
+            <div class="compare-card">
+              <div class="cc-title">収束進化の地球例</div>
+              <ul>
+                <li>イルカ（哺乳類）とサメ（魚類）の流線型</li>
+                <li>コウモリの翼と翼竜の翼</li>
+                <li>タコの目と脊椎動物の目（独立に進化した水晶体）</li>
+                <li>アリとシロアリの真社会性（共通祖先なし）</li>
+              </ul>
+            </div>
+            <div class="compare-card">
+              <div class="cc-title">知性の収束進化</div>
+              <ul>
+                <li>霊長類とカラスの道具使用</li>
+                <li>タコとイカの高度な認知能力</li>
+                <li>クジラとゾウの複雑な社会構造</li>
+                <li>（仮説）宇宙での知性の普遍的出現</li>
+              </ul>
+            </div>
+          </div><br>
+          <p>ロッキーが知性を持つという設定は「<span class="hl-yellow">知性は宇宙で収束進化しうる</span>」という仮説の文学的表現だ。数学が宇宙共通の言語として機能するのも同じ発想——物理法則は宇宙全体で同じなので、それを発見した知性は同じ「数学」に辿り着く。</p>
+        </div>
+      </div>
+      <div class="person-block">
+        <div class="person-icon">🐢</div>
+        <div class="person-info">
+          <div class="person-name">チャールズ・ダーウィン（1809〜1882）</div>
+          <p>自然選択説を提唱（『種の起源』1859年）。ガラパゴス諸島で異なる島のフィンチが別々に進化した例から「共通の祖先から多様な形質が生まれる」ことを示した。</p>
+        </div>
+      </div>
+      <div class="question-box">
+        <div class="q-label">💭 考えてみよう</div>
+        <div class="q-text">タコとヒトは約6億年前に共通祖先から分かれた。それなのになぜタコはヒトと似た「カメラ眼」を独立に進化させたのか？「目」というのは自然選択において「収束しやすい解」なのか？</div>
+      </div>
+      <div class="links-block">
+        <div class="block-label">🔗 参考リンク</div>
+        <div class="link-grid">
+          <a class="link-item" href="https://www.youtube.com/watch?v=qfQRRzCixc0" target="_blank" rel="noopener">
+            <span class="link-icon">▶</span>
+            <span class="link-text"><span class="link-title">TED-Ed「Convergent Evolution」</span><span class="link-desc">英語アニメ / 3分で理解できる</span></span>
+          </a>
+          <a class="link-item" href="https://www.youtube.com/watch?v=SCqmVO5DEbE" target="_blank" rel="noopener">
+            <span class="link-icon">▶</span>
+            <span class="link-text"><span class="link-title">Kurzgesagt「Octopus Intelligence」</span><span class="link-desc">英語 / タコの知性と独立進化</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </SpoilerGate>
+
+  <div class="section-divider"><span class="divider-label">— APPENDIX —</span></div>
+
+  <!-- Roadmap -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">MAP</div>
+      <div class="phase-title-group">
+        <div class="phase-title">生物の学習ロードマップ</div>
+        <div class="phase-topic">この作品から広がる学びの道</div>
+      </div>
+    </div>
+    <div class="science-block">
+      <div class="block-label">📚 中2〜中3でおさえたいこと</div>
+      <div class="science-content">
+        <p style="margin-bottom:10px;"><span class="hl-green">細胞の基礎</span>：細胞膜・核・ミトコンドリア・葉緑体の役割</p>
+        <p style="margin-bottom:10px;"><span class="hl-green">光合成と呼吸</span>：エネルギーの変換、O₂/CO₂の出入り</p>
+        <p><span class="hl-green">進化と分類</span>：自然選択、共通祖先、系統樹の読み方</p>
+      </div>
+    </div>
+    <div class="science-block" style="margin-top:16px;">
+      <div class="block-label">📖 おすすめ書籍</div>
+      <div class="science-content">
+        <p style="margin-bottom:10px;"><span class="hl-yellow">『利己的な遺伝子』リチャード・ドーキンス</span> — 進化を「遺伝子の視点」から解説した現代の古典</p>
+        <p><span class="hl-yellow">『生物と無生物のあいだ』福岡伸一</span> — 「生命とは動的平衡である」を平易に語る日本語名著</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-note">
+      生命は宇宙で唯一の奇跡なのか、それとも収束進化する普遍的な現象なのか。<br>
+      ヘイルメアリーはその問いを、最もエンタメとして面白い形で問いかけている。
+    </div>
+  </footer>
+
+</div>
+</BaseLayout>
+
+<style>
+  :root {
+    --accent:        #34d399;
+    --accent-glow:   rgba(52, 211, 153, 0.25);
+    --accent-bg:     rgba(52, 211, 153, 0.08);
+    --accent-border: rgba(52, 211, 153, 0.2);
+    --star-tint-a:   rgba(52, 211, 153, 0.4);
+    --star-tint-b:   rgba(110, 231, 183, 0.25);
+  }
+
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .compare-card {
+    background: rgba(14, 22, 48, 0.6);
+    border: 1px solid var(--accent-border);
+    padding: 16px;
+  }
+  .compare-card .cc-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .compare-card ul { list-style: none; }
+  .compare-card ul li {
+    font-size: 13px;
+    color: rgba(232, 244, 253, 0.75);
+    margin-bottom: 6px;
+    padding-left: 12px;
+    position: relative;
+  }
+  .compare-card ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  @media (max-width: 500px) {
+    .compare-grid { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヘイルメアリー サイエンスガイド — 物理学編</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #03050f;
+    --deep: #080d1e;
+    --nebula: #0e1630;
+    --star-blue: #4a9eff;
+    --aurora: #00d4aa;
+    --warm-star: #ffd166;
+    --red-dwarf: #ff6b6b;
+    --white-star: #e8f4fd;
+    --dim-star: #8ba8c4;
+    --grid-line: rgba(74, 158, 255, 0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--void);
+    color: var(--white-star);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 300;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* Star field background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 30%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 20%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 50%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 45%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(2px 2px at 35% 70%, rgba(74,158,255,0.4) 0%, transparent 100%),
+      radial-gradient(2px 2px at 78% 35%, rgba(0,212,170,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 92% 75%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 5% 40%, rgba(255,255,255,0.4) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  header {
+    padding: 80px 0 60px;
+    text-align: center;
+    border-bottom: 1px solid rgba(74, 158, 255, 0.15);
+    margin-bottom: 60px;
+    position: relative;
+  }
+
+  .header-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--aurora);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--white-star);
+    margin-bottom: 12px;
+    text-shadow: 0 0 40px rgba(74, 158, 255, 0.3);
+  }
+
+  .header-sub {
+    font-size: 15px;
+    color: var(--dim-star);
+    margin-bottom: 28px;
+  }
+
+  .header-meta {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .meta-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    padding: 4px 12px;
+    border: 1px solid rgba(74, 158, 255, 0.3);
+    border-radius: 2px;
+    color: var(--dim-star);
+    letter-spacing: 0.1em;
+  }
+
+  /* Intro */
+  .intro {
+    background: linear-gradient(135deg, rgba(74,158,255,0.06), rgba(0,212,170,0.04));
+    border: 1px solid rgba(74, 158, 255, 0.15);
+    border-left: 3px solid var(--star-blue);
+    padding: 28px 32px;
+    margin-bottom: 64px;
+    font-size: 15px;
+    line-height: 1.9;
+  }
+
+  .intro strong {
+    color: var(--star-blue);
+  }
+
+  /* Phase cards */
+  .phase {
+    margin-bottom: 72px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(74, 158, 255, 0.1);
+  }
+
+  .phase-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--aurora);
+    background: rgba(0, 212, 170, 0.08);
+    border: 1px solid rgba(0, 212, 170, 0.2);
+    padding: 4px 8px;
+    letter-spacing: 0.2em;
+    white-space: nowrap;
+    margin-top: 4px;
+  }
+
+  .phase-title-group {}
+
+  .phase-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--white-star);
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+
+  .phase-topic {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--star-blue);
+    letter-spacing: 0.1em;
+  }
+
+  /* Story block */
+  .story-block {
+    background: rgba(255, 209, 102, 0.04);
+    border: 1px solid rgba(255, 209, 102, 0.15);
+    border-left: 3px solid var(--warm-star);
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    position: relative;
+  }
+
+  .block-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .story-block .block-label { color: var(--warm-star); }
+
+  /* Science block */
+  .science-block {
+    background: rgba(14, 22, 48, 0.8);
+    border: 1px solid rgba(74, 158, 255, 0.15);
+    padding: 24px 28px;
+    margin-bottom: 20px;
+  }
+
+  .science-block .block-label { color: var(--star-blue); }
+
+  .science-content {
+    font-size: 14px;
+    line-height: 1.9;
+    color: rgba(232, 244, 253, 0.85);
+  }
+
+  /* Formula */
+  .formula-box {
+    background: var(--void);
+    border: 1px solid rgba(74, 158, 255, 0.25);
+    padding: 20px 28px;
+    margin: 16px 0;
+    text-align: center;
+    position: relative;
+  }
+
+  .formula-box::before {
+    content: 'FORMULA';
+    position: absolute;
+    top: -8px;
+    left: 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--star-blue);
+    background: var(--void);
+    padding: 0 6px;
+  }
+
+  .formula {
+    font-family: 'Space Mono', monospace;
+    font-size: 20px;
+    color: var(--aurora);
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .formula-note {
+    font-size: 12px;
+    color: var(--dim-star);
+    line-height: 1.7;
+    text-align: left;
+    margin-top: 12px;
+  }
+
+  .formula-note span {
+    font-family: 'Space Mono', monospace;
+    color: var(--aurora);
+    font-size: 11px;
+  }
+
+  /* Person */
+  .person-block {
+    background: rgba(255, 107, 107, 0.04);
+    border: 1px solid rgba(255, 107, 107, 0.15);
+    padding: 16px 20px;
+    margin: 16px 0;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .person-icon {
+    font-size: 24px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .person-info .person-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 15px;
+    color: var(--red-dwarf);
+    margin-bottom: 4px;
+  }
+
+  .person-info p {
+    font-size: 13px;
+    color: rgba(232, 244, 253, 0.7);
+    line-height: 1.7;
+  }
+
+  /* Links */
+  .links-block {
+    margin-top: 20px;
+  }
+
+  .links-block .block-label { color: var(--aurora); margin-bottom: 12px; }
+
+  .link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+  }
+
+  .link-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: rgba(0, 212, 170, 0.04);
+    border: 1px solid rgba(0, 212, 170, 0.12);
+    padding: 12px 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .link-item:hover {
+    background: rgba(0, 212, 170, 0.1);
+    border-color: rgba(0, 212, 170, 0.3);
+  }
+
+  .link-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .link-text {}
+  .link-title {
+    font-size: 13px;
+    color: var(--aurora);
+    display: block;
+    margin-bottom: 2px;
+    line-height: 1.4;
+  }
+  .link-desc {
+    font-size: 11px;
+    color: var(--dim-star);
+    line-height: 1.5;
+  }
+
+  /* Learning level */
+  .level-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+
+  .level-middle {
+    background: rgba(74, 158, 255, 0.1);
+    border: 1px solid rgba(74, 158, 255, 0.25);
+    color: var(--star-blue);
+  }
+
+  .level-high {
+    background: rgba(255, 107, 107, 0.1);
+    border: 1px solid rgba(255, 107, 107, 0.25);
+    color: var(--red-dwarf);
+  }
+
+  .level-both {
+    background: rgba(0, 212, 170, 0.1);
+    border: 1px solid rgba(0, 212, 170, 0.25);
+    color: var(--aurora);
+  }
+
+  /* Question box */
+  .question-box {
+    border: 1px dashed rgba(255, 209, 102, 0.2);
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+
+  .question-box .q-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--warm-star);
+    letter-spacing: 0.2em;
+    margin-bottom: 8px;
+  }
+
+  .question-box .q-text {
+    color: rgba(232, 244, 253, 0.8);
+    font-style: italic;
+  }
+
+  /* Experiment */
+  .experiment-block {
+    background: rgba(0, 212, 170, 0.03);
+    border: 1px solid rgba(0, 212, 170, 0.15);
+    padding: 20px 24px;
+    margin: 16px 0;
+  }
+
+  .experiment-block .block-label { color: var(--aurora); }
+
+  .experiment-steps {
+    list-style: none;
+    counter-reset: step;
+    margin-top: 10px;
+  }
+
+  .experiment-steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 12px;
+    font-size: 13px;
+    color: rgba(232, 244, 253, 0.8);
+    margin-bottom: 8px;
+  }
+
+  .experiment-steps li::before {
+    content: counter(step);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--aurora);
+    background: rgba(0, 212, 170, 0.1);
+    border: 1px solid rgba(0, 212, 170, 0.2);
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* Divider */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 64px 0;
+  }
+
+  .section-divider::before,
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(74,158,255,0.2), transparent);
+  }
+
+  .divider-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--dim-star);
+    white-space: nowrap;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid rgba(74, 158, 255, 0.1);
+    padding: 40px 0 60px;
+    margin-top: 80px;
+    text-align: center;
+  }
+
+  .footer-note {
+    font-size: 12px;
+    color: var(--dim-star);
+    line-height: 1.9;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Highlight text */
+  .hl-blue { color: var(--star-blue); }
+  .hl-green { color: var(--aurora); }
+  .hl-yellow { color: var(--warm-star); }
+  .hl-red { color: var(--red-dwarf); }
+
+  /* Important note */
+  .important-note {
+    background: rgba(255, 209, 102, 0.06);
+    border-left: 2px solid var(--warm-star);
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: rgba(232, 244, 253, 0.75);
+  }
+
+  /* Warning spoiler */
+  .spoiler-warn {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--red-dwarf);
+    letter-spacing: 0.15em;
+    margin-bottom: 6px;
+  }
+
+  @media (max-width: 600px) {
+    .phase-header { flex-direction: column; gap: 8px; }
+    .link-grid { grid-template-columns: 1fr; }
+    .formula { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <div class="header-eyebrow">PHYSICS</div>
+    <h1>プロジェクト・ヘイルメアリー<br>サイエンスガイド — 物理学編</h1>
+    <p class="header-sub">重力・運動・エネルギー・相対性理論——作品に潜む物理学の本質</p>
+    <div class="header-meta">
+      <span class="meta-tag">TARGET: 中学2年〜高校生</span>
+      <span class="meta-tag">SUBJECT: 物理学</span>
+      <span class="meta-tag">⚠ ネタバレあり</span>
+    </div>
+  </header>
+
+  <div class="intro">
+    <p>この本には、SF的な「嘘」がほとんどない。グレース博士が宇宙船の中で行う推理や実験は、<strong>実際の物理学に基づいている</strong>。だからこそ読んでいて「本当にそうなのか？」と確かめたくなる。このガイドは、その「確かめたい」という気持ちを物理学の学習につなげるためのものだ。化学・生物・数学については別冊を参照してほしい。</p>
+  </div>
+
+  <!-- ==================== PHASE 1 ==================== -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">PHASE 01</div>
+      <div class="phase-title-group">
+        <div class="phase-title">目覚め・無重力の謎</div>
+        <div class="phase-topic">万有引力 / 軌道運動 / 自由落下</div>
+      </div>
+    </div>
+
+    <div class="level-badge level-middle">▶ 中学2〜3年レベル</div>
+
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      グレースは宇宙船の中で目覚める。体が宙に浮いており、自分がどこにいるのかもわからない。無重力状態の中で、彼は少しずつ状況を把握しようとする。
+    </div>
+
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：なぜ宇宙では物が浮くのか</div>
+      <div class="science-content">
+        <p>よく「宇宙には重力がない」と言われるが、<span class="hl-blue">これは正しくない</span>。国際宇宙ステーション（ISS）は地上400kmほどにあり、そこでも地球の重力はほぼ同じ強さで働いている。</p>
+        <br>
+        <p>では、なぜ浮くのか？答えは<span class="hl-green">「ずっと落ち続けているから」</span>だ。ISSは猛烈な速度（秒速約7.7km）で飛びながら、地球に向かって落ち続けている。その落下の弧が地球の丸さとちょうど一致するため、いつまでも落ちながら飛び続ける。この状態を「軌道運動」という。</p>
+        <br>
+        <p>船の中のものも、船と同じ速度で落ち続けているので、<span class="hl-yellow">お互いに「落ちている感覚」がなくなる</span>。これが「無重力に見える」理由だ。</p>
+      </div>
+    </div>
+
+    <div class="person-block">
+      <div class="person-icon">🍎</div>
+      <div class="person-info">
+        <div class="person-name">アイザック・ニュートン（1643〜1727）</div>
+        <p>万有引力の法則を発見。「月も、リンゴも、同じ重力で落ちている」という洞察から、軌道運動の仕組みを数学で記述した。著書『プリンキピア』（1687年）はその集大成。</p>
+      </div>
+    </div>
+
+    <div class="formula-box">
+      <span class="formula">F = G × (m₁ × m₂) / r²</span>
+      <div class="formula-note">
+        <span>F</span>：引力（ニュートン）<br>
+        <span>G</span>：万有引力定数（6.674 × 10⁻¹¹ N·m²/kg²）<br>
+        <span>m₁, m₂</span>：2つの物体の質量<br>
+        <span>r</span>：2物体間の距離<br><br>
+        距離が2倍になると引力は4分の1になる（逆二乗の法則）。
+      </div>
+    </div>
+
+    <div class="question-box">
+      <div class="q-label">💭 考えてみよう</div>
+      <div class="q-text">地球から高度400km（ISSの軌道）での重力加速度は何m/s²か？海面上の9.8と比べてどのくらい違う？（ヒント：地球の半径は6400km）</div>
+    </div>
+
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=VcF4xlFPlBw" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">NHK高校講座「万有引力」</span>
+            <span class="link-desc">YouTube / 無料 / 日本語</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://www.khanacademy.org/science/ap-physics-1/ap-centripetal-force-and-gravitation/newtons-law-of-gravitation-ap/v/introduction-to-gravity" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">Khan Academy「Gravity & Orbits」</span>
+            <span class="link-desc">英語 / 図解あり / 無料</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://phet.colorado.edu/en/simulations/gravity-and-orbits" target="_blank">
+          <span class="link-icon">🔬</span>
+          <span class="link-text">
+            <span class="link-title">PhET「Gravity and Orbits」</span>
+            <span class="link-desc">ブラウザで動く軌道シミュレーター</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://nhk.or.jp/school/rika/" target="_blank">
+          <span class="link-icon">📺</span>
+          <span class="link-text">
+            <span class="link-title">NHK for School「理科の扉」</span>
+            <span class="link-desc">中学生向け理科動画 / 日本語</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— SCIENCE LOG —</span></div>
+
+  <!-- ==================== PHASE 2 ==================== -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">PHASE 02</div>
+      <div class="phase-title-group">
+        <div class="phase-title">振り子で重力を測る</div>
+        <div class="phase-topic">単振動 / 重力加速度 / 周期と長さの関係</div>
+      </div>
+    </div>
+
+    <div class="level-badge level-both">▶ 中2〜高1（本書最重要シーン）</div>
+
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      グレースは自分がいる惑星の重力加速度を知る必要があった。計器がないため、手持ちの材料で振り子を作り、その周期を測ることで重力を算出する。科学者としての真骨頂が発揮される場面。
+    </div>
+
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：単振動と重力</div>
+      <div class="science-content">
+        <p>振り子の最大の不思議は、<span class="hl-blue">「重さが違っても周期が同じ」</span>ことだ。鉄のおもりでも木のおもりでも、同じ長さの紐なら同じ時間で揺れる。これをガリレオが発見した（16世紀）。</p>
+        <br>
+        <p>なぜそうなるのか？重い物体は重力を強く受けるが、同時に「動かしにくさ（慣性）」も大きい。この2つがちょうど打ち消し合うため、質量が消える。残るのは<span class="hl-green">「紐の長さ」と「重力加速度 g」だけ</span>だ。</p>
+      </div>
+    </div>
+
+    <div class="formula-box">
+      <span class="formula">T = 2π√(L / g)</span>
+      <div class="formula-note">
+        <span>T</span>：周期（1往復にかかる時間、秒）<br>
+        <span>L</span>：振り子の長さ（メートル）<br>
+        <span>g</span>：重力加速度（地球では約9.8 m/s²）<br><br>
+        ← <span>g</span> について解くと：<span style="color:var(--aurora)">g = 4π²L / T²</span><br>
+        つまり、L と T を測れば g を求められる。グレースはまさにこれをやった。
+      </div>
+    </div>
+
+    <div class="person-block">
+      <div class="person-icon">⚓</div>
+      <div class="person-info">
+        <div class="person-name">ガリレオ・ガリレイ（1564〜1642）</div>
+        <p>ピサ大聖堂のシャンデリアが揺れるのを見て、振り子の等時性（重さによらず周期が一定）に気づいたとされる。後に望遠鏡を改良し、木星の衛星を発見した。</p>
+      </div>
+    </div>
+
+    <div class="person-block">
+      <div class="person-icon">⏱</div>
+      <div class="person-info">
+        <div class="person-name">クリスティアーン・ホイヘンス（1629〜1695）</div>
+        <p>ガリレオの発見を発展させ、振り子時計を発明（1656年）。単振動の数学的な定式化も行い、T = 2π√(L/g) を理論として確立した。</p>
+      </div>
+    </div>
+
+    <div class="experiment-block">
+      <div class="block-label">🧪 家でできる実験：振り子で g を測ろう</div>
+      <ol class="experiment-steps">
+        <li>糸（30〜100cm）に重りをつけ、天井や棚から垂らす</li>
+        <li>糸の長さ L を正確に測る（メートル単位）</li>
+        <li>小さく揺らし、10往復の時間をストップウォッチで計る</li>
+        <li>その時間を10で割って周期 T を求める</li>
+        <li>g = 4π²L / T² に代入して計算する</li>
+        <li>答えが 9.7〜9.9 に近ければ成功。誤差の原因を考えよう</li>
+      </ol>
+    </div>
+
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=_SqEbItdXDs" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">ヨビノリたくみ「単振動①」</span>
+            <span class="link-desc">YouTube / わかりやすい日本語解説</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://phet.colorado.edu/en/simulations/pendulum-lab" target="_blank">
+          <span class="link-icon">🔬</span>
+          <span class="link-text">
+            <span class="link-title">PhET「Pendulum Lab」</span>
+            <span class="link-desc">振り子シミュレーター / 重力も変更可能</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://www.nhk.or.jp/school/rika/rikai/program/list/?das_id=D0005010153_00000" target="_blank">
+          <span class="link-icon">📺</span>
+          <span class="link-text">
+            <span class="link-title">NHK「振り子の運動」</span>
+            <span class="link-desc">中学理科 / 動画授業</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://www.khanacademy.org/science/physics/mechanical-waves-and-sound/simple-harmonic-motion-with-introduction-to-angular-frequency/v/introduction-to-harmonic-motion" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">Khan Academy「Simple Harmonic Motion」</span>
+            <span class="link-desc">英語 / 数学的背景あり</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— SCIENCE LOG —</span></div>
+
+  <!-- ==================== PHASE 3 ==================== -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">PHASE 03</div>
+      <div class="phase-title-group">
+        <div class="phase-title">人工重力と遠心力</div>
+        <div class="phase-topic">慣性 / 遠心力 / 非慣性系</div>
+      </div>
+    </div>
+
+    <div class="level-badge level-middle">▶ 中3〜高1レベル</div>
+
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      ヘイルメアリー号は回転することで人工重力を生み出している。SF映画でもよく登場するこの仕組みを、グレースは実際に体験しながら理解していく。
+    </div>
+
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：遠心力は「見かけの力」</div>
+      <div class="science-content">
+        <p>回転する乗り物の中では外側に引っ張られる感覚がある。これを「遠心力」と呼ぶが、<span class="hl-blue">実はこれは実在する力ではない</span>。</p>
+        <br>
+        <p>本当に働いているのは「向心力」だ。物体はまっすぐ進もうとする（慣性）が、回転する壁がそれを押し戻す。その押し戻される感覚が「外側に引っ張られている」ように感じられる。<span class="hl-green">遠心力は、回転する系の中にいる人が感じる「見かけの力」</span>（慣性力）だ。</p>
+        <br>
+        <p>宇宙ステーションで同じ「重力感覚」を作るには、半径 r で角速度 ω で回転させると、向心加速度 a = ω²r が発生する。これを地球の g（9.8 m/s²）と等しくすれば「地球と同じ重力感覚」になる。</p>
+      </div>
+    </div>
+
+    <div class="formula-box">
+      <span class="formula">a = ω² × r = v² / r</span>
+      <div class="formula-note">
+        <span>a</span>：向心加速度（m/s²）<br>
+        <span>ω</span>：角速度（rad/s）<br>
+        <span>r</span>：回転半径（m）<br>
+        <span>v</span>：接線速度（m/s）<br><br>
+        例：半径50mで回転させて g = 9.8 を再現するには ω ≈ 0.44 rad/s → 約4.2回転/分
+      </div>
+    </div>
+
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=49JwbrXcPjc" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">Kurzgesagt「Artificial Gravity」</span>
+            <span class="link-desc">YouTube英語 / アニメ解説</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://phet.colorado.edu/en/simulations/forces-and-motion-basics" target="_blank">
+          <span class="link-icon">🔬</span>
+          <span class="link-text">
+            <span class="link-title">PhET「Forces and Motion」</span>
+            <span class="link-desc">力と運動のシミュレーター</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— SCIENCE LOG —</span></div>
+
+  <!-- ==================== PHASE 4 ==================== -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">PHASE 04</div>
+      <div class="phase-title-group">
+        <div class="phase-title">アストロファージ — エネルギーを食べる生命</div>
+        <div class="phase-topic">エネルギー保存則 / 核融合 / 光のエネルギー</div>
+      </div>
+    </div>
+
+    <div class="level-badge level-both">▶ 中3〜高2レベル</div>
+
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      太陽が暗くなっている。原因はアストロファージという微生物が太陽の光エネルギーを吸収しているからだ。この生命体は光子（光の粒）をエネルギー源とし、驚異的な密度でエネルギーを蓄えている。
+    </div>
+
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：エネルギーとは何か</div>
+      <div class="science-content">
+        <p><span class="hl-blue">エネルギーは生まれず、消えない</span>——これをエネルギー保存の法則という。形を変えるだけだ。太陽では核融合反応によって水素がヘリウムに変わり、その「質量の差」が莫大なエネルギーとして放出される。</p>
+        <br>
+        <p>これを記述するのがアインシュタインの有名な式だ。<span class="hl-green">質量もエネルギーの一形態</span>であることを示している。アストロファージはこのエネルギーを体内に蓄える「生きたバッテリー」として機能する設定になっている。</p>
+        <br>
+        <p>光は「光子（フォトン）」という粒子でできており、その1個のエネルギーは周波数（色）で決まる。植物の光合成も、光子のエネルギーを化学エネルギーに変換している。アストロファージはその究極版とも言える。</p>
+      </div>
+    </div>
+
+    <div class="formula-box">
+      <span class="formula">E = mc²</span>
+      <div class="formula-note">
+        <span>E</span>：エネルギー（ジュール）<br>
+        <span>m</span>：質量（kg）<br>
+        <span>c</span>：光速（約3×10⁸ m/s）<br><br>
+        1gの質量が完全にエネルギーに変換されると → 約9×10¹³ J（広島型原爆の約2倍）
+      </div>
+    </div>
+
+    <div class="person-block">
+      <div class="person-icon">💡</div>
+      <div class="person-info">
+        <div class="person-name">アルベルト・アインシュタイン（1879〜1955）</div>
+        <p>1905年「奇跡の年」に特殊相対性理論を発表。E=mc²はその帰結として導かれた。量子力学の基礎にも貢献し、光電効果の説明でノーベル賞（1921年）を受賞した。</p>
+      </div>
+    </div>
+
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=hW7DW9NIO9M" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">Kurzgesagt「Nuclear Fusion」</span>
+            <span class="link-desc">英語アニメ / 核融合の仕組み</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://www.youtube.com/watch?v=NnMIhxWRGNw" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">ヨビノリ「E=mc²の意味」</span>
+            <span class="link-desc">YouTube / 日本語 / 丁寧な解説</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://www.nhk.or.jp/school/rika/rikatan/" target="_blank">
+          <span class="link-icon">📺</span>
+          <span class="link-text">
+            <span class="link-title">NHK「エネルギーのひみつ」</span>
+            <span class="link-desc">中学理科 / 動画</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— SCIENCE LOG —</span></div>
+
+  <!-- ==================== PHASE 5 ==================== -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">PHASE 05</div>
+      <div class="phase-title-group">
+        <div class="phase-title">ロッキーとの会話 — 音波と周波数</div>
+        <div class="phase-topic">波 / 周波数 / 音の情報伝達</div>
+      </div>
+    </div>
+
+    <div class="spoiler-warn">⚠ SPOILER: 後半の重要展開を含む</div>
+    <div class="level-badge level-middle">▶ 中2〜3レベル</div>
+
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      グレースは異星人・ロッキーと出会う。共通言語はなく、まず音の周波数パターンをやり取りすることでコミュニケーションを築いていく。数学と音が、言語の代わりになる。
+    </div>
+
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：音は波、情報は周波数に乗る</div>
+      <div class="science-content">
+        <p>音は空気（や固体・液体）の<span class="hl-blue">振動が伝わっていく波</span>だ。1秒間に何回振動するかを「周波数」（ヘルツ、Hz）という。人間が聞こえる範囲は約20Hz〜20,000Hz。</p>
+        <br>
+        <p>周波数が異なれば「音の高さ」が変わる。ドの音が262Hz、1オクターブ上のドが524Hz（2倍）。これは世界共通の数学的関係だ。<span class="hl-green">異星文明でも物理法則は同じなので、周波数の「比」は共通言語になりうる</span>。</p>
+        <br>
+        <p>ロッキーが音で会話をするのは、彼らの感覚器が音波に特化しているという設定だが、「音による情報伝達」自体は地球の生物（コウモリ、クジラ等）でも高度に発達している。</p>
+      </div>
+    </div>
+
+    <div class="formula-box">
+      <span class="formula">v = f × λ</span>
+      <div class="formula-note">
+        <span>v</span>：音速（空気中で約340 m/s）<br>
+        <span>f</span>：周波数（Hz）<br>
+        <span>λ</span>（ラムダ）：波長（m）<br><br>
+        周波数440Hz（ラの音）の波長 → λ = 340 / 440 ≈ 0.77m
+      </div>
+    </div>
+
+    <div class="experiment-block">
+      <div class="block-label">🧪 試してみよう：音の視覚化</div>
+      <ol class="experiment-steps">
+        <li>スマートフォンの「周波数スペクトル」アプリをインストール（Spectroid など無料）</li>
+        <li>声を出しながらアプリを見て、周波数の分布を確認する</li>
+        <li>音叉や楽器の音と比べてみる</li>
+        <li>ロッキーが「見ている」音の世界を想像する</li>
+      </ol>
+    </div>
+
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=eaKTWFPOBuI" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">3Blue1Brown「But what is the Fourier Transform?」</span>
+            <span class="link-desc">英語 / 周波数分析の視覚的解説（高校以上推奨）</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://www.nhk.or.jp/school/rika/rika3/" target="_blank">
+          <span class="link-icon">📺</span>
+          <span class="link-text">
+            <span class="link-title">NHK「音の波」</span>
+            <span class="link-desc">中学理科 / 音と振動</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://phet.colorado.edu/en/simulations/wave-on-a-string" target="_blank">
+          <span class="link-icon">🔬</span>
+          <span class="link-text">
+            <span class="link-title">PhET「Wave on a String」</span>
+            <span class="link-desc">波のシミュレーター</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— SCIENCE LOG —</span></div>
+
+  <!-- ==================== PHASE 6 ==================== -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">PHASE 06</div>
+      <div class="phase-title-group">
+        <div class="phase-title">宇宙旅行と相対性理論</div>
+        <div class="phase-topic">特殊相対性理論 / 時間の遅れ / 光速と質量</div>
+      </div>
+    </div>
+
+    <div class="spoiler-warn">⚠ SPOILER: 終盤内容を含む</div>
+    <div class="level-badge level-high">▶ 高校〜大学入門レベル（発展）</div>
+
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      ヘイルメアリー号は光速の数パーセントという高速で旅をしている。地球で経過した時間と、船内で経過した時間がずれていることが示唆される。
+    </div>
+
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：速く動くと時間が遅れる</div>
+      <div class="science-content">
+        <p>1905年、アインシュタインは「光速は誰から見ても同じ」という前提から驚くべき結論を導いた。<span class="hl-blue">速く動く物体は、静止した観測者から見て時間の進みが遅くなる</span>のだ。</p>
+        <br>
+        <p>これを「時間の遅れ（時間膨張）」という。例えば光速の99%で動く宇宙船では、船内の1年が地球の7年以上に相当する。<span class="hl-green">宇宙旅行者は若返って帰ってくる</span>ことになる。</p>
+        <br>
+        <p>これはSFの「嘘」ではない。GPS衛星は高速で動くため、この補正をしないと位置誤差が1日で数kmに達する。<span class="hl-yellow">スマートフォンのGPSは相対性理論で動いている</span>。</p>
+      </div>
+    </div>
+
+    <div class="formula-box">
+      <span class="formula">t' = t / √(1 − v²/c²)</span>
+      <div class="formula-note">
+        <span>t'</span>：動く側が感じる時間<br>
+        <span>t</span>：静止した観測者が感じる時間<br>
+        <span>v</span>：速度<br>
+        <span>c</span>：光速（約3×10⁸ m/s）<br><br>
+        v が c に近づくほど √の中が 0 に近づき、t' → 0（時間が止まる）<br>
+        v = 0.99c のとき：t' = t / 7.09（地球の7年 = 船内の1年）
+      </div>
+    </div>
+
+    <div class="important-note">
+      📌 高校物理（物理基礎・物理）では相対性理論は「現代物理」として軽く触れる程度。本格的な理解は大学レベル。でも「なぜGPSに補正が必要か」を理解できれば、発展的な読者として十分。
+    </div>
+
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=ACUuFg9Y9dY" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">Kurzgesagt「Special Relativity」</span>
+            <span class="link-desc">英語アニメ / 直感的な解説</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://www.youtube.com/watch?v=ev9zrt__lec" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">ヨビノリ「相対性理論入門」</span>
+            <span class="link-desc">YouTube日本語 / 丁寧な数式解説</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://www.youtube.com/watch?v=AInCqm5nCzw" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">MinutePhysics「GPS and Relativity」</span>
+            <span class="link-desc">英語 / GPS補正の実例</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— APPENDIX —</span></div>
+
+  <!-- 学習ロードマップ -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">MAP</div>
+      <div class="phase-title-group">
+        <div class="phase-title">学習ロードマップ</div>
+        <div class="phase-topic">今いる場所から、どこへ向かえるか</div>
+      </div>
+    </div>
+
+    <div class="science-block">
+      <div class="block-label">📚 中2〜中3でおさえたいこと</div>
+      <div class="science-content">
+        <p style="margin-bottom: 12px;"><span class="hl-blue">力と運動</span>：慣性の法則、作用反作用、運動方程式の入口</p>
+        <p style="margin-bottom: 12px;"><span class="hl-blue">波・音</span>：振動数、波長、音速、反射・屈折</p>
+        <p style="margin-bottom: 12px;"><span class="hl-blue">エネルギー</span>：位置エネルギー・運動エネルギー、保存の法則</p>
+        <p><span class="hl-blue">天体・宇宙</span>：太陽系のスケール感、光年の概念</p>
+      </div>
+    </div>
+
+    <div class="science-block" style="margin-top: 16px;">
+      <div class="block-label">📚 高校物理へのつながり</div>
+      <div class="science-content">
+        <p style="margin-bottom: 12px;"><span class="hl-green">物理基礎</span>：単振動（振り子の理論）、万有引力の法則（定量的）、エネルギー保存の法則</p>
+        <p style="margin-bottom: 12px;"><span class="hl-green">物理</span>：波動（干渉・回折）、円運動（遠心力の正確な理解）</p>
+        <p><span class="hl-green">発展</span>：特殊相対性理論、量子力学の入口（光子・光電効果）</p>
+      </div>
+    </div>
+
+    <div class="science-block" style="margin-top: 16px;">
+      <div class="block-label">📖 おすすめ書籍（発展学習）</div>
+      <div class="science-content">
+        <p style="margin-bottom: 10px;"><span class="hl-yellow">『宇宙は何でできているのか』村山斉</span> — 素粒子から宇宙まで、日本語で一番読みやすい現代物理入門</p>
+        <p style="margin-bottom: 10px;"><span class="hl-yellow">『ご冗談でしょう、ファインマンさん』R.P.ファインマン</span> — ノーベル賞物理学者の自伝。科学とは何かを学ぶ最高の読み物</p>
+        <p style="margin-bottom: 10px;"><span class="hl-yellow">『物理のための数学』和達三樹</span> — 高校数学から物理数学への橋渡し（高校生向け）</p>
+        <p><span class="hl-yellow">『宇宙人の見る地球』アンディ・ウィアー（他著作）</span> — 同著者の『火星の人』も同様に科学的に正確なSF</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-note">
+      このガイドに記載した動画・サイトのリンクは参考として掲載しています。<br>
+      URLが変わっている場合はサイト名で検索してください。<br><br>
+      科学の面白さは「なぜ？」という問いから始まる。<br>
+      この本は、その問いを一番うまく引き出してくれる入り口のひとつだ。
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>

@@ -3,13 +3,13 @@
 ## 概要
 
 このサイトは Cloudflare Pages の静的ホスティングを使用する。
-ビルドステップは不要（純粋な HTML/CSS/JS のみ）。
+Astro でビルドした `dist/` を配信する。
 
 ## 前提条件
 
 - Cloudflare アカウント（無料プランで可）
 - GitHub リポジトリ: `keroway-family/project-hail-mary`
-- `public/index.html` に学習ガイド HTML が配置済みであること
+- ローカルで `npm run build` が成功すること
 
 ## 初回セットアップ
 
@@ -31,12 +31,12 @@
 | 項目 | 設定値 |
 |---|---|
 | Production branch | `main` |
-| Framework preset | なし（None） |
-| Build command | **（空欄のまま）** |
-| Build output directory | `public` |
+| Framework preset | `Astro` または `None` |
+| Build command | `npm run build` |
+| Build output directory | `dist` |
 | Root directory（詳細設定） | **（空欄のまま）** |
 
-> **重要**: Build command を空欄にすることで、Cloudflare Pages が純粋な静的サイトとして扱う。
+> `public/` は配信ルートではなく、主に `_headers` などの静的アセット配置に使う。実際のHTMLは Astro が `dist/` に出力する。
 
 ### 4. デプロイ実行
 
@@ -68,7 +68,7 @@
 
 ```bash
 # ローカルで編集後
-git add public/index.html
+git add src/pages public/_headers
 git commit -m "Update study guide: <変更内容>"
 git push origin main
 ```
@@ -78,10 +78,10 @@ git push origin main
 ## トラブルシューティング
 
 **ページが表示されない**
-→ `public/index.html` が存在するか確認。Build output directory が `public` になっているか確認。
+→ `npm run build` が通るか確認。Cloudflare Pages の Build output directory が `dist` になっているか確認。
 
 **更新が反映されない**
 → ブラウザのキャッシュをクリア（Ctrl+Shift+R）。Cloudflare ダッシュボードでデプロイが完了しているか確認。
 
 **`_headers` が効いていない**
-→ ファイルパスが `public/_headers` であることを確認（`public/` の中に入れること）。
+→ ファイルパスが `public/_headers` であることを確認。Astro ビルド時にそのまま `dist/_headers` へコピーされる。

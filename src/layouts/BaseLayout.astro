@@ -1,0 +1,99 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  currentPath?: string;
+}
+
+const {
+  title,
+  description = '小説「プロジェクト・ヘイルメアリー」の科学的記述を、中学生向けに読み解くための静的ガイドサイト。',
+  currentPath = '/',
+} = Astro.props;
+---
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <meta name="theme-color" content="#03050f" />
+  <title>{title}</title>
+  <ViewTransitions />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="site-nav" transition:persist aria-label="サイト内ナビゲーション">
+    <div class="nav-inner">
+      <a href="/" class="nav-home">HAIL MARY</a>
+      <div class="nav-links">
+        <a href="/story" class={`nav-link${currentPath === '/story' ? ' active' : ''}`}>ストーリー順</a>
+        <a href="/physics" class={`nav-link${currentPath === '/physics' ? ' active' : ''}`}>物理</a>
+        <a href="/chemistry" class={`nav-link${currentPath === '/chemistry' ? ' active' : ''}`}>化学</a>
+        <a href="/biology" class={`nav-link${currentPath === '/biology' ? ' active' : ''}`}>生物</a>
+        <a href="/math" class={`nav-link${currentPath === '/math' ? ' active' : ''}`}>数学</a>
+      </div>
+      <div class="nav-chapter" id="nav-chapter-status"></div>
+    </div>
+  </nav>
+
+  <!-- Page content with transition -->
+  <div transition:animate="fade">
+    <slot />
+  </div>
+
+</body>
+</html>
+
+<!-- Chapter gate script: runs on every page load / navigation -->
+<script>
+  const STORAGE_KEY = 'hailmary-chapter';
+
+  function readChapter() {
+    const raw = Number.parseInt(localStorage.getItem(STORAGE_KEY) ?? '0', 10);
+    return Number.isFinite(raw) ? Math.max(0, Math.min(28, raw)) : 0;
+  }
+
+  function updateChapterIndicator(chapter) {
+    const el = document.getElementById('nav-chapter-status');
+    if (!el) return;
+
+    el.innerHTML = chapter === 0
+      ? '未読'
+      : chapter >= 28
+        ? '読了'
+        : `第<span>${chapter}</span>章まで`;
+  }
+
+  function applySpoilerGates() {
+    const chapter = readChapter();
+    updateChapterIndicator(chapter);
+
+    document.querySelectorAll<HTMLElement>('.spoiler-gate').forEach((gate) => {
+      const min = Number.parseInt(gate.dataset.minChapter ?? '999', 10);
+      gate.classList.toggle('is-unlocked', chapter >= min);
+    });
+
+    document.querySelectorAll<HTMLElement>('.timeline-item[data-min-chapter]').forEach((item) => {
+      const min = Number.parseInt(item.dataset.minChapter ?? '999', 10);
+      item.classList.toggle('is-locked', chapter < min);
+    });
+  }
+
+  if (!window.__hailMaryChapterBindings) {
+    window.__hailMaryChapterBindings = true;
+    window.addEventListener('storage', (event) => {
+      if (event.key === STORAGE_KEY || event.key === null) {
+        applySpoilerGates();
+      }
+    });
+    document.addEventListener('chapterChanged', applySpoilerGates);
+  }
+
+  applySpoilerGates();
+  document.addEventListener('astro:page-load', applySpoilerGates);
+</script>
