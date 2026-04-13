@@ -229,6 +229,74 @@ import ScienceDiagram from '../components/ScienceDiagram.astro';
     </div>
   </SpoilerGate>
 
+  <div class="section-divider"><span class="divider-label">— MATH LOG —</span></div>
+
+  <!-- MATH 04 -->
+  <div class="phase" id="math04">
+    <img class="phase-hero" src="/images/ma04-growth.jpg" alt="指数関数的増殖——バクテリアのコロニー" loading="lazy" />
+    <div class="phase-header">
+      <div class="phase-number">MATH 04</div>
+      <div class="phase-title-group">
+        <h2 class="phase-title">指数関数——アストロファージが世界を脅かす理由</h2>
+        <div class="phase-topic">指数関数 / 倍増時間 / 指数的増殖</div>
+      </div>
+    </div>
+    <div class="level-badge level-middle">▶ 中3〜高1レベル</div>
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      太陽が少しずつ暗くなっている——最初はわずか0.1%。しかしその減少速度が「倍々に増えている」ことに気づいたとき、人類に残された時間は急に短くなった。アストロファージの増殖は指数関数に従い、線形的な感覚で予測すると致命的な見誤りをする。
+    </div>
+    <div class="science-block">
+      <div class="block-label">🔬 数学解説：指数関数——「少し先」が急変する理由</div>
+      <div class="science-content">
+        <p>毎日2倍に増えるものが1個あるとする。30日後には何個になるか？</p>
+        <p style="margin:10px 0; font-family:'Space Mono',monospace; font-size:13px; color:var(--aurora);">1 → 2 → 4 → 8 → 16 … → 2³⁰ = 1,073,741,824（約10億）</p>
+        <p>30日で10億個。しかも28日目まではたった2億6千万——「まだ大丈夫」と思った2日後に4倍になる。<span class="hl-amber">指数関数の怖さは「終盤の爆発」</span>にある。</p><br>
+        <p>一般に、倍増時間 T_d（一定量が2倍になるまでの時間）を使うと：</p>
+      </div>
+    </div>
+    <div class="formula-box" data-label="MATH">
+      <span class="formula">N(t) = N₀ × 2^(t / T_d)</span>
+      <div class="formula-note">
+        <span>N(t)</span>：時刻 t での量<br>
+        <span>N₀</span>：初期量<br>
+        <span>T_d</span>：倍増時間（この時間が経つと2倍になる）<br><br>
+        別の書き方：N(t) = N₀ × e^(r·t)　← r は増殖率（自然対数の底 e を使う形）<br><br>
+        <span style="color:var(--aurora);">72の法則</span>：倍増時間 ≈ 72 ÷ 増殖率(%)　例：毎年10%増加なら約7.2年で2倍
+      </div>
+    </div>
+    <div class="science-block">
+      <div class="block-label">📐 アストロファージで計算してみよう</div>
+      <div class="science-content">
+        <p>太陽の輝度低下が最初の1年で0.04%、毎年その量が1.4倍に増えていくとする。10年後の輝度低下は何%か？</p>
+        <ul style="margin:10px 0 10px 20px; font-size:13px; color:rgba(232,244,253,0.75); line-height:2.2;">
+          <li>1年目：0.04%</li>
+          <li>2年目：0.04 × 1.4 = 0.056%</li>
+          <li>5年目：0.04 × 1.4⁴ ≈ 0.154%</li>
+          <li>10年目：0.04 × 1.4⁹ ≈ 1.07%　← 地球の農業が崩壊し始めるレベル</li>
+        </ul>
+        <p>「1%の輝度低下」が現実の問題になる。<span class="hl-amber">指数関数は序盤がゆっくりすぎて、気づいたときには手遅れになりやすい</span>。これが作中でミッション計画に「余裕のなさ」をもたらしている。</p>
+      </div>
+    </div>
+    <div class="question-box">
+      <div class="q-label">💭 考えてみよう</div>
+      <div class="q-text">新型コロナウイルスの初期拡大も指数関数だった。「倍増時間が3日」だとすると、最初の感染者1人から100万人に達するのは何日後か？（ヒント：2の何乗が100万か考えよう）</div>
+    </div>
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=Kas0tIxDvrg" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">3Blue1Brown「Exponential Growth」</span><span class="link-desc">英語 / COVID-19を例にした指数増殖の解説</span></span>
+        </a>
+        <a class="link-item" href="https://www.youtube.com/watch?v=kFjq1M5xAwo" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">ヨビノリ「指数関数と対数関数」</span><span class="link-desc">YouTube日本語 / 中高生向けに丁寧に解説</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
   <div class="section-divider"><span class="divider-label">— APPENDIX —</span></div>
 
   <!-- Roadmap -->

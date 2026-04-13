@@ -524,4 +524,11 @@ const { kind, title, caption } = Astro.props;
   :global(html[data-motion='reduced']) .diagram-anim {
     display: none;
   }
+
+  /* OS-level prefers-reduced-motion: also hide SMIL animations for consistency */
+  @media (prefers-reduced-motion: reduce) {
+    .diagram-anim {
+      display: none;
+    }
+  }
 </style>

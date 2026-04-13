@@ -139,6 +139,7 @@ const pageTransition = {
 <script>
   const STORAGE_KEY = 'hailmary-chapter';
   const UI_PREFS_KEY = 'hailmary-ui-prefs';
+  const MOTION_SYNCED_KEY = 'hailmary-motion-synced';
   const DEFAULT_UI_PREFS = {
     fontScale: 'default',
     diagramScale: 'default',
@@ -394,6 +395,19 @@ const pageTransition = {
 
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+  }
+
+  /* Sync OS prefers-reduced-motion once per session (first visit only).
+     User can override via the in-app panel afterward. */
+  if (!sessionStorage.getItem(MOTION_SYNCED_KEY)) {
+    sessionStorage.setItem(MOTION_SYNCED_KEY, '1');
+    const osReduces = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (osReduces) {
+      const prefs = readUiPrefs();
+      if (prefs.motion === 'default') {
+        writeUiPrefs({ ...prefs, motion: 'reduced' });
+      }
+    }
   }
 
   applySpoilerGates();
