@@ -297,11 +297,27 @@ const {
     });
   }
 
+  function updateActiveNav() {
+    const path = '/' + window.location.pathname.replace(/^\/|\/$/g, '');
+    document.querySelectorAll('[data-nav-link]').forEach((link) => {
+      const href = '/' + (link.getAttribute('href') ?? '').replace(/^\/|\/$/g, '');
+      const isActive = path === href;
+      link.classList.toggle('active', isActive);
+      if (isActive) {
+        link.setAttribute('aria-current', 'page');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+  }
+
   applySpoilerGates();
   applyUiPrefs();
+  updateActiveNav();
   document.addEventListener('astro:page-load', () => {
     document.querySelector('.site-nav')?.removeAttribute('data-nav-loading');
     document.querySelectorAll('.site-nav .is-pressed').forEach((el) => el.classList.remove('is-pressed'));
+    updateActiveNav();
     applySpoilerGates();
     applyUiPrefs();
     closeAccessibilityPanel();
