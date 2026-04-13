@@ -138,23 +138,25 @@ const { kind, title, caption } = Astro.props;
   {kind === 'photosynthesis' && (
     <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title}>
       <title>{title}</title>
+      <defs>
+        <radialGradient id="sunHaloPh" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#fbbf24" stop-opacity="0.0" />
+          <stop offset="40%"  stop-color="#fbbf24" stop-opacity="0.28" />
+          <stop offset="70%"  stop-color="#fbbf24" stop-opacity="0.09" />
+          <stop offset="100%" stop-color="#fbbf24" stop-opacity="0.0" />
+        </radialGradient>
+      </defs>
       <rect x="0" y="0" width="680" height="240" class="diagram-bg" />
-      <circle cx="112" cy="74" r="24" class="diagram-fill-warm-soft" />
-      <g class="diagram-warm-line">
-        <line x1="112" y1="34" x2="112" y2="18" />
-        <line x1="72" y1="74" x2="56" y2="74" />
-        <line x1="152" y1="74" x2="168" y2="74" />
-        <line x1="84" y1="46" x2="72" y2="34" />
-        <line x1="140" y1="102" x2="152" y2="114" />
-        <line x1="84" y1="102" x2="72" y2="114" />
-        <line x1="140" y1="46" x2="152" y2="34" />
-      </g>
+      <!-- Sun: corona halo + glowing core -->
+      <circle cx="112" cy="74" r="58" fill="url(#sunHaloPh)" />
+      <circle cx="112" cy="74" r="20" class="diagram-fill-warm-soft diagram-sun-glow" />
       <rect x="206" y="54" width="150" height="52" rx="12" class="diagram-panel" />
       <rect x="404" y="54" width="164" height="52" rx="12" class="diagram-panel" />
-      <!-- Animated flow triangles instead of static arrows -->
-      <polygon points="-5,-3.5 5,0 -5,3.5" class="diagram-anim diagram-flow-warm" opacity="0.6">
-        <animateMotion dur="2s" repeatCount="indefinite" rotate="auto" path="M112,98 L206,80" calcMode="spline" keySplines="0.4 0 0.6 1" keyTimes="0;1" />
-      </polygon>
+      <!-- Animated flow: tall rect moving horizontally from sun center to first box -->
+      <rect x="-3" y="-11" width="6" height="22" class="diagram-anim diagram-flow-warm" opacity="0.78">
+        <animateMotion dur="1.8s" repeatCount="indefinite" path="M136,74 L206,74" calcMode="spline" keySplines="0.4 0 0.6 1" keyTimes="0;1" />
+      </rect>
+      <!-- Animated flow: triangle first box → second box -->
       <polygon points="-5,-3.5 5,0 -5,3.5" class="diagram-anim diagram-flow-accent" opacity="0.6">
         <animateMotion dur="1.5s" repeatCount="indefinite" rotate="auto" path="M356,80 L404,80" calcMode="spline" keySplines="0.4 0 0.6 1" keyTimes="0;1" />
       </polygon>
@@ -467,6 +469,12 @@ const { kind, title, caption } = Astro.props;
 
   .diagram-flow-dim {
     fill: rgba(232, 244, 253, 0.5);
+  }
+
+  .diagram-sun-glow {
+    filter:
+      drop-shadow(0 0 6px rgba(251, 191, 36, 0.95))
+      drop-shadow(0 0 18px rgba(251, 191, 36, 0.45));
   }
 
   .diagram-orbit-spin {
