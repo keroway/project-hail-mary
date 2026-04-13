@@ -26,7 +26,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
 
     <div class="cs-custom">
-      <label class="cs-custom-label">または章番号を直接入力</label>
+      <label class="cs-custom-label" for="chapter-range">または章番号を直接入力</label>
       <div class="cs-input-row">
         <input
           type="range"
@@ -35,8 +35,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           max="28"
           value="0"
           class="cs-range"
+          aria-describedby="cs-status-text"
+          aria-label="読了章のスライダー"
         />
         <div class="cs-number-wrap">
+          <label class="sr-only" for="chapter-number">現在の読了章</label>
           <input
             type="number"
             id="chapter-number"
@@ -44,15 +47,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             max="28"
             value="0"
             class="cs-number"
+            inputmode="numeric"
+            aria-describedby="cs-status-text"
           />
           <span class="cs-number-unit">/ 28章</span>
         </div>
       </div>
     </div>
 
-    <div class="cs-status" id="cs-status">
+    <div class="cs-status" id="cs-status" role="status">
       <span class="cs-status-icon">📖</span>
-      <span class="cs-status-text" id="cs-status-text">まだ読んでいません（ネタバレなし）</span>
+      <span class="cs-status-text" id="cs-status-text" aria-live="polite">まだ読んでいません（ネタバレなし）</span>
     </div>
   </section>
 
@@ -62,25 +67,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <div class="subject-grid">
     <a href="/physics" class="subject-card" style="--card-accent: #4a9eff;">
       <div class="subject-card-badge">PHYSICS</div>
-      <div class="subject-card-title">物理学編</div>
+      <h2 class="subject-card-title">物理学編</h2>
       <div class="subject-card-desc">重力・運動・エネルギー・相対性理論</div>
       <div class="subject-card-count">6 セクション</div>
     </a>
     <a href="/chemistry" class="subject-card" style="--card-accent: #a78bfa;">
       <div class="subject-card-badge">CHEMISTRY</div>
-      <div class="subject-card-title">化学編</div>
+      <h2 class="subject-card-title">化学編</h2>
       <div class="subject-card-desc">元素・反応・光化学・気体の科学</div>
       <div class="subject-card-count">3 セクション</div>
     </a>
     <a href="/biology" class="subject-card" style="--card-accent: #34d399;">
       <div class="subject-card-badge">BIOLOGY</div>
-      <div class="subject-card-title">生物編</div>
+      <h2 class="subject-card-title">生物編</h2>
       <div class="subject-card-desc">細胞・光合成・昏睡・収束進化</div>
       <div class="subject-card-count">3 セクション</div>
     </a>
     <a href="/math" class="subject-card" style="--card-accent: #f59e0b;">
       <div class="subject-card-badge">MATHEMATICS</div>
-      <div class="subject-card-title">数学編</div>
+      <h2 class="subject-card-title">数学編</h2>
       <div class="subject-card-desc">素数・対数・軌道計算</div>
       <div class="subject-card-count">3 セクション</div>
     </a>
@@ -201,7 +206,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     height: 3px;
     background: rgba(255,255,255,0.1);
     border-radius: 2px;
-    outline: none;
     cursor: pointer;
   }
   .cs-range::-webkit-slider-thumb {
@@ -243,10 +247,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     padding: 4px 8px;
     width: 64px;
     text-align: center;
-    outline: none;
     transition: border-color var(--transition-base);
   }
-  .cs-number:focus { border-color: var(--aurora); }
+  .cs-range:focus-visible {
+    box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.25);
+  }
+  .cs-number:focus-visible { border-color: var(--aurora); }
   .cs-number-unit {
     font-family: 'Space Mono', monospace;
     font-size: 11px;

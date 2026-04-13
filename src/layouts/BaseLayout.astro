@@ -25,26 +25,27 @@ const {
   <ClientRouter />
 </head>
 <body>
+  <a href="#main-content" class="skip-link">本文へスキップ</a>
 
   <!-- Navigation -->
   <nav class="site-nav" transition:persist aria-label="サイト内ナビゲーション">
     <div class="nav-inner">
       <a href="/" class="nav-home">HAIL MARY</a>
       <div class="nav-links">
-        <a href="/story" class={`nav-link${currentPath === '/story' ? ' active' : ''}`}>ストーリー順</a>
-        <a href="/physics" class={`nav-link${currentPath === '/physics' ? ' active' : ''}`}>物理</a>
-        <a href="/chemistry" class={`nav-link${currentPath === '/chemistry' ? ' active' : ''}`}>化学</a>
-        <a href="/biology" class={`nav-link${currentPath === '/biology' ? ' active' : ''}`}>生物</a>
-        <a href="/math" class={`nav-link${currentPath === '/math' ? ' active' : ''}`}>数学</a>
+        <a href="/story" class={`nav-link${currentPath === '/story' ? ' active' : ''}`} aria-current={currentPath === '/story' ? 'page' : undefined}>ストーリー順</a>
+        <a href="/physics" class={`nav-link${currentPath === '/physics' ? ' active' : ''}`} aria-current={currentPath === '/physics' ? 'page' : undefined}>物理</a>
+        <a href="/chemistry" class={`nav-link${currentPath === '/chemistry' ? ' active' : ''}`} aria-current={currentPath === '/chemistry' ? 'page' : undefined}>化学</a>
+        <a href="/biology" class={`nav-link${currentPath === '/biology' ? ' active' : ''}`} aria-current={currentPath === '/biology' ? 'page' : undefined}>生物</a>
+        <a href="/math" class={`nav-link${currentPath === '/math' ? ' active' : ''}`} aria-current={currentPath === '/math' ? 'page' : undefined}>数学</a>
       </div>
-      <div class="nav-chapter" id="nav-chapter-status"></div>
+      <div class="nav-chapter" id="nav-chapter-status" aria-live="polite"></div>
     </div>
   </nav>
 
   <!-- Page content with transition -->
-  <div transition:animate="fade">
+  <main id="main-content" transition:animate="fade">
     <slot />
-  </div>
+  </main>
 
 </body>
 </html>
@@ -80,7 +81,26 @@ const {
 
     document.querySelectorAll<HTMLElement>('.timeline-item[data-min-chapter]').forEach((item) => {
       const min = Number.parseInt(item.dataset.minChapter ?? '999', 10);
-      item.classList.toggle('is-locked', chapter < min);
+      const isLocked = chapter < min;
+      const originalHref = item.dataset.originalHref ?? item.getAttribute('href') ?? '';
+
+      if (originalHref && !item.dataset.originalHref) {
+        item.dataset.originalHref = originalHref;
+      }
+
+      item.classList.toggle('is-locked', isLocked);
+
+      if (isLocked) {
+        item.setAttribute('aria-disabled', 'true');
+        item.setAttribute('tabindex', '-1');
+        item.removeAttribute('href');
+      } else {
+        item.removeAttribute('aria-disabled');
+        item.removeAttribute('tabindex');
+        if (item.dataset.originalHref) {
+          item.setAttribute('href', item.dataset.originalHref);
+        }
+      }
     });
   }
 
