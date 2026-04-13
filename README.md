@@ -1,37 +1,66 @@
 # project-hail-mary
 
-プロジェクトへイルメアリーに関する科学導入ガイド
+小説『プロジェクト・ヘイルメアリー』の科学入門ガイドサイトです。映画鑑賞前に原作の科学的記述を理解しやすくする補助資料として、中学生でも追える粒度で整理しています。
 
-中学2年生の長男が映画鑑賞前に小説の科学的記述を理解するための補助資料。
-科学的思考（試行）を深めるための手がかりとなることを目的としている。
+## 技術構成
+
+- `Astro 5`
+- 静的出力 (`dist/`)
+- Cloudflare Pages 配信
 
 ## ディレクトリ構成
 
-```
+```text
 project-hail-mary/
 ├── .claude/
-│   └── CLAUDE.md          # Claude Code 向けプロジェクト概要・作業ガイド
+│   └── CLAUDE.md                    # Claude Code 向け作業ガイド
 ├── docs/
-│   └── cloudflare-pages-setup.md  # Cloudflare Pages デプロイ手順
-├── public/                # Cloudflare Pages の配信ルート
-│   ├── index.html         # 学習ガイド本体（HTML）
-│   └── _headers           # セキュリティヘッダー設定
-├── .gitignore
+│   └── cloudflare-pages-setup.md   # Cloudflare Pages 設定手順
+├── public/
+│   └── _headers                    # Cloudflare セキュリティヘッダー
+├── src/
+│   ├── components/
+│   │   └── SpoilerGate.astro       # 読了章ベースのネタバレ制御
+│   ├── layouts/
+│   │   └── BaseLayout.astro        # 共通レイアウトと章状態スクリプト
+│   ├── pages/
+│   │   ├── index.astro             # トップページ
+│   │   ├── story.astro             # ストーリー順インデックス
+│   │   ├── physics.astro
+│   │   ├── chemistry.astro
+│   │   ├── biology.astro
+│   │   └── math.astro
+│   └── styles/
+│       └── global.css              # 共通スタイル
+├── tmp/                            # 旧HTML版の退避
+├── astro.config.mjs
+├── package.json
 └── README.md
 ```
 
-## 開発・運用
+## ローカル開発
 
-- **ホスティング**: Cloudflare Pages（静的サイト、ビルド不要）
-- **配信ディレクトリ**: `public/`
-- **本番URL**: `https://xxx.pages.dev`（Cloudflare Pages 接続後に確定）
-- **デプロイ**: `main` ブランチへのプッシュ/マージで自動デプロイ
+```bash
+npm install
+npm run dev
+```
 
-## 初期セットアップ
+- 開発サーバー: `http://localhost:4321`
+- 本番ビルド: `npm run build`
+- ビルド確認: `npm run preview`
 
-Cloudflare Pages の接続設定は [`docs/cloudflare-pages-setup.md`](docs/cloudflare-pages-setup.md) を参照。
+## デプロイ
 
-## コンテンツの更新
+Cloudflare Pages 側では Astro ビルド前提の設定が必要です。
 
-`public/index.html` を編集して `main` ブランチにプッシュすれば自動デプロイされる。
-ローカルでの編集は Claude Code（`claude` コマンド）の利用を推奨。
+- Build command: `npm run build`
+- Build output directory: `dist`
+- Production branch: `main`
+
+詳細は [docs/cloudflare-pages-setup.md](docs/cloudflare-pages-setup.md) を参照してください。
+
+## コンテンツ更新
+
+- 本文更新は `src/pages/*.astro`
+- 共通UIやネタバレ制御は `src/layouts/BaseLayout.astro` と `src/components/SpoilerGate.astro`
+- 章読了状態は `localStorage` の `hailmary-chapter` を使って保持

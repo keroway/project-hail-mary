@@ -1,0 +1,29 @@
+---
+interface Props {
+  minChapter: number;
+  label?: string;
+  hint?: string;
+  id?: string;
+}
+
+const {
+  minChapter,
+  label,
+  hint = `${minChapter}章以降に登場する展開を含みます`,
+  id,
+} = Astro.props;
+
+const displayLabel = label ?? `第${minChapter}章以降のネタバレ`;
+---
+
+<div class="spoiler-gate" data-min-chapter={minChapter} id={id}>
+  <div class="spoiler-gate-overlay">
+    <div class="spoiler-gate-icon">🔒</div>
+    <div class="spoiler-gate-title">{displayLabel}</div>
+    <p class="spoiler-gate-desc">{hint}</p>
+    <a href="/" class="spoiler-gate-link">トップで読了章を設定する →</a>
+  </div>
+  <div class="spoiler-gate-content">
+    <slot />
+  </div>
+</div>

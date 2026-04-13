@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヘイルメアリー サイエンスガイド — 数学編</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #03050f;
+    --math-main: #f59e0b;   /* アンバー：数学のアクセント */
+    --math-sub: #fbbf24;
+    --math-dim: #78350f;
+    --aurora: #00d4aa;
+    --warm-star: #ffd166;
+    --red-dwarf: #ff6b6b;
+    --blue-star: #4a9eff;
+    --white-star: #e8f4fd;
+    --dim-star: #8ba8c4;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--void);
+    color: var(--white-star);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight:300; line-height:1.8; overflow-x:hidden;
+  }
+  body::before {
+    content:''; position:fixed; inset:0;
+    background-image:
+      radial-gradient(1px 1px at 10% 22%, rgba(245,158,11,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 68%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(2px 2px at 58% 28%, rgba(245,158,11,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 78% 78%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 38%, rgba(251,191,36,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 22% 88%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 48% 50%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 68% 12%, rgba(245,158,11,0.35) 0%, transparent 100%);
+    pointer-events:none; z-index:0;
+  }
+  .container { max-width:900px; margin:0 auto; padding:0 24px; position:relative; z-index:1; }
+
+  header { padding:80px 0 60px; text-align:center; border-bottom:1px solid rgba(245,158,11,0.15); margin-bottom:60px; }
+  .subject-badge { display:inline-block; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:0.3em; color:var(--math-main); background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.25); padding:4px 14px; margin-bottom:20px; }
+  h1 { font-family:'Shippori Mincho',serif; font-size:clamp(26px,5vw,44px); font-weight:700; line-height:1.3; color:var(--white-star); margin-bottom:12px; text-shadow:0 0 40px rgba(245,158,11,0.2); }
+  .header-sub { font-size:15px; color:var(--dim-star); margin-bottom:28px; }
+  .header-meta { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+  .meta-tag { font-family:'Space Mono',monospace; font-size:11px; padding:4px 12px; border:1px solid rgba(245,158,11,0.25); border-radius:2px; color:var(--dim-star); letter-spacing:0.1em; }
+
+  .intro { background:linear-gradient(135deg,rgba(245,158,11,0.06),rgba(251,191,36,0.03)); border:1px solid rgba(245,158,11,0.15); border-left:3px solid var(--math-main); padding:28px 32px; margin-bottom:64px; font-size:15px; line-height:1.9; }
+  .intro strong { color:var(--math-main); }
+
+  .phase { margin-bottom:72px; }
+  .phase-header { display:flex; align-items:flex-start; gap:20px; margin-bottom:28px; padding-bottom:20px; border-bottom:1px solid rgba(245,158,11,0.1); }
+  .phase-number { font-family:'Space Mono',monospace; font-size:11px; color:var(--math-main); background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.2); padding:4px 8px; letter-spacing:0.2em; white-space:nowrap; margin-top:4px; }
+  .phase-title { font-family:'Shippori Mincho',serif; font-size:22px; font-weight:600; color:var(--white-star); line-height:1.3; margin-bottom:4px; }
+  .phase-topic { font-family:'Space Mono',monospace; font-size:12px; color:var(--math-main); letter-spacing:0.1em; }
+
+  .story-block { background:rgba(255,209,102,0.04); border:1px solid rgba(255,209,102,0.15); border-left:3px solid var(--warm-star); padding:20px 24px; margin-bottom:20px; font-size:14px; }
+  .block-label { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.25em; text-transform:uppercase; margin-bottom:8px; }
+  .story-block .block-label { color:var(--warm-star); }
+
+  .science-block { background:rgba(14,22,48,0.8); border:1px solid rgba(245,158,11,0.15); padding:24px 28px; margin-bottom:20px; }
+  .science-block .block-label { color:var(--math-main); }
+  .science-content { font-size:14px; line-height:1.9; color:rgba(232,244,253,0.85); }
+
+  .formula-box { background:var(--void); border:1px solid rgba(245,158,11,0.3); padding:20px 28px; margin:16px 0; text-align:center; position:relative; }
+  .formula-box::before { content:'MATH'; position:absolute; top:-8px; left:16px; font-family:'Space Mono',monospace; font-size:9px; letter-spacing:0.2em; color:var(--math-main); background:var(--void); padding:0 6px; }
+  .formula { font-family:'Space Mono',monospace; font-size:18px; color:var(--math-main); letter-spacing:0.05em; display:block; margin-bottom:8px; line-height:1.6; }
+  .formula-note { font-size:12px; color:var(--dim-star); line-height:1.7; text-align:left; margin-top:12px; }
+  .formula-note span { font-family:'Space Mono',monospace; color:var(--math-main); font-size:11px; }
+
+  .prime-grid {
+    display:flex; flex-wrap:wrap; gap:8px; margin:16px 0;
+  }
+  .prime-num {
+    font-family:'Space Mono',monospace; font-size:14px;
+    width:40px; height:40px; display:flex; align-items:center; justify-content:center;
+    border:1px solid rgba(245,158,11,0.3); color:var(--math-main);
+    background:rgba(245,158,11,0.06);
+  }
+  .prime-num.composite {
+    color:var(--dim-star); border-color:rgba(138,168,196,0.15);
+    background:transparent; text-decoration:line-through;
+  }
+
+  .person-block { background:rgba(255,107,107,0.04); border:1px solid rgba(255,107,107,0.15); padding:16px 20px; margin:16px 0; display:flex; gap:16px; align-items:flex-start; }
+  .person-icon { font-size:24px; line-height:1; flex-shrink:0; }
+  .person-info .person-name { font-family:'Shippori Mincho',serif; font-size:15px; color:var(--red-dwarf); margin-bottom:4px; }
+  .person-info p { font-size:13px; color:rgba(232,244,253,0.7); line-height:1.7; }
+
+  .links-block { margin-top:20px; }
+  .links-block .block-label { color:var(--aurora); margin-bottom:12px; }
+  .link-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; }
+  .link-item { display:flex; align-items:flex-start; gap:10px; background:rgba(0,212,170,0.04); border:1px solid rgba(0,212,170,0.12); padding:12px 14px; text-decoration:none; transition:all 0.2s; cursor:pointer; }
+  .link-item:hover { background:rgba(0,212,170,0.1); border-color:rgba(0,212,170,0.3); }
+  .link-icon { font-size:18px; flex-shrink:0; line-height:1; }
+  .link-title { font-size:13px; color:var(--aurora); display:block; margin-bottom:2px; line-height:1.4; }
+  .link-desc { font-size:11px; color:var(--dim-star); line-height:1.5; }
+
+  .level-badge { display:inline-flex; align-items:center; gap:6px; font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.1em; padding:3px 8px; border-radius:2px; margin-bottom:16px; }
+  .level-middle { background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.25); color:var(--math-main); }
+  .level-high { background:rgba(255,107,107,0.1); border:1px solid rgba(255,107,107,0.25); color:var(--red-dwarf); }
+  .level-both { background:rgba(0,212,170,0.1); border:1px solid rgba(0,212,170,0.25); color:var(--aurora); }
+
+  .question-box { border:1px dashed rgba(255,209,102,0.2); padding:16px 20px; margin:16px 0; font-size:14px; }
+  .question-box .q-label { font-family:'Space Mono',monospace; font-size:10px; color:var(--warm-star); letter-spacing:0.2em; margin-bottom:8px; }
+  .question-box .q-text { color:rgba(232,244,253,0.8); font-style:italic; }
+
+  .experiment-block { background:rgba(0,212,170,0.03); border:1px solid rgba(0,212,170,0.15); padding:20px 24px; margin:16px 0; }
+  .experiment-block .block-label { color:var(--aurora); }
+  .experiment-steps { list-style:none; counter-reset:step; margin-top:10px; }
+  .experiment-steps li { counter-increment:step; display:flex; gap:12px; font-size:13px; color:rgba(232,244,253,0.8); margin-bottom:8px; }
+  .experiment-steps li::before { content:counter(step); font-family:'Space Mono',monospace; font-size:10px; color:var(--aurora); background:rgba(0,212,170,0.1); border:1px solid rgba(0,212,170,0.2); width:22px; height:22px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+
+  .orbit-diagram {
+    background:rgba(14,22,48,0.6); border:1px solid rgba(74,158,255,0.15);
+    padding:20px; margin:16px 0; font-family:'Space Mono',monospace; font-size:12px;
+  }
+  .orbit-diagram .od-title { color:var(--blue-star); font-size:10px; letter-spacing:0.2em; margin-bottom:12px; }
+  .orbit-row { display:flex; align-items:center; gap:12px; margin-bottom:10px; color:rgba(232,244,253,0.75); }
+  .orbit-label { width:80px; color:var(--math-main); flex-shrink:0; }
+  .orbit-bar { height:6px; background:rgba(74,158,255,0.3); border-radius:1px; }
+  .orbit-value { color:var(--dim-star); font-size:11px; margin-left:auto; }
+
+  .spoiler-warn { font-family:'Space Mono',monospace; font-size:10px; color:var(--red-dwarf); letter-spacing:0.15em; margin-bottom:6px; }
+  .important-note { background:rgba(255,209,102,0.06); border-left:2px solid var(--warm-star); padding:12px 16px; margin:12px 0; font-size:13px; color:rgba(232,244,253,0.75); }
+
+  .section-divider { display:flex; align-items:center; gap:16px; margin:64px 0; }
+  .section-divider::before, .section-divider::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,transparent,rgba(245,158,11,0.2),transparent); }
+  .divider-label { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.3em; color:var(--dim-star); white-space:nowrap; }
+
+  .hl-amber { color:var(--math-main); }
+  .hl-green { color:var(--aurora); }
+  .hl-blue { color:var(--blue-star); }
+  .hl-yellow { color:var(--warm-star); }
+  .hl-red { color:var(--red-dwarf); }
+
+  footer { border-top:1px solid rgba(245,158,11,0.1); padding:40px 0 60px; margin-top:80px; text-align:center; }
+  .footer-note { font-size:12px; color:var(--dim-star); line-height:1.9; max-width:600px; margin:0 auto; }
+
+  @media (max-width:600px) {
+    .phase-header { flex-direction:column; gap:8px; }
+    .link-grid { grid-template-columns:1fr; }
+    .formula { font-size:14px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="subject-badge">MATHEMATICS</div>
+    <h1>プロジェクト・ヘイルメアリー<br>サイエンスガイド — 数学編</h1>
+    <p class="header-sub">素数・対数・軌道計算——宇宙の言語としての数学</p>
+    <div class="header-meta">
+      <span class="meta-tag">TARGET: 中学2年〜高校生</span>
+      <span class="meta-tag">SUBJECT: 数学</span>
+      <span class="meta-tag">⚠ ネタバレあり</span>
+    </div>
+  </header>
+
+  <div class="intro">
+    <p>数学はこの物語のなかで「<strong>宇宙共通の言語</strong>」として機能する。グレースとロッキーが最初に交わすのは言葉ではなく、数の列だ。軌道計算も、エネルギー密度の比較も、すべて数学なしには成り立たない。「なぜ数学は宇宙で通じるのか」という問いそのものが、深い哲学的問いを含んでいる。</p>
+  </div>
+
+  <!-- MATH 01 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">MATH 01</div>
+      <div class="phase-title-group">
+        <div class="phase-title">素数——最初の共通言語</div>
+        <div class="phase-topic">素数 / 整数論 / 数学の普遍性</div>
+      </div>
+    </div>
+    <div class="level-badge level-middle">▶ 中1〜中2レベルから／深みは無限</div>
+
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      グレースとロッキーが初めてコミュニケーションを試みるとき、グレースは素数の列を送る。2, 3, 5, 7, 11, 13……ロッキーがその続き（17, 19）を返したとき、「知性との接触」が確認される。共通の文化もなく、共通の言語もない相手と、数だけで通じ合う場面だ。
+    </div>
+
+    <div class="science-block">
+      <div class="block-label">🔬 数学解説：素数とは何か、なぜ宇宙共通なのか</div>
+      <div class="science-content">
+        <p><span class="hl-amber">素数</span>とは「1とその数自身以外に約数を持たない2以上の整数」だ。2, 3, 5, 7, 11, 13, 17, 19, 23……と無限に続く。</p>
+        <br>
+        <p>素数が「宇宙共通言語」として使える理由：</p>
+        <ul style="margin:10px 0 10px 20px; font-size:13px; color:rgba(232,244,253,0.75); line-height:2.2;">
+          <li>素数の概念は文化・言語・物理環境に依存しない</li>
+          <li>「規則性があるが単純な繰り返しではない」パターンは、知性によって識別される</li>
+          <li>宇宙人と接触した場合、素数列を送ることは「人工的な知性の存在」を示す最も確実な方法のひとつとして、SETI（地球外知性探査）でも真剣に議論されている</li>
+        </ul>
+
+        <div class="prime-grid">
+          <div class="prime-num composite">1</div>
+          <div class="prime-num">2</div>
+          <div class="prime-num">3</div>
+          <div class="prime-num composite">4</div>
+          <div class="prime-num">5</div>
+          <div class="prime-num composite">6</div>
+          <div class="prime-num">7</div>
+          <div class="prime-num composite">8</div>
+          <div class="prime-num composite">9</div>
+          <div class="prime-num composite">10</div>
+          <div class="prime-num">11</div>
+          <div class="prime-num composite">12</div>
+          <div class="prime-num">13</div>
+          <div class="prime-num composite">14</div>
+          <div class="prime-num composite">15</div>
+          <div class="prime-num composite">16</div>
+          <div class="prime-num">17</div>
+          <div class="prime-num composite">18</div>
+          <div class="prime-num">19</div>
+          <div class="prime-num composite">20</div>
+          <div class="prime-num composite">21</div>
+          <div class="prime-num composite">22</div>
+          <div class="prime-num">23</div>
+        </div>
+        <p style="font-size:12px; color:var(--dim-star); margin-top:4px;">↑ 素数（枠付き）と合成数（打ち消し線）。2だけが偶数の素数。</p>
+      </div>
+    </div>
+
+    <div class="formula-box">
+      <span class="formula">素数の個数は無限に存在する</span>
+      <div class="formula-note">
+        ユークリッドによる証明（背理法、紀元前300年頃）：<br><br>
+        「素数が有限個（p₁, p₂, ..., pₙ）しかないと仮定する。<br>
+        N = (p₁ × p₂ × ... × pₙ) + 1 を考えると、<br>
+        Nはどの素数でも割り切れない（余りが1になる）。<br>
+        よってNは新たな素数か、リストにない素数で割れる → 矛盾」<br><br>
+        この証明は2300年前に完成しており、今も有効。数学の「不老不死性」の象徴だ。
+      </div>
+    </div>
+
+    <div class="person-block">
+      <div class="person-icon">📐</div>
+      <div class="person-info">
+        <div class="person-name">ユークリッド（紀元前300年頃）</div>
+        <p>『原論』（Elements）を著し、幾何学と整数論を公理的に体系化。素数が無限に存在することの証明も含まれる。2000年以上にわたって数学の教科書として使われた史上最も長命な数学書。</p>
+      </div>
+    </div>
+
+    <div class="person-block">
+      <div class="person-icon">🔢</div>
+      <div class="person-info">
+        <div class="person-name">カール・フリードリヒ・ガウス（1777〜1855）</div>
+        <p>「数学の王者」と称される。素数の分布を表す素数定理（π(x) ≈ x/ln x）を予測。整数論・複素数・統計学・測地学など広大な分野で先駆的業績を残した。18歳で正17角形の定規とコンパスによる作図を発見している。</p>
+      </div>
+    </div>
+
+    <div class="question-box">
+      <div class="q-label">💭 考えてみよう</div>
+      <div class="q-text">「双子素数」とは差が2の素数のペア（3と5、11と13、17と19……）だ。双子素数は無限に存在するか？これは現代数学の未解決問題のひとつ。証明できた人は数学者として世界的に有名になれる。</div>
+    </div>
+
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=mBjBpI7UONA" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">3Blue1Brown「Prime Numbers」</span>
+            <span class="link-desc">英語 / 素数の美しさを視覚化</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://www.youtube.com/watch?v=YDNWaQnHGJ4" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">Numberphile「Why do primes matter?」</span>
+            <span class="link-desc">英語 / 暗号と素数の関係</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://www.youtube.com/watch?v=IQofiPqhJ_s" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">ヨビノリ「素数と整数論」</span>
+            <span class="link-desc">YouTube日本語 / 中高生向け</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://www.khanacademy.org/computing/computer-science/cryptography/comp-number-theory/v/prime-numbers-primality-tests" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">Khan Academy「素数と暗号」</span>
+            <span class="link-desc">英語 / RSA暗号への接続</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— MATH LOG —</span></div>
+
+  <!-- MATH 02 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">MATH 02</div>
+      <div class="phase-title-group">
+        <div class="phase-title">対数スケール——宇宙的な数を扱う道具</div>
+        <div class="phase-topic">対数 / 指数関数 / 天文学的スケール</div>
+      </div>
+    </div>
+    <div class="level-badge level-both">▶ 中3〜高1レベル</div>
+
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      グレースは太陽とタウ・セチ（目的地の恒星）のエネルギー収支、アストロファージの密度、船のエネルギー量など、桁違いに異なる数値を扱い続ける。こうした「宇宙的な数」を比較・計算するには、通常の算術では限界がある。
+    </div>
+
+    <div class="science-block">
+      <div class="block-label">🔬 数学解説：対数——「桁」を数える道具</div>
+      <div class="science-content">
+        <p>太陽の質量は約2×10³⁰ kg、電子の質量は約9×10⁻³¹ kg。この2つを同じ数直線上で比較しようとすると途方もない。そこで<span class="hl-amber">対数（logarithm）</span>を使う。</p>
+        <br>
+        <p>log₁₀(x) は「10を何乗したらxになるか」を返す。</p>
+        <ul style="margin:10px 0 10px 20px; font-size:13px; color:rgba(232,244,253,0.75); line-height:2.2;">
+          <li>log₁₀(100) = 2 → 10² = 100</li>
+          <li>log₁₀(1,000,000) = 6 → 10⁶ = 1,000,000</li>
+          <li>log₁₀(0.001) = -3 → 10⁻³ = 0.001</li>
+        </ul>
+        <p>対数を使うと、<span class="hl-amber">何十桁もの差がある数を「数桁の差」として扱える</span>。天文学・地震学（マグニチュード）・音響学（デシベル）・化学（pH）はすべて対数スケールだ。</p>
+        <br>
+        <p>さらに、<span class="hl-green">指数関数と対数は逆関数の関係</span>にある。細菌の増殖、放射性崩壊、宇宙の膨張——急激な増加・減少はすべて指数関数で記述される。</p>
+      </div>
+    </div>
+
+    <div class="formula-box">
+      <span class="formula">y = log_a(x)  ⟺  a^y = x</span>
+      <div class="formula-note">
+        <span>a</span>：底（base）。常用対数は a=10、自然対数は a=e≈2.718<br>
+        <span>x</span>：真数（正の実数）<br>
+        <span>y</span>：対数の値<br><br>
+        重要な性質：<br>
+        log(A × B) = log(A) + log(B)　← 掛け算が足し算になる<br>
+        log(Aⁿ) = n × log(A)　← べき乗が掛け算になる<br><br>
+        この性質のおかげで、ケプラーやニュートンの時代は対数表を使って天文計算をしていた。
+      </div>
+    </div>
+
+    <div class="person-block">
+      <div class="person-icon">📊</div>
+      <div class="person-info">
+        <div class="person-name">ジョン・ネイピア（1550〜1617）</div>
+        <p>対数を発明（1614年）。天文学者が何時間もかけていた複雑な掛け算を、対数表を使えば足し算で解けることを示した。ケプラーやガリレオも対数表を愛用した。計算機が発明される300年前の「計算革命」だ。</p>
+      </div>
+    </div>
+
+    <div class="experiment-block">
+      <div class="block-label">🧪 対数スケールで宇宙を俯瞰する</div>
+      <ol class="experiment-steps">
+        <li>電子（10⁻³⁰ kg）から可観測宇宙（10⁵³ kg）まで、対数スケールで並べてみよう</li>
+        <li>地球から月（3.8×10⁸ m）→ 太陽（1.5×10¹¹ m）→ 最近傍の星（4×10¹⁶ m）を log₁₀ で計算すると何桁違うか？</li>
+        <li>「光年」が何メートルか計算し、タウ・セチ（約12光年）をメートルで書いてみよう</li>
+      </ol>
+    </div>
+
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=zzu2POfYv0Y" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">3Blue1Brown「Logarithms」</span>
+            <span class="link-desc">英語 / 対数の直感的理解</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://htwins.net/scale2/" target="_blank">
+          <span class="link-icon">🔬</span>
+          <span class="link-text">
+            <span class="link-title">Scale of Universe（interactive）</span>
+            <span class="link-desc">ブラウザ / 対数スケールで宇宙を体感</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://www.youtube.com/watch?v=AXKSbzJSbSo" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">ヨビノリ「対数・指数関数」</span>
+            <span class="link-desc">YouTube日本語 / 高校数学の入門</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— MATH LOG —</span></div>
+
+  <!-- MATH 03 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">MATH 03</div>
+      <div class="phase-title-group">
+        <div class="phase-title">軌道計算とホーマン遷移</div>
+        <div class="phase-topic">微積分 / ケプラーの法則 / 最適経路問題</div>
+      </div>
+    </div>
+    <div class="level-badge level-high">▶ 高校〜大学入門レベル（発展）</div>
+
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      タウ・セチ星系に到着したグレースは、惑星間を移動するために軌道力学を計算する必要がある。燃料を最小限に抑えながら目的地に到達する「最適軌道」は、ニュートン力学と微積分の結晶だ。
+    </div>
+
+    <div class="science-block">
+      <div class="block-label">🔬 数学解説：ケプラーの法則と軌道の幾何学</div>
+      <div class="science-content">
+        <p>惑星の軌道は円ではなく<span class="hl-amber">楕円</span>だ（ケプラーの第1法則）。太陽（または恒星）はその楕円の焦点のひとつにある。</p>
+        <br>
+        <p>宇宙船が最も燃料効率よく軌道を移動する方法を<span class="hl-amber">ホーマン遷移軌道</span>という。2回だけエンジンを噴射して、小さな軌道から大きな軌道（または逆）に移る方法だ。</p>
+        <br>
+        <p>これらの計算には微積分が必要だが、その背後にある考え方は「<span class="hl-green">エネルギーを最小化する経路を見つける</span>」という変分法の問題でもある。現代の宇宙探査機（ボイジャー、カッシーニ）はこれを応用し、複数の惑星の重力を巧みに使う「スイングバイ」で燃料を節約している。</p>
+      </div>
+    </div>
+
+    <div class="formula-box">
+      <span class="formula">T² = (4π² / GM) × a³</span>
+      <div class="formula-note">
+        ケプラーの第3法則（調和の法則）<br>
+        <span>T</span>：公転周期<br>
+        <span>a</span>：軌道の長半径（楕円の長い方の半径）<br>
+        <span>G</span>：万有引力定数<br>
+        <span>M</span>：中心天体の質量<br><br>
+        T² ∝ a³（周期の2乗は長半径の3乗に比例）<br>
+        例：地球（a=1AU, T=1年）→ 火星（a=1.52AU）の T を計算してみよう
+      </div>
+    </div>
+
+    <div class="person-block">
+      <div class="person-icon">🪐</div>
+      <div class="person-info">
+        <div class="person-name">ヨハネス・ケプラー（1571〜1630）</div>
+        <p>ティコ・ブラーエの膨大な観測データを20年かけて分析し、惑星運動の3法則を発見。「楕円軌道」「面積速度一定」「周期と距離の関係」はいずれも純粋に観測から帰納したものだ。ニュートンはこれを万有引力で理論的に説明した。</p>
+      </div>
+    </div>
+
+    <div class="person-block">
+      <div class="person-icon">∫</div>
+      <div class="person-info">
+        <div class="person-name">ゴットフリート・ライプニッツ / アイザック・ニュートン（17世紀）</div>
+        <p>微積分を（独立に）発明。ニュートンは惑星運動を解くために微積分を必要とし、ライプニッツは現在使われる記号（dy/dx、∫など）を整備した。2人の間で「先に発明したのはどちらか」をめぐる激しい優先権争いが起きた。</p>
+      </div>
+    </div>
+
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://phet.colorado.edu/en/simulations/my-solar-system" target="_blank">
+          <span class="link-icon">🔬</span>
+          <span class="link-text">
+            <span class="link-title">PhET「My Solar System」</span>
+            <span class="link-desc">ブラウザ / 軌道シミュレーター</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://www.youtube.com/watch?v=VcF4xlFPlBw" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">Scott Manley「Hohmann Transfer」</span>
+            <span class="link-desc">英語 / ホーマン遷移軌道の解説</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://www.youtube.com/watch?v=9vKqVkMQHKk" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">3Blue1Brown「Essence of Calculus」</span>
+            <span class="link-desc">英語 / 微積分の本質を映像で</span>
+          </span>
+        </a>
+        <a class="link-item" href="https://www.youtube.com/watch?v=WsQgGxI74Lo" target="_blank">
+          <span class="link-icon">▶</span>
+          <span class="link-text">
+            <span class="link-title">ヨビノリ「ケプラーの法則」</span>
+            <span class="link-desc">YouTube日本語 / 高校物理との接続</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— APPENDIX —</span></div>
+
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">MAP</div>
+      <div class="phase-title-group">
+        <div class="phase-title">数学の学習ロードマップ</div>
+        <div class="phase-topic">この作品から広がる学びの道</div>
+      </div>
+    </div>
+
+    <div class="science-block">
+      <div class="block-label">📚 中2〜中3でおさえたいこと</div>
+      <div class="science-content">
+        <p style="margin-bottom:10px;"><span class="hl-amber">整数・素数</span>：素因数分解、ユークリッドの互除法</p>
+        <p style="margin-bottom:10px;"><span class="hl-amber">比例・関数</span>：一次関数、比例と反比例</p>
+        <p><span class="hl-amber">図形と証明</span>：平行線の性質、三平方の定理、円の性質</p>
+      </div>
+    </div>
+
+    <div class="science-block" style="margin-top:16px;">
+      <div class="block-label">📚 高校数学へのつながり</div>
+      <div class="science-content">
+        <p style="margin-bottom:10px;"><span class="hl-green">数学I・II</span>：指数関数・対数関数（log）、三角関数</p>
+        <p style="margin-bottom:10px;"><span class="hl-green">数学II・III</span>：微積分（軌道計算の基礎）、数列・極限</p>
+        <p><span class="hl-green">発展</span>：線形代数（ベクトルと行列）、確率・統計</p>
+      </div>
+    </div>
+
+    <div class="science-block" style="margin-top:16px;">
+      <div class="block-label">📖 おすすめ書籍</div>
+      <div class="science-content">
+        <p style="margin-bottom:10px;"><span class="hl-yellow">『数学ガール』結城浩</span> — 物語形式で数学の深みを体験できる。素数・フェルマーの最終定理・フーリエ変換まで扱う</p>
+        <p style="margin-bottom:10px;"><span class="hl-yellow">『素数の音楽』マーカス・デュ・ソートイ</span> — リーマン予想と素数の謎を探る、読み物として一級のノンフィクション</p>
+        <p><span class="hl-yellow">『微積分の意味がわかる』長谷川愛美</span> — 高校生が微積分を「道具」として使えるようになるための入門書</p>
+      </div>
+    </div>
+
+    <div class="important-note">
+      📌 「数学は宇宙共通の言語か？」という問いは、哲学（数学的実在論）にもつながる。マックス・テグマークの「数学的宇宙仮説」（宇宙は数学的構造そのものだ）は、この問いに対する現代物理学者の一つの答えだ。
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-note">
+      グレースとロッキーが素数で最初に通じ合ったように、<br>
+      数学は「なぜかわからないが、確かに通じる」言語だ。<br>
+      それ自体がもっとも深い謎のひとつかもしれない。<br><br>
+      物理編・化学編・生物編もあわせて読んでほしい。
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

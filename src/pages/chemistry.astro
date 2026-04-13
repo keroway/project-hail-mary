@@ -1,0 +1,290 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="化学編 — ヘイルメアリー サイエンスガイド" currentPath="/chemistry">
+
+<div class="container">
+
+  <header>
+    <div class="subject-badge">CHEMISTRY</div>
+    <h1>プロジェクト・ヘイルメアリー<br>サイエンスガイド — 化学編</h1>
+    <p class="header-sub">元素・反応・光化学——作品に潜む化学の本質</p>
+    <div class="header-meta">
+      <span class="meta-tag">TARGET: 中学2年〜高校生</span>
+      <span class="meta-tag">SUBJECT: 化学</span>
+    </div>
+  </header>
+
+  <div class="intro">
+    <p>化学は「物質が何でできているか」「どう変化するか」を扱う学問だ。ヘイルメアリーには、<strong>元素の組成・光と化学反応・生命を維持する気体の管理</strong>など、リアルな化学の問題が随所に登場する。グレースが行う分析や推論は、実際の化学者の思考とほぼ同じプロセスをたどっている。</p>
+  </div>
+
+  <!-- CHEM 01 -->
+  <div class="phase" id="chem01">
+    <div class="phase-header">
+      <div class="phase-number">CHEM 01</div>
+      <div class="phase-title-group">
+        <div class="phase-title">アストロファージの元素組成</div>
+        <div class="phase-topic">元素 / 有機化合物 / CHNOPS の法則</div>
+      </div>
+    </div>
+    <div class="level-badge level-middle">▶ 中3〜高1レベル</div>
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      グレースたちはアストロファージを分析し、その元素組成を調べる。地球の生命と同じく炭素・水素・窒素・酸素・リン・硫黄で構成されていることがわかる。これが「生命の普遍性」への重要な伏線になる。
+    </div>
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：生命を作る元素 CHNOPS</div>
+      <div class="science-content">
+        <p>地球上のすべての生命体はほぼ同じ6元素でできている。これを頭文字で <span class="hl-purple">CHNOPS</span> と呼ぶ。</p><br>
+        <table class="chem-table">
+          <tr><th>元素</th><th>記号</th><th>生命における役割</th></tr>
+          <tr><td>炭素</td><td>C</td><td>有機分子の骨格。4本の結合手を持ち、複雑な鎖状・環状構造を作れる</td></tr>
+          <tr><td>水素</td><td>H</td><td>有機分子に偏在。水（H₂O）の構成元素でもある</td></tr>
+          <tr><td>窒素</td><td>N</td><td>アミノ酸・タンパク質・DNAの塩基に含まれる</td></tr>
+          <tr><td>酸素</td><td>O</td><td>呼吸・代謝の中心。水分子の構成元素</td></tr>
+          <tr><td>リン</td><td>P</td><td>DNAの骨格（リン酸）、ATPエネルギー分子に不可欠</td></tr>
+          <tr><td>硫黄</td><td>S</td><td>タンパク質の立体構造を固定するジスルフィド結合に使われる</td></tr>
+        </table><br>
+        <p>炭素が生命の中心にある理由は、<span class="hl-purple">4つの結合手</span>で他の原子と多様な構造を作れるからだ。</p><br>
+        <p>アストロファージが同じ元素組成を持つという設定は、<span class="hl-green">「炭素ベースの生命は宇宙で普遍的かもしれない」</span>という現代の宇宙生物学の仮説を反映している。</p>
+      </div>
+    </div>
+    <div class="formula-box" data-label="FORMULA / REACTION">
+      <span class="formula">C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + ATP</span>
+      <div class="formula-note">
+        細胞呼吸（グルコースの燃焼）の概略式。<br>
+        <span>C₆H₁₂O₆</span>：グルコース（炭素・水素・酸素からなる有機物）<br>
+        <span>ATP</span>：アデノシン三リン酸——生命のエネルギー通貨<br><br>
+        アストロファージはこれに代わるプロセスで光エネルギーを代謝している（光合成の超高効率版）。
+      </div>
+    </div>
+    <div class="person-block">
+      <div class="person-icon">⚗️</div>
+      <div class="person-info">
+        <div class="person-name">アントワーヌ・ラヴォアジェ（1743〜1794）</div>
+        <p>近代化学の父。質量保存の法則を確立し、燃焼が「酸素との結合」であることを解明した。フランス革命で処刑された悲劇の科学者でもある。</p>
+      </div>
+    </div>
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=QnQe0xW_JY4" target="_blank" rel="noopener">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">ヨビノリ「有機化学入門」</span><span class="link-desc">YouTube / 炭素の特別さを解説</span></span>
+        </a>
+        <a class="link-item" href="https://ptable.com/" target="_blank" rel="noopener">
+          <span class="link-icon">🔬</span>
+          <span class="link-text"><span class="link-title">Interactive Periodic Table</span><span class="link-desc">元素の性質をブラウザで確認</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— CHEM LOG —</span></div>
+
+  <!-- CHEM 02 -->
+  <div class="phase" id="chem02">
+    <div class="phase-header">
+      <div class="phase-number">CHEM 02</div>
+      <div class="phase-title-group">
+        <div class="phase-title">ペトロヴァ周波数——アストロファージが放つ光</div>
+        <div class="phase-topic">赤外線分光 / 電磁波 / 光のエネルギーと波長</div>
+      </div>
+    </div>
+    <div class="level-badge level-both">▶ 中3〜高2レベル</div>
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      太陽とヴィーナスの間に薄い輝線（ペトロヴァ弧）が観測される。これはアストロファージが移動する際に放出する特定波長（約25.984μm）の赤外線だ。この「ペトロヴァ周波数」を検出するペトロヴァスコープが開発され、アストロファージの存在・位置・密度を追跡できるようになる。
+    </div>
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：分光法——光の「指紋」で物質を見分ける</div>
+      <div class="science-content">
+        <p>すべての原子・分子は、<span class="hl-purple">特定の波長の光だけを吸収または放出する</span>。これは量子力学的に決まった固有の性質で、言わば物質の「光の指紋」だ。この指紋を分析する技術を<span class="hl-purple">分光法（スペクトロスコピー）</span>という。</p><br>
+        <p>CO₂分子は4.26μmと18.31μmの赤外線を特異的に吸収する。地球温暖化で「CO₂が温室効果ガス」と言われるのも、CO₂が地表から放射される赤外線をこの波長帯で吸収するからだ。</p><br>
+        <p>光子1個のエネルギーは波長で決まる。<span class="hl-purple">波長が短いほど高エネルギー（紫外線・X線）、長いほど低エネルギー（赤外線・電波）</span>。</p>
+      </div>
+    </div>
+    <div class="formula-box" data-label="FORMULA / REACTION">
+      <span class="formula">E = h × f = hc / λ</span>
+      <div class="formula-note">
+        光子1個のエネルギー（プランクの式）<br>
+        <span>E</span>：エネルギー（ジュール）<br>
+        <span>h</span>：プランク定数（6.626 × 10⁻³⁴ J·s）<br>
+        <span>f</span>：周波数（Hz）<br>
+        <span>λ</span>：波長（m）<br>
+        <span>c</span>：光速（約3×10⁸ m/s）
+      </div>
+    </div>
+    <div class="person-block">
+      <div class="person-icon">🌈</div>
+      <div class="person-info">
+        <div class="person-name">グスタフ・キルヒホフ / ロベルト・ブンゼン（19世紀）</div>
+        <p>分光法の確立者。炎に物質を入れると特定の色の光を出すことを体系化し、元素ごとに固有のスペクトル線があることを発見（1859年）。天文分光学の礎を築いた。</p>
+      </div>
+    </div>
+    <div class="question-box">
+      <div class="q-label">💭 考えてみよう</div>
+      <div class="q-text">太陽の光を分光器に通すと、虹色のスペクトルの中に黒い縦線（フラウンホーファー線）が見える。これは太陽大気中の元素が特定波長を吸収しているからだ。同じ原理で、遠い星の大気の化学組成をどうやって調べることができるか？</div>
+    </div>
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=9HMdDMQ58cc" target="_blank" rel="noopener">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">TED-Ed「Spectroscopy」</span><span class="link-desc">英語 / 分光法の仕組みをアニメで</span></span>
+        </a>
+        <a class="link-item" href="https://phet.colorado.edu/en/simulations/blackbody-spectrum" target="_blank" rel="noopener">
+          <span class="link-icon">🔬</span>
+          <span class="link-text"><span class="link-title">PhET「Blackbody Spectrum」</span><span class="link-desc">温度と放射スペクトルのシミュレーター</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— CHEM LOG —</span></div>
+
+  <!-- CHEM 03 -->
+  <div class="phase" id="chem03">
+    <div class="phase-header">
+      <div class="phase-number">CHEM 03</div>
+      <div class="phase-title-group">
+        <div class="phase-title">宇宙船の空気管理——気体の化学</div>
+        <div class="phase-topic">気体の法則 / 酸素・二酸化炭素 / 生命維持システム</div>
+      </div>
+    </div>
+    <div class="level-badge level-middle">▶ 中3〜高1レベル</div>
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      グレースは宇宙船内の空気組成を確認し、O₂濃度・CO₂濃度・気圧を管理する必要がある。ロッキーの船は地球とは全く異なる気体（アンモニア大気）で満たされており、両者の環境の違いが化学的な問題を生む。
+    </div>
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：気体の混合と分圧</div>
+      <div class="science-content">
+        <p>地球の大気は窒素（78%）・酸素（21%）・アルゴン（1%）・CO₂（0.04%）などの混合気体だ。混合気体中の各気体が示す圧力を<span class="hl-purple">分圧</span>という。</p><br>
+        <p>CO₂は通常0.04%（地球大気）だが、閉鎖空間では呼吸により蓄積する。<span class="hl-purple">3%超で頭痛・判断力低下、10%超で意識消失</span>という危険な気体だ。</p><br>
+        <p>ロッキーの船がアンモニア（NH₃）大気という設定も化学的にリアルだ。アンモニアは<span class="hl-green">窒素と水素で構成された極性分子</span>で、別の生化学を持つ生命の溶媒として機能しうる、と宇宙生物学者は考えている。</p>
+      </div>
+    </div>
+    <div class="formula-box" data-label="FORMULA / REACTION">
+      <span class="formula">P_total = P₁ + P₂ + P₃ + ...</span>
+      <div class="formula-note">
+        ドルトンの分圧の法則<br>
+        混合気体の全圧は各成分の分圧の和に等しい<br><br>
+        例：地球大気1気圧（101.3 kPa）のとき<br>
+        <span>O₂の分圧</span> = 101.3 × 0.21 ≈ 21.3 kPa<br>
+        <span>N₂の分圧</span> = 101.3 × 0.78 ≈ 79.0 kPa
+      </div>
+    </div>
+    <div class="person-block">
+      <div class="person-icon">🧪</div>
+      <div class="person-info">
+        <div class="person-name">ジョン・ドルトン（1766〜1844）</div>
+        <p>分圧の法則（1801年）と原子論を提唱。「物質は原子という不可分の粒子からなる」という考えを近代的な形で初めて体系化した。</p>
+      </div>
+    </div>
+    <div class="experiment-block">
+      <div class="block-label">🧪 考えてみる実験：閉鎖空間の空気</div>
+      <ol class="experiment-steps">
+        <li>密閉した小さな箱の中でろうそくを燃やすと、やがて消える——なぜか？</li>
+        <li>O₂を消費してCO₂が増えると燃焼が続けられなくなる（酸素分圧の低下）</li>
+        <li>人間も同じ。閉め切った部屋で多人数が長時間いるとCO₂濃度が上がり眠くなる</li>
+        <li>ISSでは化学吸着でCO₂を除去——どんな化学反応を使っているか調べてみよう</li>
+      </ol>
+    </div>
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://phet.colorado.edu/en/simulations/gas-properties" target="_blank" rel="noopener">
+          <span class="link-icon">🔬</span>
+          <span class="link-text"><span class="link-title">PhET「Gas Properties」</span><span class="link-desc">気体のシミュレーター</span></span>
+        </a>
+        <a class="link-item" href="https://www.youtube.com/watch?v=q_M81v7UDOA" target="_blank" rel="noopener">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">NASA「ISS Life Support」</span><span class="link-desc">英語 / ISSの生命維持システム</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— APPENDIX —</span></div>
+
+  <!-- Roadmap -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">EXT</div>
+      <div class="phase-title-group">
+        <div class="phase-title">化学の学習ロードマップ</div>
+        <div class="phase-topic">この作品から広がる学びの道</div>
+      </div>
+    </div>
+    <div class="science-block">
+      <div class="block-label">📚 中2〜中3でおさえたいこと</div>
+      <div class="science-content">
+        <p style="margin-bottom:10px;"><span class="hl-purple">原子・元素・周期表</span>：元素の種類と周期表の読み方</p>
+        <p style="margin-bottom:10px;"><span class="hl-purple">化学反応式</span>：質量保存の法則、係数の意味</p>
+        <p><span class="hl-purple">酸・塩基・中和</span>：pH、イオンの基礎</p>
+      </div>
+    </div>
+    <div class="science-block" style="margin-top:16px;">
+      <div class="block-label">📚 高校化学へのつながり</div>
+      <div class="science-content">
+        <p style="margin-bottom:10px;"><span class="hl-green">化学基礎</span>：モルの概念、気体の法則（ボイル・シャルル）、分圧の法則</p>
+        <p style="margin-bottom:10px;"><span class="hl-green">化学</span>：有機化合物の分類、光化学反応、酸化還元</p>
+        <p><span class="hl-green">発展</span>：量子化学の入口（軌道・電子配置）、生化学（ATP・DNA）</p>
+      </div>
+    </div>
+    <div class="science-block" style="margin-top:16px;">
+      <div class="block-label">📖 おすすめ書籍</div>
+      <div class="science-content">
+        <p style="margin-bottom:10px;"><span class="hl-yellow">『元素の話』砂田利一</span> — 元素ひとつひとつのドラマを語る読み物</p>
+        <p><span class="hl-yellow">『生命とは何か』シュレーディンガー</span> — 物理学者が化学・生物の接点を論じた古典（発展）</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-note">
+      化学は「物質の言語」だ。元素記号と化学式を読めるようになると、<br>
+      世界が全く違って見えてくる。アストロファージもロッキーも、<br>
+      結局は原子の組み合わせから生まれている。
+    </div>
+  </footer>
+
+</div>
+</BaseLayout>
+
+<style>
+  :root {
+    --accent:        #a78bfa;
+    --accent-glow:   rgba(167, 139, 250, 0.3);
+    --accent-bg:     rgba(167, 139, 250, 0.08);
+    --accent-border: rgba(167, 139, 250, 0.2);
+    --star-tint-a:   rgba(167, 139, 250, 0.5);
+    --star-tint-b:   rgba(244, 114, 182, 0.3);
+  }
+
+  .chem-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 13px;
+  }
+  .chem-table th {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-border);
+    padding: 8px 12px;
+    text-align: left;
+  }
+  .chem-table td {
+    border: 1px solid rgba(167, 139, 250, 0.08);
+    padding: 8px 12px;
+    color: rgba(232, 244, 253, 0.8);
+    vertical-align: top;
+  }
+  .chem-table tr:hover td { background: var(--accent-bg); }
+</style>
