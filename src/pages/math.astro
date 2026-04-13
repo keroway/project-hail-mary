@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SpoilerGate from '../components/SpoilerGate.astro';
+import ScienceDiagram from '../components/ScienceDiagram.astro';
 ---
 <BaseLayout title="数学編 — ヘイルメアリー サイエンスガイド" currentPath="/math">
 
@@ -104,6 +105,11 @@ import SpoilerGate from '../components/SpoilerGate.astro';
         <p>宇宙船が最も燃料効率よく軌道を移動する方法を<span class="hl-amber">ホーマン遷移軌道</span>という。2回だけエンジンを噴射して、小さな軌道から大きな軌道に移る方法だ。</p>
       </div>
     </div>
+    <ScienceDiagram
+      kind="hohmann"
+      title="ホーマン遷移は、内側軌道と外側軌道を楕円で一度だけ橋渡しする"
+      caption="出発時に速度を上げて遷移軌道へ入り、到着時にもう一度噴射して新しい円軌道へ乗る。燃料節約の基本形。"
+    />
     <div class="formula-box" data-label="MATH">
       <span class="formula">T² = (4π² / GM) × a³</span>
       <div class="formula-note">
