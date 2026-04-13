@@ -21,6 +21,7 @@ const { kind, title, caption } = Astro.props;
     <span class="science-diagram-title">{title}</span>
   </figcaption>
 
+  <div class="science-diagram-stage">
   {kind === 'orbit' && (
     <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title}>
       <title>{title}</title>
@@ -249,8 +250,10 @@ const { kind, title, caption } = Astro.props;
       </defs>
     </svg>
   )}
+  </div>
 
   {caption && <p class="science-diagram-caption">{caption}</p>}
+  <p class="science-diagram-mobile-note" aria-hidden="true">図は左右にスクロールできます</p>
 </figure>
 
 <style>
@@ -289,11 +292,22 @@ const { kind, title, caption } = Astro.props;
     display: block;
   }
 
+  .science-diagram-stage {
+    overflow: hidden;
+  }
+
   .science-diagram-caption {
     margin-top: 12px;
     font-size: 12px;
     color: var(--dim-star);
     line-height: 1.7;
+  }
+
+  .science-diagram-mobile-note {
+    display: none;
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--dim-star);
   }
 
   .diagram-bg {
@@ -314,12 +328,12 @@ const { kind, title, caption } = Astro.props;
   }
 
   .diagram-label {
-    font-size: 12px;
+    font-size: calc(12px * var(--diagram-font-scale, 1));
     letter-spacing: 0.04em;
   }
 
   .diagram-caption {
-    font-size: 11px;
+    font-size: calc(11px * var(--diagram-font-scale, 1));
     fill: var(--dim-star);
   }
 
@@ -401,6 +415,22 @@ const { kind, title, caption } = Astro.props;
 
     .science-diagram-title {
       font-size: 12px;
+    }
+
+    .science-diagram-stage {
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 4px;
+    }
+
+    .science-diagram-svg {
+      width: 580px;
+      max-width: none;
+    }
+
+    .science-diagram-mobile-note {
+      display: block;
     }
   }
 </style>

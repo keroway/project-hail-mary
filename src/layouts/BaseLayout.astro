@@ -62,12 +62,70 @@ const {
     <slot />
   </main>
 
+  <div class="accessibility-tools" transition:persist>
+    <button
+      id="accessibility-toggle"
+      class="accessibility-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="accessibility-panel"
+      aria-label="表示設定を開く"
+    >
+      <span aria-hidden="true">Aa</span>
+      <span class="sr-only">表示設定</span>
+    </button>
+
+    <section id="accessibility-panel" class="accessibility-panel" hidden aria-label="表示設定">
+      <div class="accessibility-title">表示設定</div>
+
+      <div class="accessibility-group">
+        <div class="accessibility-label">文字サイズ</div>
+        <div class="accessibility-options">
+          <button type="button" class="accessibility-option" data-ui-setting="fontScale" data-ui-value="default">標準</button>
+          <button type="button" class="accessibility-option" data-ui-setting="fontScale" data-ui-value="large">大</button>
+          <button type="button" class="accessibility-option" data-ui-setting="fontScale" data-ui-value="xlarge">特大</button>
+        </div>
+      </div>
+
+      <div class="accessibility-group">
+        <div class="accessibility-label">図の文字</div>
+        <div class="accessibility-options">
+          <button type="button" class="accessibility-option" data-ui-setting="diagramScale" data-ui-value="default">標準</button>
+          <button type="button" class="accessibility-option" data-ui-setting="diagramScale" data-ui-value="large">大きめ</button>
+        </div>
+      </div>
+
+      <div class="accessibility-group">
+        <div class="accessibility-label">コントラスト</div>
+        <div class="accessibility-options">
+          <button type="button" class="accessibility-option" data-ui-setting="contrast" data-ui-value="default">標準</button>
+          <button type="button" class="accessibility-option" data-ui-setting="contrast" data-ui-value="high">高め</button>
+        </div>
+      </div>
+
+      <div class="accessibility-group">
+        <div class="accessibility-label">動き</div>
+        <div class="accessibility-options">
+          <button type="button" class="accessibility-option" data-ui-setting="motion" data-ui-value="default">通常</button>
+          <button type="button" class="accessibility-option" data-ui-setting="motion" data-ui-value="reduced">少なめ</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
 </body>
 </html>
 
 <!-- Chapter gate script: runs on every page load / navigation -->
 <script>
   const STORAGE_KEY = 'hailmary-chapter';
+  const UI_PREFS_KEY = 'hailmary-ui-prefs';
+  const DEFAULT_UI_PREFS = {
+    fontScale: 'default',
+    diagramScale: 'default',
+    contrast: 'default',
+    motion: 'default',
+  };
 
   function readChapter() {
     const raw = Number.parseInt(localStorage.getItem(STORAGE_KEY) ?? '0', 10);
@@ -83,6 +141,63 @@ const {
       : chapter >= 28
         ? '読了'
         : `第<span>${chapter}</span>章まで`;
+  }
+
+  function readUiPrefs() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(UI_PREFS_KEY) ?? '{}');
+      return { ...DEFAULT_UI_PREFS, ...raw };
+    } catch {
+      return { ...DEFAULT_UI_PREFS };
+    }
+  }
+
+  function writeUiPrefs(nextPrefs) {
+    localStorage.setItem(UI_PREFS_KEY, JSON.stringify(nextPrefs));
+  }
+
+  function setDatasetValue(key, value) {
+    if (value === 'default') {
+      delete document.documentElement.dataset[key];
+      return;
+    }
+    document.documentElement.dataset[key] = value;
+  }
+
+  function syncAccessibilityButtons(prefs) {
+    document.querySelectorAll('[data-ui-setting][data-ui-value]').forEach((button) => {
+      const setting = button.getAttribute('data-ui-setting');
+      const value = button.getAttribute('data-ui-value');
+      const isActive = prefs[setting] === value;
+      button.setAttribute('aria-pressed', String(isActive));
+      button.classList.toggle('is-active', isActive);
+    });
+  }
+
+  function applyUiPrefs() {
+    const prefs = readUiPrefs();
+    setDatasetValue('fontScale', prefs.fontScale);
+    setDatasetValue('diagramScale', prefs.diagramScale);
+    setDatasetValue('contrast', prefs.contrast);
+    setDatasetValue('motion', prefs.motion);
+    syncAccessibilityButtons(prefs);
+  }
+
+  function closeAccessibilityPanel() {
+    const panel = document.getElementById('accessibility-panel');
+    const toggle = document.getElementById('accessibility-toggle');
+    if (!panel || !toggle) return;
+    panel.hidden = true;
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  function toggleAccessibilityPanel() {
+    const panel = document.getElementById('accessibility-panel');
+    const toggle = document.getElementById('accessibility-toggle');
+    if (!panel || !toggle) return;
+    const nextOpen = panel.hidden;
+    panel.hidden = !nextOpen;
+    toggle.setAttribute('aria-expanded', String(nextOpen));
   }
 
   function applySpoilerGates() {
@@ -125,10 +240,52 @@ const {
       if (event.key === STORAGE_KEY || event.key === null) {
         applySpoilerGates();
       }
+      if (event.key === UI_PREFS_KEY || event.key === null) {
+        applyUiPrefs();
+      }
     });
     document.addEventListener('chapterChanged', applySpoilerGates);
   }
 
+  if (!window.__hailMaryUiBindings) {
+    window.__hailMaryUiBindings = true;
+
+    document.addEventListener('click', (event) => {
+      const target = event.target;
+      const toggle = target instanceof Element ? target.closest('#accessibility-toggle') : null;
+      const option = target instanceof Element ? target.closest('[data-ui-setting][data-ui-value]') : null;
+      const tools = target instanceof Element ? target.closest('.accessibility-tools') : null;
+
+      if (toggle) {
+        toggleAccessibilityPanel();
+        return;
+      }
+
+      if (option) {
+        const prefs = readUiPrefs();
+        const setting = option.getAttribute('data-ui-setting');
+        const value = option.getAttribute('data-ui-value');
+        prefs[setting] = value;
+        writeUiPrefs(prefs);
+        applyUiPrefs();
+        return;
+      }
+
+      if (!tools) {
+        closeAccessibilityPanel();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeAccessibilityPanel();
+      }
+    });
+  }
+
   applySpoilerGates();
+  applyUiPrefs();
   document.addEventListener('astro:page-load', applySpoilerGates);
+  document.addEventListener('astro:page-load', applyUiPrefs);
+  document.addEventListener('astro:page-load', closeAccessibilityPanel);
 </script>
