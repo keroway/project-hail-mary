@@ -39,23 +39,27 @@ const {
   <title>{title}</title>
   <ClientRouter />
 </head>
-<body>
+<body data-current-path={currentPath}>
   <a href="#main-content" class="skip-link">本文へスキップ</a>
 
   <!-- Navigation -->
   <nav class="site-nav" transition:persist aria-label="サイト内ナビゲーション">
     <div class="nav-inner">
-      <a href="/" class="nav-home">HAIL MARY</a>
+      <a href="/" class={`nav-home${currentPath === '/' ? ' active' : ''}`} data-nav-link aria-current={currentPath === '/' ? 'page' : undefined}>HAIL MARY</a>
       <div class="nav-links">
-        <a href="/story" class={`nav-link${currentPath === '/story' ? ' active' : ''}`} aria-current={currentPath === '/story' ? 'page' : undefined}>ストーリー順</a>
-        <a href="/physics" class={`nav-link${currentPath === '/physics' ? ' active' : ''}`} aria-current={currentPath === '/physics' ? 'page' : undefined}>物理</a>
-        <a href="/chemistry" class={`nav-link${currentPath === '/chemistry' ? ' active' : ''}`} aria-current={currentPath === '/chemistry' ? 'page' : undefined}>化学</a>
-        <a href="/biology" class={`nav-link${currentPath === '/biology' ? ' active' : ''}`} aria-current={currentPath === '/biology' ? 'page' : undefined}>生物</a>
-        <a href="/math" class={`nav-link${currentPath === '/math' ? ' active' : ''}`} aria-current={currentPath === '/math' ? 'page' : undefined}>数学</a>
+        <a href="/story" class={`nav-link${currentPath === '/story' ? ' active' : ''}`} data-nav-link aria-current={currentPath === '/story' ? 'page' : undefined}>ストーリー順</a>
+        <a href="/physics" class={`nav-link${currentPath === '/physics' ? ' active' : ''}`} data-nav-link aria-current={currentPath === '/physics' ? 'page' : undefined}>物理</a>
+        <a href="/chemistry" class={`nav-link${currentPath === '/chemistry' ? ' active' : ''}`} data-nav-link aria-current={currentPath === '/chemistry' ? 'page' : undefined}>化学</a>
+        <a href="/biology" class={`nav-link${currentPath === '/biology' ? ' active' : ''}`} data-nav-link aria-current={currentPath === '/biology' ? 'page' : undefined}>生物</a>
+        <a href="/math" class={`nav-link${currentPath === '/math' ? ' active' : ''}`} data-nav-link aria-current={currentPath === '/math' ? 'page' : undefined}>数学</a>
       </div>
-      <div class="nav-chapter" id="nav-chapter-status" aria-live="polite"></div>
+      <div class="nav-status" aria-live="polite">
+        <div class="nav-status-label">読了章</div>
+        <div class="nav-chapter" id="nav-chapter-status"></div>
+      </div>
     </div>
   </nav>
+  <div class="theme-rails" aria-hidden="true"></div>
 
   <!-- Page content with transition -->
   <main id="main-content" transition:animate="fade">
@@ -136,11 +140,13 @@ const {
     const el = document.getElementById('nav-chapter-status');
     if (!el) return;
 
-    el.innerHTML = chapter === 0
+    const text = chapter === 0
       ? '未読'
       : chapter >= 28
-        ? '読了'
-        : `第<span>${chapter}</span>章まで`;
+        ? '全章読了'
+        : `第${chapter}章まで`;
+    el.textContent = text;
+    el.setAttribute('aria-label', `現在の読了章設定: ${text}`);
   }
 
   function readUiPrefs() {
@@ -252,9 +258,17 @@ const {
 
     document.addEventListener('click', (event) => {
       const target = event.target;
+      const navLink = target instanceof Element ? target.closest('[data-nav-link]') : null;
       const toggle = target instanceof Element ? target.closest('#accessibility-toggle') : null;
       const option = target instanceof Element ? target.closest('[data-ui-setting][data-ui-value]') : null;
       const tools = target instanceof Element ? target.closest('.accessibility-tools') : null;
+
+      if (navLink instanceof HTMLElement) {
+        const nav = document.querySelector('.site-nav');
+        nav?.setAttribute('data-nav-loading', 'true');
+        document.querySelectorAll('.site-nav .is-pressed').forEach((el) => el.classList.remove('is-pressed'));
+        navLink.classList.add('is-pressed');
+      }
 
       if (toggle) {
         toggleAccessibilityPanel();
@@ -285,7 +299,11 @@ const {
 
   applySpoilerGates();
   applyUiPrefs();
-  document.addEventListener('astro:page-load', applySpoilerGates);
-  document.addEventListener('astro:page-load', applyUiPrefs);
-  document.addEventListener('astro:page-load', closeAccessibilityPanel);
+  document.addEventListener('astro:page-load', () => {
+    document.querySelector('.site-nav')?.removeAttribute('data-nav-loading');
+    document.querySelectorAll('.site-nav .is-pressed').forEach((el) => el.classList.remove('is-pressed'));
+    applySpoilerGates();
+    applyUiPrefs();
+    closeAccessibilityPanel();
+  });
 </script>
