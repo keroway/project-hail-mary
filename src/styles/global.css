@@ -1090,14 +1090,9 @@ html[data-contrast='high'] .link-desc {
 }
 .timeline-item.is-locked:hover { transform: none; }
 
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
+/* Reduced motion is handled via JS (BaseLayout.astro) which detects
+   prefers-reduced-motion and sets data-motion="reduced" on <html>.
+   This allows users to override the OS setting via the in-app panel. */
 
 html[data-motion='reduced'] {
   scroll-behavior: auto;
