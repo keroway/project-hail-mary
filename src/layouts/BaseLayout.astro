@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 
 interface Props {
@@ -22,7 +22,7 @@ const {
   <meta name="description" content={description} />
   <meta name="theme-color" content="#03050f" />
   <title>{title}</title>
-  <ViewTransitions />
+  <ClientRouter />
 </head>
 <body>
 
