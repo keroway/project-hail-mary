@@ -13,6 +13,18 @@ const {
   description = '小説「プロジェクト・ヘイルメアリー」の科学的記述を、中学生向けに読み解くための静的ガイドサイト。',
   currentPath = '/',
 } = Astro.props;
+
+/* Custom page transition: vertical slide-up + fade */
+const pageTransition = {
+  forwards: {
+    old: { name: 'pageSlideOut', duration: '0.25s', easing: 'ease-in', fillMode: 'both' },
+    new: { name: 'pageSlideIn', duration: '0.35s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'both' },
+  },
+  backwards: {
+    old: { name: 'pageSlideOutReverse', duration: '0.25s', easing: 'ease-in', fillMode: 'both' },
+    new: { name: 'pageSlideInReverse', duration: '0.35s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'both' },
+  },
+};
 ---
 <!doctype html>
 <html lang="ja">
@@ -61,8 +73,11 @@ const {
   </nav>
   <div class="theme-rails" aria-hidden="true"></div>
 
+  <!-- Floating mascot -->
+  <div class="scroll-mascot" aria-hidden="true" transition:persist>🚀</div>
+
   <!-- Page content with transition -->
-  <main id="main-content" transition:animate="fade">
+  <main id="main-content" transition:animate={pageTransition}>
     <slot />
   </main>
 
@@ -311,9 +326,81 @@ const {
     });
   }
 
+  /* ===== Scroll reveal via IntersectionObserver ===== */
+  let scrollRevealObserver = null;
+
+  function initScrollReveal() {
+    if (scrollRevealObserver) scrollRevealObserver.disconnect();
+
+    const isReduced = document.documentElement.dataset.motion === 'reduced';
+    if (isReduced) return;
+
+    const targets = document.querySelectorAll(
+      '.phase, .intro, .chapter-selector, .subject-card, .timeline-item'
+    );
+
+    scrollRevealObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            scrollRevealObserver.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -32px 0px' }
+    );
+
+    for (const el of targets) {
+      el.classList.add('scroll-reveal');
+      scrollRevealObserver.observe(el);
+    }
+  }
+
+  /* ===== Floating mascot scroll effect ===== */
+  let mascotRafId = null;
+
+  function initScrollMascot() {
+    if (mascotRafId) { cancelAnimationFrame(mascotRafId); mascotRafId = null; }
+
+    const mascot = document.querySelector('.scroll-mascot');
+    if (!mascot) return;
+
+    const isReduced = document.documentElement.dataset.motion === 'reduced';
+    if (isReduced) { mascot.classList.remove('is-active'); return; }
+
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      mascotRafId = requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = maxScroll > 0 ? Math.min(scrollY / maxScroll, 1) : 0;
+
+        /* Show after scrolling a bit */
+        if (scrollY > 120) {
+          mascot.classList.add('is-active');
+        } else {
+          mascot.classList.remove('is-active');
+        }
+
+        /* Move upward as user scrolls (like launching) */
+        const yOffset = -(progress * 50);
+        mascot.style.setProperty('--mascot-scroll', `${yOffset}px`);
+        ticking = false;
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
   applySpoilerGates();
   applyUiPrefs();
   updateActiveNav();
+  initScrollReveal();
+  initScrollMascot();
   document.addEventListener('astro:page-load', () => {
     document.querySelector('.site-nav')?.removeAttribute('data-nav-loading');
     document.querySelectorAll('.site-nav .is-pressed').forEach((el) => el.classList.remove('is-pressed'));
@@ -321,5 +408,7 @@ const {
     applySpoilerGates();
     applyUiPrefs();
     closeAccessibilityPanel();
+    initScrollReveal();
+    initScrollMascot();
   });
 </script>
