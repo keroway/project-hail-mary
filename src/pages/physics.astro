@@ -1,0 +1,425 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SpoilerGate from '../components/SpoilerGate.astro';
+---
+<BaseLayout title="物理学編 — ヘイルメアリー サイエンスガイド" currentPath="/physics">
+
+<div class="container">
+
+  <header>
+    <div class="header-eyebrow">PHYSICS</div>
+    <h1>プロジェクト・ヘイルメアリー<br>サイエンスガイド — 物理学編</h1>
+    <p class="header-sub">重力・運動・エネルギー・相対性理論——作品に潜む物理学の本質</p>
+    <div class="header-meta">
+      <span class="meta-tag">TARGET: 中学2年〜高校生</span>
+      <span class="meta-tag">SUBJECT: 物理学</span>
+      <span class="meta-tag">⚠ ネタバレあり</span>
+    </div>
+  </header>
+
+  <div class="intro">
+    <p>この本には、SF的な「嘘」がほとんどない。グレース博士が宇宙船の中で行う推理や実験は、<strong>実際の物理学に基づいている</strong>。だからこそ読んでいて「本当にそうなのか？」と確かめたくなる。このガイドは、その「確かめたい」という気持ちを物理学の学習につなげるためのものだ。</p>
+  </div>
+
+  <!-- PHASE 01 -->
+  <div class="phase" id="phase01">
+    <div class="phase-header">
+      <div class="phase-number">PHASE 01</div>
+      <div class="phase-title-group">
+        <div class="phase-title">目覚め・無重力の謎</div>
+        <div class="phase-topic">万有引力 / 軌道運動 / 自由落下</div>
+      </div>
+    </div>
+    <div class="level-badge level-middle">▶ 中学2〜3年レベル</div>
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      グレースは宇宙船の中で目覚める。体が宙に浮いており、自分がどこにいるのかもわからない。無重力状態の中で、彼は少しずつ状況を把握しようとする。
+    </div>
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：なぜ宇宙では物が浮くのか</div>
+      <div class="science-content">
+        <p>よく「宇宙には重力がない」と言われるが、<span class="hl-blue">これは正しくない</span>。国際宇宙ステーション（ISS）は地上400kmほどにあり、そこでも地球の重力はほぼ同じ強さで働いている。</p><br>
+        <p>では、なぜ浮くのか？答えは<span class="hl-green">「ずっと落ち続けているから」</span>だ。ISSは猛烈な速度（秒速約7.7km）で飛びながら、地球に向かって落ち続けている。その落下の弧が地球の丸さとちょうど一致するため、いつまでも落ちながら飛び続ける。この状態を「軌道運動」という。</p><br>
+        <p>船の中のものも、船と同じ速度で落ち続けているので、<span class="hl-yellow">お互いに「落ちている感覚」がなくなる</span>。これが「無重力に見える」理由だ。</p>
+      </div>
+    </div>
+    <div class="formula-box" data-label="FORMULA">
+      <span class="formula">F = G × (m₁ × m₂) / r²</span>
+      <div class="formula-note">
+        <span>F</span>：引力（ニュートン）<br>
+        <span>G</span>：万有引力定数（6.674 × 10⁻¹¹ N·m²/kg²）<br>
+        <span>m₁, m₂</span>：2つの物体の質量<br>
+        <span>r</span>：2物体間の距離<br><br>
+        距離が2倍になると引力は4分の1になる（逆二乗の法則）。
+      </div>
+    </div>
+    <div class="person-block">
+      <div class="person-icon">🍎</div>
+      <div class="person-info">
+        <div class="person-name">アイザック・ニュートン（1643〜1727）</div>
+        <p>万有引力の法則を発見。「月も、リンゴも、同じ重力で落ちている」という洞察から、軌道運動の仕組みを数学で記述した。著書『プリンキピア』（1687年）はその集大成。</p>
+      </div>
+    </div>
+    <div class="question-box">
+      <div class="q-label">💭 考えてみよう</div>
+      <div class="q-text">地球から高度400km（ISSの軌道）での重力加速度は何m/s²か？海面上の9.8と比べてどのくらい違う？（ヒント：地球の半径は6400km）</div>
+    </div>
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=VcF4xlFPlBw" target="_blank" rel="noopener">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">NHK高校講座「万有引力」</span><span class="link-desc">YouTube / 無料 / 日本語</span></span>
+        </a>
+        <a class="link-item" href="https://www.khanacademy.org/science/ap-physics-1/ap-centripetal-force-and-gravitation/newtons-law-of-gravitation-ap/v/introduction-to-gravity" target="_blank" rel="noopener">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">Khan Academy「Gravity & Orbits」</span><span class="link-desc">英語 / 図解あり / 無料</span></span>
+        </a>
+        <a class="link-item" href="https://phet.colorado.edu/en/simulations/gravity-and-orbits" target="_blank" rel="noopener">
+          <span class="link-icon">🔬</span>
+          <span class="link-text"><span class="link-title">PhET「Gravity and Orbits」</span><span class="link-desc">ブラウザで動く軌道シミュレーター</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— SCIENCE LOG —</span></div>
+
+  <!-- PHASE 02 -->
+  <div class="phase" id="phase02">
+    <div class="phase-header">
+      <div class="phase-number">PHASE 02</div>
+      <div class="phase-title-group">
+        <div class="phase-title">振り子で重力を測る</div>
+        <div class="phase-topic">単振動 / 重力加速度 / 周期と長さの関係</div>
+      </div>
+    </div>
+    <div class="level-badge level-both">▶ 中2〜高1（本書最重要シーン）</div>
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      グレースは自分がいる惑星の重力加速度を知る必要があった。計器がないため、手持ちの材料で振り子を作り、その周期を測ることで重力を算出する。科学者としての真骨頂が発揮される場面。
+    </div>
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：単振動と重力</div>
+      <div class="science-content">
+        <p>振り子の最大の不思議は、<span class="hl-blue">「重さが違っても周期が同じ」</span>ことだ。鉄のおもりでも木のおもりでも、同じ長さの紐なら同じ時間で揺れる。これをガリレオが発見した（16世紀）。</p><br>
+        <p>なぜそうなるのか？重い物体は重力を強く受けるが、同時に「動かしにくさ（慣性）」も大きい。この2つがちょうど打ち消し合うため、質量が消える。残るのは<span class="hl-green">「紐の長さ」と「重力加速度 g」だけ</span>だ。</p>
+      </div>
+    </div>
+    <div class="formula-box" data-label="FORMULA">
+      <span class="formula">T = 2π√(L / g)</span>
+      <div class="formula-note">
+        <span>T</span>：周期（1往復にかかる時間、秒）<br>
+        <span>L</span>：振り子の長さ（メートル）<br>
+        <span>g</span>：重力加速度（地球では約9.8 m/s²）<br><br>
+        ← <span>g</span> について解くと：<span style="color:var(--aurora)">g = 4π²L / T²</span><br>
+        つまり、L と T を測れば g を求められる。グレースはまさにこれをやった。
+      </div>
+    </div>
+    <div class="person-block">
+      <div class="person-icon">⚓</div>
+      <div class="person-info">
+        <div class="person-name">ガリレオ・ガリレイ（1564〜1642）</div>
+        <p>ピサ大聖堂のシャンデリアが揺れるのを見て、振り子の等時性（重さによらず周期が一定）に気づいたとされる。後に望遠鏡を改良し、木星の衛星を発見した。</p>
+      </div>
+    </div>
+    <div class="experiment-block">
+      <div class="block-label">🧪 家でできる実験：振り子で g を測ろう</div>
+      <ol class="experiment-steps">
+        <li>糸（30〜100cm）に重りをつけ、天井や棚から垂らす</li>
+        <li>糸の長さ L を正確に測る（メートル単位）</li>
+        <li>小さく揺らし、10往復の時間をストップウォッチで計る</li>
+        <li>その時間を10で割って周期 T を求める</li>
+        <li>g = 4π²L / T² に代入して計算する</li>
+        <li>答えが 9.7〜9.9 に近ければ成功。誤差の原因を考えよう</li>
+      </ol>
+    </div>
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=_SqEbItdXDs" target="_blank" rel="noopener">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">ヨビノリたくみ「単振動①」</span><span class="link-desc">YouTube / わかりやすい日本語解説</span></span>
+        </a>
+        <a class="link-item" href="https://phet.colorado.edu/en/simulations/pendulum-lab" target="_blank" rel="noopener">
+          <span class="link-icon">🔬</span>
+          <span class="link-text"><span class="link-title">PhET「Pendulum Lab」</span><span class="link-desc">振り子シミュレーター / 重力も変更可能</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— SCIENCE LOG —</span></div>
+
+  <!-- PHASE 03 -->
+  <div class="phase" id="phase03">
+    <div class="phase-header">
+      <div class="phase-number">PHASE 03</div>
+      <div class="phase-title-group">
+        <div class="phase-title">人工重力と遠心力</div>
+        <div class="phase-topic">慣性 / 遠心力 / 非慣性系</div>
+      </div>
+    </div>
+    <div class="level-badge level-middle">▶ 中3〜高1レベル</div>
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      ヘイルメアリー号は回転することで人工重力を生み出している。SF映画でもよく登場するこの仕組みを、グレースは実際に体験しながら理解していく。
+    </div>
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：遠心力は「見かけの力」</div>
+      <div class="science-content">
+        <p>回転する乗り物の中では外側に引っ張られる感覚がある。これを「遠心力」と呼ぶが、<span class="hl-blue">実はこれは実在する力ではない</span>。</p><br>
+        <p>本当に働いているのは「向心力」だ。物体はまっすぐ進もうとする（慣性）が、回転する壁がそれを押し戻す。その押し戻される感覚が「外側に引っ張られている」ように感じられる。<span class="hl-green">遠心力は、回転する系の中にいる人が感じる「見かけの力」</span>（慣性力）だ。</p><br>
+        <p>宇宙ステーションで同じ「重力感覚」を作るには、半径 r で角速度 ω で回転させると、向心加速度 a = ω²r が発生する。これを地球の g（9.8 m/s²）と等しくすれば「地球と同じ重力感覚」になる。</p>
+      </div>
+    </div>
+    <div class="formula-box" data-label="FORMULA">
+      <span class="formula">a = ω² × r = v² / r</span>
+      <div class="formula-note">
+        <span>a</span>：向心加速度（m/s²）<br>
+        <span>ω</span>：角速度（rad/s）<br>
+        <span>r</span>：回転半径（m）<br>
+        <span>v</span>：接線速度（m/s）<br><br>
+        例：半径50mで回転させて g = 9.8 を再現するには ω ≈ 0.44 rad/s → 約4.2回転/分
+      </div>
+    </div>
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=49JwbrXcPjc" target="_blank" rel="noopener">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">Kurzgesagt「Artificial Gravity」</span><span class="link-desc">YouTube英語 / アニメ解説</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— SCIENCE LOG —</span></div>
+
+  <!-- PHASE 04 -->
+  <div class="phase" id="phase04">
+    <div class="phase-header">
+      <div class="phase-number">PHASE 04</div>
+      <div class="phase-title-group">
+        <div class="phase-title">アストロファージ — エネルギーを食べる生命</div>
+        <div class="phase-topic">エネルギー保存則 / 核融合 / 光のエネルギー</div>
+      </div>
+    </div>
+    <div class="level-badge level-both">▶ 中3〜高2レベル</div>
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      太陽が暗くなっている。原因はアストロファージという微生物が太陽の光エネルギーを吸収しているからだ。この生命体は光子（光の粒）をエネルギー源とし、驚異的な密度でエネルギーを蓄えている。
+    </div>
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：エネルギーとは何か</div>
+      <div class="science-content">
+        <p><span class="hl-blue">エネルギーは生まれず、消えない</span>——これをエネルギー保存の法則という。形を変えるだけだ。太陽では核融合反応によって水素がヘリウムに変わり、その「質量の差」が莫大なエネルギーとして放出される。</p><br>
+        <p>これを記述するのがアインシュタインの有名な式だ。<span class="hl-green">質量もエネルギーの一形態</span>であることを示している。アストロファージはこのエネルギーを体内に蓄える「生きたバッテリー」として機能する設定になっている。</p><br>
+        <p>光は「光子（フォトン）」という粒子でできており、その1個のエネルギーは周波数（色）で決まる。植物の光合成も、光子のエネルギーを化学エネルギーに変換している。アストロファージはその究極版とも言える。</p>
+      </div>
+    </div>
+    <div class="formula-box" data-label="FORMULA">
+      <span class="formula">E = mc²</span>
+      <div class="formula-note">
+        <span>E</span>：エネルギー（ジュール）<br>
+        <span>m</span>：質量（kg）<br>
+        <span>c</span>：光速（約3×10⁸ m/s）<br><br>
+        1gの質量が完全にエネルギーに変換されると → 約9×10¹³ J（広島型原爆の約2倍）
+      </div>
+    </div>
+    <div class="person-block">
+      <div class="person-icon">💡</div>
+      <div class="person-info">
+        <div class="person-name">アルベルト・アインシュタイン（1879〜1955）</div>
+        <p>1905年「奇跡の年」に特殊相対性理論を発表。E=mc²はその帰結として導かれた。量子力学の基礎にも貢献し、光電効果の説明でノーベル賞（1921年）を受賞した。</p>
+      </div>
+    </div>
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=hW7DW9NIO9M" target="_blank" rel="noopener">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">Kurzgesagt「Nuclear Fusion」</span><span class="link-desc">英語アニメ / 核融合の仕組み</span></span>
+        </a>
+        <a class="link-item" href="https://www.youtube.com/watch?v=NnMIhxWRGNw" target="_blank" rel="noopener">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">ヨビノリ「E=mc²の意味」</span><span class="link-desc">YouTube / 日本語 / 丁寧な解説</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— SCIENCE LOG —</span></div>
+
+  <!-- PHASE 05 — SPOILER ch9 -->
+  <SpoilerGate id="phase05" minChapter={9} label="第9章以降のネタバレ" hint="ロッキー（異星人）との出会いと、音波によるコミュニケーションの内容を含みます。">
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-number">PHASE 05</div>
+        <div class="phase-title-group">
+          <div class="phase-title">ロッキーとの会話 — 音波と周波数</div>
+          <div class="phase-topic">波 / 周波数 / 音の情報伝達</div>
+        </div>
+      </div>
+      <div class="spoiler-warn">⚠ SPOILER: 後半の重要展開を含む</div>
+      <div class="level-badge level-middle">▶ 中2〜3レベル</div>
+      <div class="story-block">
+        <div class="block-label">📖 ストーリー</div>
+        グレースは異星人・ロッキーと出会う。共通言語はなく、まず音の周波数パターンをやり取りすることでコミュニケーションを築いていく。数学と音が、言語の代わりになる。
+      </div>
+      <div class="science-block">
+        <div class="block-label">🔬 科学解説：音は波、情報は周波数に乗る</div>
+        <div class="science-content">
+          <p>音は空気（や固体・液体）の<span class="hl-blue">振動が伝わっていく波</span>だ。1秒間に何回振動するかを「周波数」（ヘルツ、Hz）という。人間が聞こえる範囲は約20Hz〜20,000Hz。</p><br>
+          <p>周波数が異なれば「音の高さ」が変わる。ドの音が262Hz、1オクターブ上のドが524Hz（2倍）。これは世界共通の数学的関係だ。<span class="hl-green">異星文明でも物理法則は同じなので、周波数の「比」は共通言語になりうる</span>。</p>
+        </div>
+      </div>
+      <div class="formula-box" data-label="FORMULA">
+        <span class="formula">v = f × λ</span>
+        <div class="formula-note">
+          <span>v</span>：音速（空気中で約340 m/s）<br>
+          <span>f</span>：周波数（Hz）<br>
+          <span>λ</span>（ラムダ）：波長（m）<br><br>
+          周波数440Hz（ラの音）の波長 → λ = 340 / 440 ≈ 0.77m
+        </div>
+      </div>
+      <div class="experiment-block">
+        <div class="block-label">🧪 試してみよう：音の視覚化</div>
+        <ol class="experiment-steps">
+          <li>スマートフォンの「周波数スペクトル」アプリをインストール（Spectroid など無料）</li>
+          <li>声を出しながらアプリを見て、周波数の分布を確認する</li>
+          <li>音叉や楽器の音と比べてみる</li>
+          <li>ロッキーが「見ている」音の世界を想像する</li>
+        </ol>
+      </div>
+      <div class="links-block">
+        <div class="block-label">🔗 参考リンク</div>
+        <div class="link-grid">
+          <a class="link-item" href="https://www.youtube.com/watch?v=eaKTWFPOBuI" target="_blank" rel="noopener">
+            <span class="link-icon">▶</span>
+            <span class="link-text"><span class="link-title">3Blue1Brown「Fourier Transform」</span><span class="link-desc">英語 / 周波数分析の視覚的解説</span></span>
+          </a>
+          <a class="link-item" href="https://phet.colorado.edu/en/simulations/wave-on-a-string" target="_blank" rel="noopener">
+            <span class="link-icon">🔬</span>
+            <span class="link-text"><span class="link-title">PhET「Wave on a String」</span><span class="link-desc">波のシミュレーター</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </SpoilerGate>
+
+  <div class="section-divider"><span class="divider-label">— SCIENCE LOG —</span></div>
+
+  <!-- PHASE 06 — SPOILER ch25 -->
+  <SpoilerGate id="phase06" minChapter={25} label="第25章以降のネタバレ" hint="終盤の展開と、宇宙旅行の時間的影響に関する考察を含みます。">
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-number">PHASE 06</div>
+        <div class="phase-title-group">
+          <div class="phase-title">宇宙旅行と相対性理論</div>
+          <div class="phase-topic">特殊相対性理論 / 時間の遅れ / 光速と質量</div>
+        </div>
+      </div>
+      <div class="spoiler-warn">⚠ SPOILER: 終盤内容を含む</div>
+      <div class="level-badge level-high">▶ 高校〜大学入門レベル（発展）</div>
+      <div class="story-block">
+        <div class="block-label">📖 ストーリー</div>
+        ヘイルメアリー号は光速の数パーセントという高速で旅をしている。地球で経過した時間と、船内で経過した時間がずれていることが示唆される。
+      </div>
+      <div class="science-block">
+        <div class="block-label">🔬 科学解説：速く動くと時間が遅れる</div>
+        <div class="science-content">
+          <p>1905年、アインシュタインは「光速は誰から見ても同じ」という前提から驚くべき結論を導いた。<span class="hl-blue">速く動く物体は、静止した観測者から見て時間の進みが遅くなる</span>のだ。</p><br>
+          <p>これを「時間の遅れ（時間膨張）」という。例えば光速の99%で動く宇宙船では、船内の1年が地球の7年以上に相当する。<span class="hl-green">宇宙旅行者は若返って帰ってくる</span>ことになる。</p><br>
+          <p>これはSFの「嘘」ではない。GPS衛星は高速で動くため、この補正をしないと位置誤差が1日で数kmに達する。<span class="hl-yellow">スマートフォンのGPSは相対性理論で動いている</span>。</p>
+        </div>
+      </div>
+      <div class="formula-box" data-label="FORMULA">
+        <span class="formula">t' = t / √(1 − v²/c²)</span>
+        <div class="formula-note">
+          <span>t'</span>：動く側が感じる時間<br>
+          <span>t</span>：静止した観測者が感じる時間<br>
+          <span>v</span>：速度<br>
+          <span>c</span>：光速（約3×10⁸ m/s）<br><br>
+          v = 0.99c のとき：t' = t / 7.09（地球の7年 = 船内の1年）
+        </div>
+      </div>
+      <div class="important-note">
+        📌 高校物理では相対性理論は「現代物理」として軽く触れる程度。でも「なぜGPSに補正が必要か」を理解できれば十分。
+      </div>
+      <div class="links-block">
+        <div class="block-label">🔗 参考リンク</div>
+        <div class="link-grid">
+          <a class="link-item" href="https://www.youtube.com/watch?v=ACUuFg9Y9dY" target="_blank" rel="noopener">
+            <span class="link-icon">▶</span>
+            <span class="link-text"><span class="link-title">Kurzgesagt「Special Relativity」</span><span class="link-desc">英語アニメ / 直感的な解説</span></span>
+          </a>
+          <a class="link-item" href="https://www.youtube.com/watch?v=ev9zrt__lec" target="_blank" rel="noopener">
+            <span class="link-icon">▶</span>
+            <span class="link-text"><span class="link-title">ヨビノリ「相対性理論入門」</span><span class="link-desc">YouTube日本語 / 丁寧な数式解説</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </SpoilerGate>
+
+  <div class="section-divider"><span class="divider-label">— APPENDIX —</span></div>
+
+  <!-- Roadmap -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">MAP</div>
+      <div class="phase-title-group">
+        <div class="phase-title">学習ロードマップ</div>
+        <div class="phase-topic">今いる場所から、どこへ向かえるか</div>
+      </div>
+    </div>
+    <div class="science-block">
+      <div class="block-label">📚 中2〜中3でおさえたいこと</div>
+      <div class="science-content">
+        <p style="margin-bottom: 12px;"><span class="hl-blue">力と運動</span>：慣性の法則、作用反作用、運動方程式の入口</p>
+        <p style="margin-bottom: 12px;"><span class="hl-blue">波・音</span>：振動数、波長、音速、反射・屈折</p>
+        <p style="margin-bottom: 12px;"><span class="hl-blue">エネルギー</span>：位置エネルギー・運動エネルギー、保存の法則</p>
+        <p><span class="hl-blue">天体・宇宙</span>：太陽系のスケール感、光年の概念</p>
+      </div>
+    </div>
+    <div class="science-block" style="margin-top:16px;">
+      <div class="block-label">📚 高校物理へのつながり</div>
+      <div class="science-content">
+        <p style="margin-bottom: 12px;"><span class="hl-green">物理基礎</span>：単振動（振り子の理論）、万有引力の法則（定量的）、エネルギー保存の法則</p>
+        <p style="margin-bottom: 12px;"><span class="hl-green">物理</span>：波動（干渉・回折）、円運動（遠心力の正確な理解）</p>
+        <p><span class="hl-green">発展</span>：特殊相対性理論、量子力学の入口（光子・光電効果）</p>
+      </div>
+    </div>
+    <div class="science-block" style="margin-top:16px;">
+      <div class="block-label">📖 おすすめ書籍</div>
+      <div class="science-content">
+        <p style="margin-bottom: 10px;"><span class="hl-yellow">『宇宙は何でできているのか』村山斉</span> — 素粒子から宇宙まで、日本語で一番読みやすい現代物理入門</p>
+        <p style="margin-bottom: 10px;"><span class="hl-yellow">『ご冗談でしょう、ファインマンさん』R.P.ファインマン</span> — ノーベル賞物理学者の自伝。科学とは何かを学ぶ最高の読み物</p>
+        <p><span class="hl-yellow">『物理のための数学』和達三樹</span> — 高校数学から物理数学への橋渡し</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-note">
+      このガイドに記載した動画・サイトのリンクは参考として掲載しています。<br>
+      URLが変わっている場合はサイト名で検索してください。<br><br>
+      科学の面白さは「なぜ？」という問いから始まる。<br>
+      この本は、その問いを一番うまく引き出してくれる入り口のひとつだ。
+    </div>
+  </footer>
+
+</div>
+</BaseLayout>
+
+<style>
+  :root {
+    --accent:        #4a9eff;
+    --accent-glow:   rgba(74, 158, 255, 0.3);
+    --accent-bg:     rgba(74, 158, 255, 0.08);
+    --accent-border: rgba(74, 158, 255, 0.2);
+    --star-tint-a:   rgba(74, 158, 255, 0.4);
+    --star-tint-b:   rgba(0, 212, 170, 0.3);
+  }
+</style>

@@ -1,0 +1,368 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="プロジェクトへイルメアリー 科学入門ガイド" currentPath="/">
+
+<div class="container">
+
+  <header>
+    <div class="header-eyebrow">SCIENCE GUIDE</div>
+    <h1>プロジェクト・ヘイルメアリー<br>科学入門ガイド</h1>
+    <p class="header-sub">中学2年生のための SF 科学読書補助資料</p>
+  </header>
+
+  <!-- Chapter progress selector -->
+  <section class="chapter-selector">
+    <div class="cs-label">
+      <span class="cs-label-main">何章まで読みましたか？</span>
+      <span class="cs-label-sub">設定した章より後の内容はロックされます</span>
+    </div>
+
+    <div class="cs-presets">
+      <button class="cs-preset" data-chapter="0">まだ読んでいない</button>
+      <button class="cs-preset" data-chapter="8">第8章まで</button>
+      <button class="cs-preset" data-chapter="9">第9章まで<span class="cs-preset-note">ロッキー登場</span></button>
+      <button class="cs-preset" data-chapter="28">全部読んだ</button>
+    </div>
+
+    <div class="cs-custom">
+      <label class="cs-custom-label">または章番号を直接入力</label>
+      <div class="cs-input-row">
+        <input
+          type="range"
+          id="chapter-range"
+          min="0"
+          max="28"
+          value="0"
+          class="cs-range"
+        />
+        <div class="cs-number-wrap">
+          <input
+            type="number"
+            id="chapter-number"
+            min="0"
+            max="28"
+            value="0"
+            class="cs-number"
+          />
+          <span class="cs-number-unit">/ 28章</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cs-status" id="cs-status">
+      <span class="cs-status-icon">📖</span>
+      <span class="cs-status-text" id="cs-status-text">まだ読んでいません（ネタバレなし）</span>
+    </div>
+  </section>
+
+  <div class="section-divider"><span class="divider-label">— SUBJECTS —</span></div>
+
+  <!-- Subject navigation cards -->
+  <div class="subject-grid">
+    <a href="/physics" class="subject-card" style="--card-accent: #4a9eff;">
+      <div class="subject-card-badge">PHYSICS</div>
+      <div class="subject-card-title">物理学編</div>
+      <div class="subject-card-desc">重力・運動・エネルギー・相対性理論</div>
+      <div class="subject-card-count">6 セクション</div>
+    </a>
+    <a href="/chemistry" class="subject-card" style="--card-accent: #a78bfa;">
+      <div class="subject-card-badge">CHEMISTRY</div>
+      <div class="subject-card-title">化学編</div>
+      <div class="subject-card-desc">元素・反応・光化学・気体の科学</div>
+      <div class="subject-card-count">3 セクション</div>
+    </a>
+    <a href="/biology" class="subject-card" style="--card-accent: #34d399;">
+      <div class="subject-card-badge">BIOLOGY</div>
+      <div class="subject-card-title">生物編</div>
+      <div class="subject-card-desc">細胞・光合成・昏睡・収束進化</div>
+      <div class="subject-card-count">3 セクション</div>
+    </a>
+    <a href="/math" class="subject-card" style="--card-accent: #f59e0b;">
+      <div class="subject-card-badge">MATHEMATICS</div>
+      <div class="subject-card-title">数学編</div>
+      <div class="subject-card-desc">素数・対数・軌道計算</div>
+      <div class="subject-card-count">3 セクション</div>
+    </a>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— OR —</span></div>
+
+  <div style="text-align: center; margin-bottom: 80px;">
+    <a href="/story" class="btn" style="font-size: 12px; padding: 12px 28px;">
+      ストーリー順に読む →
+    </a>
+    <p style="font-size: 12px; color: var(--dim-star); margin-top: 12px; line-height: 1.8;">
+      物語の流れに沿って、登場する順番に科学を学べます。<br>
+      読了章に応じてネタバレ部分が自動的にロックされます。
+    </p>
+  </div>
+
+</div>
+</BaseLayout>
+
+<style>
+  :root {
+    --accent: #00d4aa;
+    --accent-glow: rgba(0, 212, 170, 0.3);
+    --accent-bg: rgba(0, 212, 170, 0.08);
+    --accent-border: rgba(0, 212, 170, 0.2);
+    --star-tint-a: rgba(74, 158, 255, 0.4);
+    --star-tint-b: rgba(0, 212, 170, 0.3);
+  }
+
+  /* Chapter selector */
+  .chapter-selector {
+    background: rgba(14, 22, 48, 0.6);
+    border: 1px solid rgba(0, 212, 170, 0.2);
+    padding: 32px 36px;
+    margin-bottom: 40px;
+  }
+
+  .cs-label {
+    margin-bottom: 20px;
+  }
+  .cs-label-main {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white-star);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .cs-label-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--dim-star);
+  }
+
+  .cs-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .cs-preset {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 8px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--dim-star);
+    cursor: pointer;
+    transition: border-color var(--transition-base), background var(--transition-base), color var(--transition-base), transform var(--transition-base);
+  }
+  .cs-preset:hover {
+    border-color: rgba(0, 212, 170, 0.4);
+    background: rgba(0, 212, 170, 0.08);
+    color: var(--white-star);
+    transform: translateY(-1px);
+  }
+  .cs-preset:active { transform: translateY(0) scale(0.97); }
+  .cs-preset.is-active {
+    border-color: var(--aurora);
+    background: rgba(0, 212, 170, 0.12);
+    color: var(--aurora);
+  }
+  .cs-preset-note {
+    font-size: 9px;
+    letter-spacing: 0.05em;
+    color: var(--red-dwarf);
+    opacity: 0.8;
+  }
+
+  .cs-custom { margin-bottom: 20px; }
+  .cs-custom-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--dim-star);
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .cs-input-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .cs-range {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 3px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+  .cs-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--aurora);
+    border: 2px solid var(--void);
+    box-shadow: 0 0 8px rgba(0, 212, 170, 0.5);
+    cursor: pointer;
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+  }
+  .cs-range::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 16px rgba(0, 212, 170, 0.7);
+    transform: scale(1.2);
+  }
+  .cs-range::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--aurora);
+    border: 2px solid var(--void);
+    cursor: pointer;
+  }
+
+  .cs-number-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .cs-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 20px;
+    color: var(--white-star);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 4px 8px;
+    width: 64px;
+    text-align: center;
+    outline: none;
+    transition: border-color var(--transition-base);
+  }
+  .cs-number:focus { border-color: var(--aurora); }
+  .cs-number-unit {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--dim-star);
+    letter-spacing: 0.1em;
+  }
+
+  .cs-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--aurora);
+    transition: all var(--transition-base);
+  }
+  .cs-status-icon { font-size: 16px; }
+</style>
+
+<script>
+  const STORAGE_KEY = 'hailmary-chapter';
+
+  function getChapter(): number {
+    const raw = Number.parseInt(localStorage.getItem(STORAGE_KEY) ?? '0', 10);
+    return Number.isFinite(raw) ? Math.max(0, Math.min(28, raw)) : 0;
+  }
+
+  function setChapter(v: number) {
+    const clamped = Math.max(0, Math.min(28, v));
+    localStorage.setItem(STORAGE_KEY, String(clamped));
+    updateUI(clamped);
+    document.dispatchEvent(new CustomEvent('chapterChanged', { detail: clamped }));
+  }
+
+  function updateUI(chapter: number) {
+    const range = document.getElementById('chapter-range') as HTMLInputElement | null;
+    const num   = document.getElementById('chapter-number') as HTMLInputElement | null;
+    const text  = document.getElementById('cs-status-text');
+    if (range) range.value = String(chapter);
+    if (num)   num.value   = String(chapter);
+
+    if (text) {
+      if (chapter === 0) {
+        text.textContent = 'まだ読んでいません（ネタバレなし）';
+      } else if (chapter >= 28) {
+        text.textContent = '全部読了（すべてのネタバレ解除）';
+      } else if (chapter >= 25) {
+        text.textContent = `第${chapter}章まで読了（終盤・ロッキー関連すべて解除）`;
+      } else if (chapter >= 9) {
+        text.textContent = `第${chapter}章まで読了（ロッキー登場以降の内容解除）`;
+      } else {
+        text.textContent = `第${chapter}章まで読了（ロッキー登場前まで）`;
+      }
+    }
+
+    // Update preset button states
+    document.querySelectorAll<HTMLElement>('.cs-preset').forEach((btn) => {
+      const val = parseInt(btn.dataset.chapter ?? '0', 10);
+      btn.classList.toggle('is-active', val === chapter);
+    });
+
+    // Update nav chapter status
+    const nav = document.getElementById('nav-chapter-status');
+    if (nav) {
+      nav.innerHTML = chapter === 0
+        ? '未読'
+        : chapter >= 28
+          ? '読了'
+          : `第<span>${chapter}</span>章まで`;
+    }
+  }
+
+  function applyInlineSpoilers(e: Event) {
+    const chapter = (e as CustomEvent<number>).detail;
+    document.querySelectorAll<HTMLElement>('.spoiler-gate').forEach((gate) => {
+      const min = Number.parseInt(gate.dataset.minChapter ?? '999', 10);
+      gate.classList.toggle('is-unlocked', chapter >= min);
+    });
+    document.querySelectorAll<HTMLElement>('.timeline-item[data-min-chapter]').forEach((item) => {
+      const min = Number.parseInt(item.dataset.minChapter ?? '999', 10);
+      item.classList.toggle('is-locked', chapter < min);
+    });
+  }
+
+  function initChapterSelector() {
+    const root = document.querySelector<HTMLElement>('.chapter-selector');
+    if (!root) return;
+
+    updateUI(getChapter());
+
+    if (root.dataset.bound === 'true') return;
+    root.dataset.bound = 'true';
+
+    document.addEventListener('chapterChanged', applyInlineSpoilers);
+
+    document.querySelectorAll<HTMLButtonElement>('.cs-preset').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        setChapter(Number.parseInt(btn.dataset.chapter ?? '0', 10));
+      });
+    });
+
+    const rangeEl = document.getElementById('chapter-range') as HTMLInputElement | null;
+    rangeEl?.addEventListener('input', () => setChapter(Number.parseInt(rangeEl.value, 10)));
+
+    const numEl = document.getElementById('chapter-number') as HTMLInputElement | null;
+    numEl?.addEventListener('change', () => setChapter(Number.parseInt(numEl.value || '0', 10)));
+    numEl?.addEventListener('input', () => {
+      const value = Number.parseInt(numEl.value || '0', 10);
+      if (Number.isFinite(value)) setChapter(value);
+    });
+  }
+
+  initChapterSelector();
+  document.addEventListener('astro:page-load', initChapterSelector);
+</script>

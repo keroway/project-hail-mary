@@ -6,53 +6,78 @@
 中学2年生の長男が映画鑑賞前に科学的記述を理解するための補助資料。
 
 - **ホスティング**: Cloudflare Pages（静的サイト）
-- **配信ディレクトリ**: `public/`
-- **本番ブランチ**: `main`（プッシュで自動デプロイ）
+- **フレームワーク**: Astro 5（静的出力）
+- **ビルド出力**: `dist/`
+- **本番URL**: https://hailmary.keroway.com
+- **本番ブランチ**: `main`（プッシュ → GitHub Actions → Cloudflare Pages 自動デプロイ）
+- **デプロイ方式**: GitHub Actions（`.github/workflows/deploy.yml`）で `wrangler pages deploy` を実行
 
 ## リポジトリ構成
 
 ```
+src/
+├── layouts/
+│   └── BaseLayout.astro      # 共通レイアウト（ナビ・ViewTransitions・ネタバレスクリプト）
+├── components/
+│   └── SpoilerGate.astro     # ネタバレロックコンポーネント
+├── styles/
+│   └── global.css            # 共通CSS（変数・コンポーネントスタイル）
+└── pages/
+    ├── index.astro            # トップ（読了章設定UI）
+    ├── story.astro            # ストーリー順インデックス
+    ├── physics.astro          # 物理編
+    ├── chemistry.astro        # 化学編
+    ├── biology.astro          # 生物編
+    └── math.astro             # 数学編
 public/
-├── index.html     # 学習ガイド本体（編集メインのファイル）
-└── _headers       # Cloudflare Pages セキュリティヘッダー（通常は変更不要）
-docs/
-└── cloudflare-pages-setup.md  # Cloudflare 初回設定手順
+└── _headers                   # Cloudflare セキュリティヘッダー（変更不要）
+.github/workflows/
+└── deploy.yml                 # main push → Cloudflare Pages デプロイ
 ```
 
 ## よくある作業
 
-### 学習ガイドの内容を更新する
+### コンテンツを更新する
 
-`public/index.html` を編集して `main` にプッシュするだけでデプロイされる。
+各 `src/pages/*.astro` を編集してプッシュ。Cloudflare Pages が自動ビルド・デプロイする。
 
 ```bash
-git add public/index.html
+git add src/pages/physics.astro
 git commit -m "Update: <変更内容>"
 git push origin main
 ```
 
-### 新しいページを追加する
+### ローカルで確認する
 
-`public/` 以下に HTML ファイルを追加する。例: `public/chapter2.html`
+```bash
+npm run dev      # 開発サーバー起動（http://localhost:4321）
+npm run build    # 本番ビルド（dist/ に出力）
+npm run preview  # ビルド結果をプレビュー
+```
 
-### Cloudflare Pages の設定変更
+### ネタバレ閾値を変更する
 
-`docs/cloudflare-pages-setup.md` を参照。
+各ページの `<SpoilerGate>` の `minChapter` プロップを変更する。
+
+- `minChapter={9}` → 第9章以降に解放（ロッキー登場）
+- `minChapter={25}` → 第25章以降に解放（終盤）
 
 ## コンテンツ方針
 
 - 読者は中学2年生（科学に興味あり、基礎的な中学理科レベル）
 - 小説の科学記述を補助する内容（過度な専門用語は避ける）
 - 映画では省略されている小説固有の科学的考察を重視する
-- HTML/CSS のみのシンプルな構成を維持する（フレームワーク不使用）
 
-## Cloudflare Pages デプロイ状況
+## デザイン方針
 
-初回セットアップが必要な場合は `docs/cloudflare-pages-setup.md` を参照。
-セットアップ済みの場合、`main` へのプッシュで自動デプロイされる。
+- 宇宙・深夜をイメージした暗色テーマ（変更しない）
+- 各教科にアクセントカラーあり（物理=青、化学=紫、生物=緑、数学=アンバー）
+- Astro ClientRouter でページ遷移アニメーション
+- ボタン・カードのホバー/アクティブアニメーションは `global.css` で管理
 
 ## 注意事項
 
-- `public/_headers` は Cloudflare Pages の設定ファイル。通常は変更不要。
+- `public/_headers` は Cloudflare Pages のセキュリティヘッダー設定。変更不要。
 - `main` ブランチへの直接プッシュ可（小規模プロジェクトのため）。
-- 大きな変更はフィーチャーブランチ → PR → マージの手順を推奨。
+- GitHub Secrets に `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID` が必要（設定済み）。
+- 依存更新は Renovate が公開後5日経過したバージョンのみ PR を作成する。

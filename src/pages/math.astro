@@ -1,0 +1,307 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SpoilerGate from '../components/SpoilerGate.astro';
+---
+<BaseLayout title="数学編 — ヘイルメアリー サイエンスガイド" currentPath="/math">
+
+<div class="container">
+
+  <header>
+    <div class="subject-badge">MATHEMATICS</div>
+    <h1>プロジェクト・ヘイルメアリー<br>サイエンスガイド — 数学編</h1>
+    <p class="header-sub">素数・対数・軌道計算——宇宙の言語としての数学</p>
+    <div class="header-meta">
+      <span class="meta-tag">TARGET: 中学2年〜高校生</span>
+      <span class="meta-tag">SUBJECT: 数学</span>
+      <span class="meta-tag">⚠ ネタバレあり</span>
+    </div>
+  </header>
+
+  <div class="intro">
+    <p>数学はこの物語のなかで「<strong>宇宙共通の言語</strong>」として機能する。グレースとロッキーが最初に交わすのは言葉ではなく、数の列だ。軌道計算も、エネルギー密度の比較も、すべて数学なしには成り立たない。「なぜ数学は宇宙で通じるのか」という問いそのものが、深い哲学的問いを含んでいる。</p>
+  </div>
+
+  <!-- MATH 02 先に表示（ネタバレなし） -->
+  <div class="phase" id="math02">
+    <div class="phase-header">
+      <div class="phase-number">MATH 02</div>
+      <div class="phase-title-group">
+        <div class="phase-title">対数スケール——宇宙的な数を扱う道具</div>
+        <div class="phase-topic">対数 / 指数関数 / 天文学的スケール</div>
+      </div>
+    </div>
+    <div class="level-badge level-both">▶ 中3〜高1レベル</div>
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      グレースは太陽とタウ・セチのエネルギー収支、アストロファージの密度、船のエネルギー量など、桁違いに異なる数値を扱い続ける。こうした「宇宙的な数」を比較・計算するには、通常の算術では限界がある。
+    </div>
+    <div class="science-block">
+      <div class="block-label">🔬 数学解説：対数——「桁」を数える道具</div>
+      <div class="science-content">
+        <p>太陽の質量は約2×10³⁰ kg、電子の質量は約9×10⁻³¹ kg。この2つを同じ数直線上で比較しようとすると途方もない。そこで<span class="hl-amber">対数（logarithm）</span>を使う。</p><br>
+        <p>log₁₀(x) は「10を何乗したらxになるか」を返す。</p>
+        <ul style="margin:10px 0 10px 20px; font-size:13px; color:rgba(232,244,253,0.75); line-height:2.2;">
+          <li>log₁₀(100) = 2 → 10² = 100</li>
+          <li>log₁₀(1,000,000) = 6 → 10⁶ = 1,000,000</li>
+          <li>log₁₀(0.001) = -3 → 10⁻³ = 0.001</li>
+        </ul>
+        <p>対数を使うと、<span class="hl-amber">何十桁もの差がある数を「数桁の差」として扱える</span>。天文学・地震学（マグニチュード）・音響学（デシベル）・化学（pH）はすべて対数スケールだ。</p>
+      </div>
+    </div>
+    <div class="formula-box" data-label="MATH">
+      <span class="formula">y = log_a(x)  ⟺  a^y = x</span>
+      <div class="formula-note">
+        <span>a</span>：底（base）。常用対数は a=10、自然対数は a=e≈2.718<br>
+        重要な性質：<br>
+        log(A × B) = log(A) + log(B)　← 掛け算が足し算になる<br>
+        log(Aⁿ) = n × log(A)　← べき乗が掛け算になる
+      </div>
+    </div>
+    <div class="person-block">
+      <div class="person-icon">📊</div>
+      <div class="person-info">
+        <div class="person-name">ジョン・ネイピア（1550〜1617）</div>
+        <p>対数を発明（1614年）。天文学者が何時間もかけていた複雑な掛け算を、対数表を使えば足し算で解けることを示した。ケプラーやガリレオも対数表を愛用した。計算機が発明される300年前の「計算革命」だ。</p>
+      </div>
+    </div>
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=zzu2POfYv0Y" target="_blank" rel="noopener">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">3Blue1Brown「Logarithms」</span><span class="link-desc">英語 / 対数の直感的理解</span></span>
+        </a>
+        <a class="link-item" href="https://htwins.net/scale2/" target="_blank" rel="noopener">
+          <span class="link-icon">🔬</span>
+          <span class="link-text"><span class="link-title">Scale of Universe（interactive）</span><span class="link-desc">ブラウザ / 対数スケールで宇宙を体感</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— MATH LOG —</span></div>
+
+  <!-- MATH 03 -->
+  <div class="phase" id="math03">
+    <div class="phase-header">
+      <div class="phase-number">MATH 03</div>
+      <div class="phase-title-group">
+        <div class="phase-title">軌道計算とホーマン遷移</div>
+        <div class="phase-topic">微積分 / ケプラーの法則 / 最適経路問題</div>
+      </div>
+    </div>
+    <div class="level-badge level-high">▶ 高校〜大学入門レベル（発展）</div>
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      タウ・セチ星系に到着したグレースは、惑星間を移動するために軌道力学を計算する必要がある。燃料を最小限に抑えながら目的地に到達する「最適軌道」は、ニュートン力学と微積分の結晶だ。
+    </div>
+    <div class="science-block">
+      <div class="block-label">🔬 数学解説：ケプラーの法則と軌道の幾何学</div>
+      <div class="science-content">
+        <p>惑星の軌道は円ではなく<span class="hl-amber">楕円</span>だ（ケプラーの第1法則）。太陽（または恒星）はその楕円の焦点のひとつにある。</p><br>
+        <p>宇宙船が最も燃料効率よく軌道を移動する方法を<span class="hl-amber">ホーマン遷移軌道</span>という。2回だけエンジンを噴射して、小さな軌道から大きな軌道に移る方法だ。</p>
+      </div>
+    </div>
+    <div class="formula-box" data-label="MATH">
+      <span class="formula">T² = (4π² / GM) × a³</span>
+      <div class="formula-note">
+        ケプラーの第3法則（調和の法則）<br>
+        <span>T</span>：公転周期<br>
+        <span>a</span>：軌道の長半径（楕円の長い方の半径）<br>
+        T² ∝ a³（周期の2乗は長半径の3乗に比例）<br><br>
+        例：地球（a=1AU, T=1年）→ 火星（a=1.52AU）の T を計算してみよう
+      </div>
+    </div>
+    <div class="person-block">
+      <div class="person-icon">🪐</div>
+      <div class="person-info">
+        <div class="person-name">ヨハネス・ケプラー（1571〜1630）</div>
+        <p>ティコ・ブラーエの膨大な観測データを20年かけて分析し、惑星運動の3法則を発見。ニュートンはこれを万有引力で理論的に説明した。</p>
+      </div>
+    </div>
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://phet.colorado.edu/en/simulations/my-solar-system" target="_blank" rel="noopener">
+          <span class="link-icon">🔬</span>
+          <span class="link-text"><span class="link-title">PhET「My Solar System」</span><span class="link-desc">ブラウザ / 軌道シミュレーター</span></span>
+        </a>
+        <a class="link-item" href="https://www.youtube.com/watch?v=9vKqVkMQHKk" target="_blank" rel="noopener">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">3Blue1Brown「Essence of Calculus」</span><span class="link-desc">英語 / 微積分の本質を映像で</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— MATH LOG —</span></div>
+
+  <!-- MATH 01 — SPOILER ch9 -->
+  <SpoilerGate id="math01" minChapter={9} label="第9章以降のネタバレ" hint="グレースとロッキーが素数を使って初めて通じ合う場面の内容を含みます。">
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-number">MATH 01</div>
+        <div class="phase-title-group">
+          <div class="phase-title">素数——最初の共通言語</div>
+          <div class="phase-topic">素数 / 整数論 / 数学の普遍性</div>
+        </div>
+      </div>
+      <div class="level-badge level-middle">▶ 中1〜中2レベルから／深みは無限</div>
+      <div class="story-block">
+        <div class="block-label">📖 ストーリー</div>
+        グレースとロッキーが初めてコミュニケーションを試みるとき、グレースは素数の列を送る。2, 3, 5, 7, 11, 13……ロッキーがその続き（17, 19）を返したとき、「知性との接触」が確認される。共通の文化もなく、共通の言語もない相手と、数だけで通じ合う場面だ。
+      </div>
+      <div class="science-block">
+        <div class="block-label">🔬 数学解説：素数とは何か、なぜ宇宙共通なのか</div>
+        <div class="science-content">
+          <p><span class="hl-amber">素数</span>とは「1とその数自身以外に約数を持たない2以上の整数」だ。2, 3, 5, 7, 11, 13, 17, 19, 23……と無限に続く。</p><br>
+          <p>素数が「宇宙共通言語」として使える理由：</p>
+          <ul style="margin:10px 0 10px 20px; font-size:13px; color:rgba(232,244,253,0.75); line-height:2.2;">
+            <li>素数の概念は文化・言語・物理環境に依存しない</li>
+            <li>「規則性があるが単純な繰り返しではない」パターンは、知性によって識別される</li>
+            <li>SETI（地球外知性探査）でも素数列の送信が真剣に議論されている</li>
+          </ul>
+          <div class="prime-grid">
+            <div class="prime-num composite">1</div>
+            <div class="prime-num">2</div>
+            <div class="prime-num">3</div>
+            <div class="prime-num composite">4</div>
+            <div class="prime-num">5</div>
+            <div class="prime-num composite">6</div>
+            <div class="prime-num">7</div>
+            <div class="prime-num composite">8</div>
+            <div class="prime-num composite">9</div>
+            <div class="prime-num composite">10</div>
+            <div class="prime-num">11</div>
+            <div class="prime-num composite">12</div>
+            <div class="prime-num">13</div>
+            <div class="prime-num composite">14</div>
+            <div class="prime-num composite">15</div>
+            <div class="prime-num composite">16</div>
+            <div class="prime-num">17</div>
+            <div class="prime-num composite">18</div>
+            <div class="prime-num">19</div>
+            <div class="prime-num composite">20</div>
+            <div class="prime-num composite">21</div>
+            <div class="prime-num composite">22</div>
+            <div class="prime-num">23</div>
+          </div>
+          <p style="font-size:12px; color:var(--dim-star); margin-top:4px;">↑ 素数（枠付き）と合成数（打ち消し線）。2だけが偶数の素数。</p>
+        </div>
+      </div>
+      <div class="formula-box" data-label="MATH">
+        <span class="formula">素数の個数は無限に存在する</span>
+        <div class="formula-note">
+          ユークリッドによる証明（背理法、紀元前300年頃）：<br><br>
+          「素数が有限個（p₁, p₂, ..., pₙ）しかないと仮定する。<br>
+          N = (p₁ × p₂ × ... × pₙ) + 1 を考えると、<br>
+          Nはどの素数でも割り切れない（余りが1になる）。<br>
+          よってNは新たな素数か、リストにない素数で割れる → 矛盾」<br><br>
+          この証明は2300年前に完成しており、今も有効。
+        </div>
+      </div>
+      <div class="question-box">
+        <div class="q-label">💭 考えてみよう</div>
+        <div class="q-text">「双子素数」とは差が2の素数のペア（3と5、11と13、17と19……）だ。双子素数は無限に存在するか？これは現代数学の未解決問題のひとつ。</div>
+      </div>
+      <div class="links-block">
+        <div class="block-label">🔗 参考リンク</div>
+        <div class="link-grid">
+          <a class="link-item" href="https://www.youtube.com/watch?v=mBjBpI7UONA" target="_blank" rel="noopener">
+            <span class="link-icon">▶</span>
+            <span class="link-text"><span class="link-title">3Blue1Brown「Prime Numbers」</span><span class="link-desc">英語 / 素数の美しさを視覚化</span></span>
+          </a>
+          <a class="link-item" href="https://www.youtube.com/watch?v=IQofiPqhJ_s" target="_blank" rel="noopener">
+            <span class="link-icon">▶</span>
+            <span class="link-text"><span class="link-title">ヨビノリ「素数と整数論」</span><span class="link-desc">YouTube日本語 / 中高生向け</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </SpoilerGate>
+
+  <div class="section-divider"><span class="divider-label">— APPENDIX —</span></div>
+
+  <!-- Roadmap -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">MAP</div>
+      <div class="phase-title-group">
+        <div class="phase-title">数学の学習ロードマップ</div>
+        <div class="phase-topic">この作品から広がる学びの道</div>
+      </div>
+    </div>
+    <div class="science-block">
+      <div class="block-label">📚 中2〜中3でおさえたいこと</div>
+      <div class="science-content">
+        <p style="margin-bottom:10px;"><span class="hl-amber">整数・素数</span>：素因数分解、ユークリッドの互除法</p>
+        <p style="margin-bottom:10px;"><span class="hl-amber">比例・関数</span>：一次関数、比例と反比例</p>
+        <p><span class="hl-amber">図形と証明</span>：平行線の性質、三平方の定理</p>
+      </div>
+    </div>
+    <div class="science-block" style="margin-top:16px;">
+      <div class="block-label">📚 高校数学へのつながり</div>
+      <div class="science-content">
+        <p style="margin-bottom:10px;"><span class="hl-green">数学I・II</span>：指数関数・対数関数（log）、三角関数</p>
+        <p style="margin-bottom:10px;"><span class="hl-green">数学II・III</span>：微積分（軌道計算の基礎）、数列・極限</p>
+        <p><span class="hl-green">発展</span>：線形代数（ベクトルと行列）、確率・統計</p>
+      </div>
+    </div>
+    <div class="science-block" style="margin-top:16px;">
+      <div class="block-label">📖 おすすめ書籍</div>
+      <div class="science-content">
+        <p style="margin-bottom:10px;"><span class="hl-yellow">『数学ガール』結城浩</span> — 物語形式で数学の深みを体験できる</p>
+        <p><span class="hl-yellow">『素数の音楽』マーカス・デュ・ソートイ</span> — リーマン予想と素数の謎を探る</p>
+      </div>
+    </div>
+    <div class="important-note">
+      📌 「数学は宇宙共通の言語か？」という問いは、哲学（数学的実在論）にもつながる。マックス・テグマークの「数学的宇宙仮説」は、この問いに対する現代物理学者の一つの答えだ。
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-note">
+      グレースとロッキーが素数で最初に通じ合ったように、<br>
+      数学は「なぜかわからないが、確かに通じる」言語だ。<br>
+      それ自体がもっとも深い謎のひとつかもしれない。
+    </div>
+  </footer>
+
+</div>
+</BaseLayout>
+
+<style>
+  :root {
+    --accent:        #f59e0b;
+    --accent-glow:   rgba(245, 158, 11, 0.25);
+    --accent-bg:     rgba(245, 158, 11, 0.08);
+    --accent-border: rgba(245, 158, 11, 0.2);
+    --star-tint-a:   rgba(245, 158, 11, 0.4);
+    --star-tint-b:   rgba(251, 191, 36, 0.25);
+  }
+
+  .prime-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+  }
+  .prime-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--accent-border);
+    color: var(--accent);
+    background: var(--accent-bg);
+  }
+  .prime-num.composite {
+    color: var(--dim-star);
+    border-color: rgba(138, 168, 196, 0.15);
+    background: transparent;
+    text-decoration: line-through;
+  }
+</style>

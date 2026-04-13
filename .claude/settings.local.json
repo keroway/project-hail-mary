@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(curl -s http://localhost:4321/)",
+      "Bash(curl -s http://localhost:4321/physics/)",
+      "Bash(curl -s http://localhost:4321/story/)",
+      "Bash(bun --version)",
+      "Bash(pnpm --version)"
+    ]
+  },
+  "remote": {
+    "defaultEnvironmentId": "env_011CUKpb6tQRJPsXSwKk4b5E"
+  }
+}
