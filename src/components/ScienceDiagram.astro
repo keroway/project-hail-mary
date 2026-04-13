@@ -1,0 +1,406 @@
+---
+interface Props {
+  kind:
+    | 'orbit'
+    | 'pendulum'
+    | 'centrifuge'
+    | 'photosynthesis'
+    | 'spectrum'
+    | 'hohmann'
+    | 'relativity';
+  title: string;
+  caption?: string;
+}
+
+const { kind, title, caption } = Astro.props;
+---
+
+<figure class="science-diagram">
+  <figcaption class="science-diagram-head">
+    <span class="science-diagram-kicker">DIAGRAM</span>
+    <span class="science-diagram-title">{title}</span>
+  </figcaption>
+
+  {kind === 'orbit' && (
+    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title}>
+      <title>{title}</title>
+      <defs>
+        <radialGradient id="earthGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="rgba(74, 158, 255, 0.35)" />
+          <stop offset="100%" stop-color="rgba(74, 158, 255, 0)" />
+        </radialGradient>
+      </defs>
+      <rect x="0" y="0" width="680" height="240" class="diagram-bg" />
+      <circle cx="175" cy="120" r="62" fill="url(#earthGlow)" />
+      <circle cx="175" cy="120" r="46" class="diagram-fill-soft" />
+      <circle cx="175" cy="120" r="46" class="diagram-accent-strong" fill="none" />
+      <circle cx="175" cy="120" r="92" class="diagram-dashed" fill="none" />
+      <circle cx="267" cy="120" r="5" class="diagram-fill-accent" />
+      <line x1="267" y1="120" x2="345" y2="120" class="diagram-accent-line" marker-end="url(#arrowAccent)" />
+      <line x1="267" y1="120" x2="220" y2="120" class="diagram-warm-line" marker-end="url(#arrowWarm)" />
+      <text x="360" y="114" class="diagram-label">進む速さ</text>
+      <text x="215" y="108" class="diagram-label diagram-label-warm">重力</text>
+      <text x="262" y="102" class="diagram-label">ISS</text>
+      <text x="147" y="126" class="diagram-label">地球</text>
+      <text x="418" y="92" class="diagram-caption">
+        前へ進む向き
+      </text>
+      <text x="418" y="117" class="diagram-caption">
+        ＋ 地球へ落ちる向き
+      </text>
+      <text x="418" y="142" class="diagram-caption">
+        ＝ ずっと落ちながら回る
+      </text>
+      <defs>
+        <marker id="arrowAccent" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" class="diagram-fill-accent" />
+        </marker>
+        <marker id="arrowWarm" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" class="diagram-fill-warm" />
+        </marker>
+      </defs>
+    </svg>
+  )}
+
+  {kind === 'pendulum' && (
+    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title}>
+      <title>{title}</title>
+      <rect x="0" y="0" width="680" height="240" class="diagram-bg" />
+      <line x1="120" y1="34" x2="320" y2="34" class="diagram-muted-line" />
+      <circle cx="220" cy="34" r="4" class="diagram-fill-accent" />
+      <path d="M136 178 A110 110 0 0 1 304 178" class="diagram-dashed" fill="none" />
+      <line x1="220" y1="34" x2="158" y2="170" class="diagram-muted-line" />
+      <line x1="220" y1="34" x2="220" y2="186" class="diagram-accent-line" />
+      <line x1="220" y1="34" x2="282" y2="170" class="diagram-muted-line" />
+      <circle cx="158" cy="170" r="11" class="diagram-fill-soft" />
+      <circle cx="220" cy="186" r="11" class="diagram-fill-accent" />
+      <circle cx="282" cy="170" r="11" class="diagram-fill-soft" />
+      <line x1="338" y1="44" x2="338" y2="186" class="diagram-measure-line" marker-start="url(#arrowMeasure)" marker-end="url(#arrowMeasure)" />
+      <line x1="358" y1="74" x2="358" y2="184" class="diagram-warm-line" marker-end="url(#arrowWarmPendulum)" />
+      <text x="350" y="120" class="diagram-label">L</text>
+      <text x="370" y="138" class="diagram-label diagram-label-warm">g</text>
+      <text x="432" y="88" class="diagram-caption">長いほど</text>
+      <text x="432" y="113" class="diagram-caption">ゆっくり揺れる</text>
+      <text x="432" y="153" class="diagram-caption">T = 2π√(L / g)</text>
+      <text x="432" y="178" class="diagram-caption">長さと重力だけで周期が決まる</text>
+      <defs>
+        <marker id="arrowMeasure" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+          <path d="M4,0 L8,8 L0,8 Z" class="diagram-fill-dim" transform="rotate(180 4 4)" />
+        </marker>
+        <marker id="arrowWarmPendulum" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" class="diagram-fill-warm" />
+        </marker>
+      </defs>
+    </svg>
+  )}
+
+  {kind === 'centrifuge' && (
+    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title}>
+      <title>{title}</title>
+      <rect x="0" y="0" width="680" height="240" class="diagram-bg" />
+      <circle cx="205" cy="120" r="88" class="diagram-accent-strong" fill="none" />
+      <circle cx="205" cy="120" r="18" class="diagram-fill-soft" />
+      <circle cx="293" cy="120" r="10" class="diagram-fill-accent" />
+      <line x1="205" y1="120" x2="293" y2="120" class="diagram-muted-line" />
+      <line x1="293" y1="120" x2="247" y2="120" class="diagram-accent-line" marker-end="url(#arrowAccentCentrifuge)" />
+      <path d="M164 54 A86 86 0 0 1 246 52" class="diagram-warm-line" fill="none" marker-end="url(#arrowWarmCentrifuge)" />
+      <text x="254" y="107" class="diagram-label">壁が押す</text>
+      <text x="144" y="54" class="diagram-label diagram-label-warm">回転</text>
+      <text x="428" y="90" class="diagram-caption">回転系の中では</text>
+      <text x="428" y="115" class="diagram-caption">外側が「床」に感じられる</text>
+      <text x="428" y="152" class="diagram-caption">a = ω²r</text>
+      <text x="428" y="177" class="diagram-caption">半径が大きいほど、同じgを穏やかな回転で作れる</text>
+      <defs>
+        <marker id="arrowAccentCentrifuge" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" class="diagram-fill-accent" />
+        </marker>
+        <marker id="arrowWarmCentrifuge" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" class="diagram-fill-warm" />
+        </marker>
+      </defs>
+    </svg>
+  )}
+
+  {kind === 'photosynthesis' && (
+    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title}>
+      <title>{title}</title>
+      <rect x="0" y="0" width="680" height="240" class="diagram-bg" />
+      <circle cx="112" cy="74" r="24" class="diagram-fill-warm-soft" />
+      <g class="diagram-warm-line">
+        <line x1="112" y1="34" x2="112" y2="18" />
+        <line x1="112" y1="114" x2="112" y2="130" />
+        <line x1="72" y1="74" x2="56" y2="74" />
+        <line x1="152" y1="74" x2="168" y2="74" />
+        <line x1="84" y1="46" x2="72" y2="34" />
+        <line x1="140" y1="102" x2="152" y2="114" />
+        <line x1="84" y1="102" x2="72" y2="114" />
+        <line x1="140" y1="46" x2="152" y2="34" />
+      </g>
+      <rect x="206" y="54" width="150" height="52" rx="12" class="diagram-panel" />
+      <rect x="404" y="54" width="164" height="52" rx="12" class="diagram-panel" />
+      <line x1="356" y1="80" x2="404" y2="80" class="diagram-accent-line" marker-end="url(#arrowAccentPhoto)" />
+      <line x1="112" y1="98" x2="206" y2="80" class="diagram-warm-line" marker-end="url(#arrowWarmPhoto)" />
+      <line x1="280" y1="106" x2="280" y2="150" class="diagram-muted-line" marker-end="url(#arrowDimPhoto)" />
+      <line x1="478" y1="106" x2="478" y2="150" class="diagram-accent-line" marker-end="url(#arrowAccentPhoto)" />
+      <text x="78" y="152" class="diagram-label diagram-label-warm">光</text>
+      <text x="228" y="84" class="diagram-label">光反応</text>
+      <text x="214" y="150" class="diagram-caption">H₂O → O₂</text>
+      <text x="430" y="84" class="diagram-label">カルビン回路</text>
+      <text x="438" y="150" class="diagram-caption">CO₂ → 糖</text>
+      <text x="366" y="69" class="diagram-caption">ATP / NADPH</text>
+      <text x="404" y="188" class="diagram-caption">光エネルギーを化学エネルギーへ</text>
+      <defs>
+        <marker id="arrowAccentPhoto" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" class="diagram-fill-accent" />
+        </marker>
+        <marker id="arrowWarmPhoto" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" class="diagram-fill-warm" />
+        </marker>
+        <marker id="arrowDimPhoto" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" class="diagram-fill-dim" />
+        </marker>
+      </defs>
+    </svg>
+  )}
+
+  {kind === 'spectrum' && (
+    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title}>
+      <title>{title}</title>
+      <defs>
+        <linearGradient id="spectrumBar" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#7dd3fc" />
+          <stop offset="18%" stop-color="#60a5fa" />
+          <stop offset="36%" stop-color="#a78bfa" />
+          <stop offset="52%" stop-color="#f472b6" />
+          <stop offset="66%" stop-color="#fb7185" />
+          <stop offset="82%" stop-color="#f59e0b" />
+          <stop offset="100%" stop-color="#fcd34d" />
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="680" height="240" class="diagram-bg" />
+      <rect x="76" y="104" width="528" height="18" rx="9" fill="url(#spectrumBar)" opacity="0.7" />
+      <rect x="440" y="100" width="122" height="26" rx="13" class="diagram-fill-soft" />
+      <line x1="516" y1="72" x2="516" y2="150" class="diagram-accent-line" />
+      <line x1="196" y1="84" x2="196" y2="140" class="diagram-muted-line" />
+      <text x="80" y="88" class="diagram-label">短波長 / 高エネルギー</text>
+      <text x="436" y="88" class="diagram-label">赤外線</text>
+      <text x="468" y="168" class="diagram-caption">Petrova line 25.984 μm</text>
+      <text x="80" y="168" class="diagram-caption">可視光はごく狭い帯</text>
+      <text x="80" y="193" class="diagram-caption">長波長ほど光子1個のエネルギーは小さい</text>
+    </svg>
+  )}
+
+  {kind === 'hohmann' && (
+    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title}>
+      <title>{title}</title>
+      <rect x="0" y="0" width="680" height="240" class="diagram-bg" />
+      <circle cx="224" cy="120" r="16" class="diagram-fill-warm-soft" />
+      <circle cx="224" cy="120" r="64" class="diagram-accent-strong" fill="none" />
+      <circle cx="224" cy="120" r="112" class="diagram-muted-circle" fill="none" />
+      <path d="M288 120 A112 112 0 0 1 224 8" class="diagram-dashed-accent" fill="none" />
+      <circle cx="288" cy="120" r="5" class="diagram-fill-accent" />
+      <circle cx="224" cy="8" r="5" class="diagram-fill-soft" />
+      <line x1="288" y1="120" x2="338" y2="120" class="diagram-accent-line" marker-end="url(#arrowAccentHohmann)" />
+      <line x1="224" y1="8" x2="224" y2="56" class="diagram-accent-line" marker-end="url(#arrowAccentHohmann)" />
+      <text x="308" y="112" class="diagram-label">噴射1</text>
+      <text x="236" y="48" class="diagram-label">噴射2</text>
+      <text x="152" y="122" class="diagram-caption">内側軌道</text>
+      <text x="308" y="70" class="diagram-caption">遷移軌道</text>
+      <text x="86" y="208" class="diagram-caption">2回だけ速度を変えて、円軌道どうしを最小燃料でつなぐ</text>
+      <defs>
+        <marker id="arrowAccentHohmann" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" class="diagram-fill-accent" />
+        </marker>
+      </defs>
+    </svg>
+  )}
+
+  {kind === 'relativity' && (
+    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title}>
+      <title>{title}</title>
+      <rect x="0" y="0" width="680" height="240" class="diagram-bg" />
+      <line x1="96" y1="82" x2="584" y2="82" class="diagram-muted-line" />
+      <line x1="96" y1="158" x2="584" y2="158" class="diagram-accent-line" />
+      <g class="diagram-tick">
+        <line x1="156" y1="72" x2="156" y2="92" />
+        <line x1="236" y1="72" x2="236" y2="92" />
+        <line x1="316" y1="72" x2="316" y2="92" />
+        <line x1="396" y1="72" x2="396" y2="92" />
+        <line x1="476" y1="72" x2="476" y2="92" />
+      </g>
+      <g class="diagram-tick diagram-tick-accent">
+        <line x1="236" y1="148" x2="236" y2="168" />
+      </g>
+      <line x1="96" y1="82" x2="584" y2="82" class="diagram-measure-line" marker-start="url(#arrowMeasureRelativity)" marker-end="url(#arrowMeasureRelativity)" />
+      <line x1="96" y1="158" x2="236" y2="158" class="diagram-accent-line" marker-start="url(#arrowAccentRelativity)" marker-end="url(#arrowAccentRelativity)" />
+      <text x="72" y="86" class="diagram-label">地球</text>
+      <text x="52" y="162" class="diagram-label">船内</text>
+      <text x="594" y="86" class="diagram-caption">約7年</text>
+      <text x="246" y="162" class="diagram-caption">約1年</text>
+      <text x="330" y="150" class="diagram-caption">v が c に近づくほど、船内時間はゆっくり進む</text>
+      <text x="330" y="175" class="diagram-caption">t&apos; = t√(1 - v² / c²)</text>
+      <defs>
+        <marker id="arrowMeasureRelativity" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+          <path d="M4,0 L8,8 L0,8 Z" class="diagram-fill-dim" transform="rotate(180 4 4)" />
+        </marker>
+        <marker id="arrowAccentRelativity" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" class="diagram-fill-accent" />
+        </marker>
+      </defs>
+    </svg>
+  )}
+
+  {caption && <p class="science-diagram-caption">{caption}</p>}
+</figure>
+
+<style>
+  .science-diagram {
+    margin: 18px 0 22px;
+    padding: 18px 20px;
+    border: 1px solid var(--accent-border);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0)),
+      rgba(3, 5, 15, 0.78);
+  }
+
+  .science-diagram-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 14px;
+    align-items: baseline;
+  }
+
+  .science-diagram-kicker {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    color: var(--accent);
+  }
+
+  .science-diagram-title {
+    font-size: 13px;
+    color: rgba(232, 244, 253, 0.88);
+  }
+
+  .science-diagram-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .science-diagram-caption {
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--dim-star);
+    line-height: 1.7;
+  }
+
+  .diagram-bg {
+    fill: rgba(14, 22, 48, 0.72);
+    stroke: rgba(255, 255, 255, 0.04);
+  }
+
+  .diagram-panel {
+    fill: rgba(3, 5, 15, 0.58);
+    stroke: var(--accent);
+    stroke-opacity: 0.28;
+  }
+
+  .diagram-label,
+  .diagram-caption {
+    font-family: 'Space Mono', monospace;
+    fill: rgba(232, 244, 253, 0.82);
+  }
+
+  .diagram-label {
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+
+  .diagram-caption {
+    font-size: 11px;
+    fill: var(--dim-star);
+  }
+
+  .diagram-label-warm {
+    fill: var(--warm-star);
+  }
+
+  .diagram-accent-line,
+  .diagram-accent-strong,
+  .diagram-dashed-accent {
+    stroke: var(--accent);
+  }
+
+  .diagram-muted-line,
+  .diagram-muted-circle,
+  .diagram-measure-line,
+  .diagram-tick {
+    stroke: rgba(232, 244, 253, 0.45);
+  }
+
+  .diagram-warm-line {
+    stroke: var(--warm-star);
+  }
+
+  .diagram-accent-line,
+  .diagram-muted-line,
+  .diagram-warm-line,
+  .diagram-measure-line {
+    stroke-width: 2.2;
+    stroke-linecap: round;
+  }
+
+  .diagram-accent-strong,
+  .diagram-muted-circle {
+    stroke-width: 2;
+  }
+
+  .diagram-dashed,
+  .diagram-dashed-accent {
+    stroke-width: 1.8;
+    stroke-dasharray: 6 6;
+  }
+
+  .diagram-fill-soft {
+    fill: rgba(232, 244, 253, 0.08);
+    stroke: rgba(232, 244, 253, 0.35);
+  }
+
+  .diagram-fill-accent {
+    fill: var(--accent);
+  }
+
+  .diagram-fill-warm,
+  .diagram-fill-warm-soft {
+    fill: var(--warm-star);
+  }
+
+  .diagram-fill-warm-soft {
+    opacity: 0.85;
+  }
+
+  .diagram-fill-dim {
+    fill: rgba(232, 244, 253, 0.45);
+  }
+
+  .diagram-tick line {
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+
+  .diagram-tick-accent line {
+    stroke: var(--accent);
+  }
+
+  @media (max-width: 600px) {
+    .science-diagram {
+      padding: 16px 14px;
+    }
+
+    .science-diagram-title {
+      font-size: 12px;
+    }
+  }
+</style>
