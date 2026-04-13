@@ -139,12 +139,12 @@ const pageTransition = {
 <script>
   const STORAGE_KEY = 'hailmary-chapter';
   const UI_PREFS_KEY = 'hailmary-ui-prefs';
-  const MOTION_SYNCED_KEY = 'hailmary-motion-synced';
   const DEFAULT_UI_PREFS = {
     fontScale: 'default',
     diagramScale: 'default',
     contrast: 'default',
-    motion: 'default',
+    motion: 'system',
+    motionSource: 'system',
   };
 
   function readChapter() {
@@ -178,6 +178,12 @@ const pageTransition = {
     localStorage.setItem(UI_PREFS_KEY, JSON.stringify(nextPrefs));
   }
 
+  function getEffectiveMotion(prefs = readUiPrefs()) {
+    if (prefs.motion === 'reduced' && prefs.motionSource === 'explicit') return 'reduced';
+    if (prefs.motion === 'default') return 'default';
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduced' : 'default';
+  }
+
   function setDatasetValue(key, value) {
     if (value === 'default') {
       delete document.documentElement.dataset[key];
@@ -190,7 +196,9 @@ const pageTransition = {
     document.querySelectorAll('[data-ui-setting][data-ui-value]').forEach((button) => {
       const setting = button.getAttribute('data-ui-setting');
       const value = button.getAttribute('data-ui-value');
-      const isActive = prefs[setting] === value;
+      const isActive = setting === 'motion'
+        ? getEffectiveMotion(prefs) === value
+        : prefs[setting] === value;
       button.setAttribute('aria-pressed', String(isActive));
       button.classList.toggle('is-active', isActive);
     });
@@ -201,7 +209,7 @@ const pageTransition = {
     setDatasetValue('fontScale', prefs.fontScale);
     setDatasetValue('diagramScale', prefs.diagramScale);
     setDatasetValue('contrast', prefs.contrast);
-    setDatasetValue('motion', prefs.motion);
+    setDatasetValue('motion', getEffectiveMotion(prefs));
     syncAccessibilityButtons(prefs);
   }
 
@@ -296,6 +304,9 @@ const pageTransition = {
         const setting = option.getAttribute('data-ui-setting');
         const value = option.getAttribute('data-ui-value');
         prefs[setting] = value;
+        if (setting === 'motion') {
+          prefs.motionSource = 'explicit';
+        }
         writeUiPrefs(prefs);
         applyUiPrefs();
         return;
@@ -397,17 +408,17 @@ const pageTransition = {
     onScroll();
   }
 
-  /* Sync OS prefers-reduced-motion once per session (first visit only).
-     User can override via the in-app panel afterward. */
-  if (!sessionStorage.getItem(MOTION_SYNCED_KEY)) {
-    sessionStorage.setItem(MOTION_SYNCED_KEY, '1');
-    const osReduces = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (osReduces) {
-      const prefs = readUiPrefs();
-      if (prefs.motion === 'default') {
-        writeUiPrefs({ ...prefs, motion: 'reduced' });
-      }
-    }
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const handleReducedMotionChange = () => {
+    if (readUiPrefs().motion !== 'system') return;
+    applyUiPrefs();
+    initScrollReveal();
+    initScrollMascot();
+  };
+  if (typeof prefersReducedMotion.addEventListener === 'function') {
+    prefersReducedMotion.addEventListener('change', handleReducedMotionChange);
+  } else if (typeof prefersReducedMotion.addListener === 'function') {
+    prefersReducedMotion.addListener(handleReducedMotionChange);
   }
 
   applySpoilerGates();
