@@ -39,6 +39,10 @@ const { kind, title, caption } = Astro.props;
       <circle cx="267" cy="120" r="5" class="diagram-fill-accent" />
       <line x1="267" y1="120" x2="345" y2="120" class="diagram-accent-line" marker-end="url(#arrowAccent)" />
       <line x1="267" y1="120" x2="220" y2="120" class="diagram-warm-line" marker-end="url(#arrowWarm)" />
+      <!-- Animated tracer: orbiting dot -->
+      <g class="diagram-anim diagram-orbit-spin">
+        <circle cx="92" cy="0" r="4" class="diagram-tracer" />
+      </g>
       <text x="360" y="114" class="diagram-label">進む速さ</text>
       <text x="215" y="108" class="diagram-label diagram-label-warm">重力</text>
       <text x="262" y="102" class="diagram-label">ISS</text>
@@ -76,10 +80,15 @@ const { kind, title, caption } = Astro.props;
       <circle cx="158" cy="170" r="11" class="diagram-fill-soft" />
       <circle cx="220" cy="186" r="11" class="diagram-fill-accent" />
       <circle cx="282" cy="170" r="11" class="diagram-fill-soft" />
+      <!-- Animated tracer: swinging pendulum -->
+      <g class="diagram-anim diagram-pendulum-swing">
+        <line x1="220" y1="34" x2="220" y2="182" class="diagram-accent-line" stroke-opacity="0.4" />
+        <circle cx="220" cy="182" r="8" class="diagram-tracer" />
+      </g>
       <line x1="338" y1="44" x2="338" y2="186" class="diagram-measure-line" marker-start="url(#arrowMeasure)" marker-end="url(#arrowMeasure)" />
       <line x1="358" y1="74" x2="358" y2="184" class="diagram-warm-line" marker-end="url(#arrowWarmPendulum)" />
-      <text x="350" y="120" class="diagram-label">L</text>
-      <text x="370" y="138" class="diagram-label diagram-label-warm">g</text>
+      <text x="356" y="116" class="diagram-label">L</text>
+      <text x="376" y="142" class="diagram-label diagram-label-warm">g</text>
       <text x="432" y="88" class="diagram-caption">長いほど</text>
       <text x="432" y="113" class="diagram-caption">ゆっくり揺れる</text>
       <text x="432" y="153" class="diagram-caption">T = 2π√(L / g)</text>
@@ -104,9 +113,13 @@ const { kind, title, caption } = Astro.props;
       <circle cx="293" cy="120" r="10" class="diagram-fill-accent" />
       <line x1="205" y1="120" x2="293" y2="120" class="diagram-muted-line" />
       <line x1="293" y1="120" x2="247" y2="120" class="diagram-accent-line" marker-end="url(#arrowAccentCentrifuge)" />
+      <!-- Animated tracer: orbiting dot -->
+      <g class="diagram-anim diagram-centrifuge-spin">
+        <circle cx="88" cy="0" r="4" class="diagram-tracer" />
+      </g>
       <path d="M164 54 A86 86 0 0 1 246 52" class="diagram-warm-line" fill="none" marker-end="url(#arrowWarmCentrifuge)" />
       <text x="254" y="107" class="diagram-label">壁が押す</text>
-      <text x="144" y="54" class="diagram-label diagram-label-warm">回転</text>
+      <text x="180" y="42" class="diagram-label diagram-label-warm">回転</text>
       <text x="428" y="90" class="diagram-caption">回転系の中では</text>
       <text x="428" y="115" class="diagram-caption">外側が「床」に感じられる</text>
       <text x="428" y="152" class="diagram-caption">a = ω²r</text>
@@ -202,11 +215,15 @@ const { kind, title, caption } = Astro.props;
       <circle cx="288" cy="120" r="5" class="diagram-fill-accent" />
       <circle cx="224" cy="8" r="5" class="diagram-fill-soft" />
       <line x1="288" y1="120" x2="338" y2="120" class="diagram-accent-line" marker-end="url(#arrowAccentHohmann)" />
-      <line x1="224" y1="8" x2="224" y2="56" class="diagram-accent-line" marker-end="url(#arrowAccentHohmann)" />
+      <line x1="224" y1="8" x2="224" y2="46" class="diagram-accent-line" marker-end="url(#arrowAccentHohmann)" />
+      <!-- Animated tracer: dot following transfer orbit -->
+      <circle r="4" class="diagram-anim diagram-tracer">
+        <animateMotion dur="3s" repeatCount="indefinite" path="M288,120 A112,112 0 0,1 224,8" begin="0s" calcMode="spline" keySplines="0.4 0 0.6 1" keyTimes="0;1" />
+      </circle>
       <text x="308" y="112" class="diagram-label">噴射1</text>
-      <text x="236" y="48" class="diagram-label">噴射2</text>
+      <text x="240" y="36" class="diagram-label">噴射2</text>
       <text x="152" y="122" class="diagram-caption">内側軌道</text>
-      <text x="308" y="70" class="diagram-caption">遷移軌道</text>
+      <text x="314" y="58" class="diagram-caption">遷移軌道</text>
       <text x="86" y="208" class="diagram-caption">2回だけ速度を変えて、円軌道どうしを最小燃料でつなぐ</text>
       <defs>
         <marker id="arrowAccentHohmann" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
@@ -234,10 +251,10 @@ const { kind, title, caption } = Astro.props;
       </g>
       <line x1="96" y1="82" x2="584" y2="82" class="diagram-measure-line" marker-start="url(#arrowMeasureRelativity)" marker-end="url(#arrowMeasureRelativity)" />
       <line x1="96" y1="158" x2="236" y2="158" class="diagram-accent-line" marker-start="url(#arrowAccentRelativity)" marker-end="url(#arrowAccentRelativity)" />
-      <text x="72" y="86" class="diagram-label">地球</text>
-      <text x="52" y="162" class="diagram-label">船内</text>
-      <text x="594" y="86" class="diagram-caption">約7年</text>
-      <text x="246" y="162" class="diagram-caption">約1年</text>
+      <text x="72" y="70" class="diagram-label">地球</text>
+      <text x="52" y="148" class="diagram-label">船内</text>
+      <text x="594" y="70" class="diagram-caption">約7年</text>
+      <text x="246" y="148" class="diagram-caption">約1年</text>
       <text x="330" y="150" class="diagram-caption">v が c に近づくほど、船内時間はゆっくり進む</text>
       <text x="330" y="175" class="diagram-caption">t&apos; = t√(1 - v² / c²)</text>
       <defs>
@@ -432,5 +449,42 @@ const { kind, title, caption } = Astro.props;
     .science-diagram-mobile-note {
       display: block;
     }
+  }
+
+  /* ===== Diagram animations ===== */
+  .diagram-tracer {
+    fill: var(--accent);
+    opacity: 0.55;
+    filter: drop-shadow(0 0 6px var(--accent));
+  }
+
+  .diagram-orbit-spin {
+    transform-origin: 175px 120px;
+    animation: diagramSpin 8s linear infinite;
+  }
+
+  .diagram-centrifuge-spin {
+    transform-origin: 205px 120px;
+    animation: diagramSpin 4s linear infinite;
+  }
+
+  .diagram-pendulum-swing {
+    transform-origin: 220px 34px;
+    animation: diagramSwing 2.4s ease-in-out infinite alternate;
+  }
+
+  @keyframes diagramSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  @keyframes diagramSwing {
+    from { transform: rotate(-24deg); }
+    to   { transform: rotate(24deg); }
+  }
+
+  /* Reduced motion: hide all animated elements */
+  :global(html[data-motion='reduced']) .diagram-anim {
+    display: none;
   }
 </style>
