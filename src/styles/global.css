@@ -490,6 +490,7 @@ h1 {
   margin-bottom: 24px;
   opacity: 0.5;
   filter: brightness(0.45) saturate(0.6);
+  cursor: pointer;
   transition: opacity var(--transition-expressive), filter var(--transition-expressive), transform var(--transition-expressive);
 }
 .phase-hero:hover {
@@ -514,7 +515,7 @@ h1 {
   }
   /* JS IntersectionObserver が付与するクラス → viewport 侵入時に輝度フラッシュ */
   .phase-hero.hero-revealed {
-    animation: heroReveal 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: heroReveal 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
 }
 
@@ -1250,8 +1251,8 @@ html:not([data-motion='reduced']) .scroll-mascot.is-active {
 }
 
 @keyframes heroReveal {
-  0%   { opacity: 0.5;  filter: brightness(0.45) saturate(0.6); }
-  35%  { opacity: 0.85; filter: brightness(0.75) saturate(1.0); }
+  0%   { opacity: 0.65; filter: brightness(0.58) saturate(0.75); }
+  35%  { opacity: 0.85; filter: brightness(0.88) saturate(1.0); }
   100% { opacity: 0.65; filter: brightness(0.58) saturate(0.75); }
 }
 
