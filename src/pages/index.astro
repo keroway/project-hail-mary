@@ -5,61 +5,111 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <div class="container">
 
-  <header>
+  <header class="page-header">
     <div class="header-eyebrow">SCIENCE GUIDE</div>
     <h1>プロジェクト・ヘイルメアリー<br>科学入門ガイド</h1>
     <p class="header-sub">中学2年生のための SF 科学読書補助資料</p>
   </header>
 
-  <!-- Chapter progress selector -->
-  <section class="chapter-selector">
-    <div class="cs-label">
-      <span class="cs-label-main">何章まで読みましたか？</span>
-      <span class="cs-label-sub">設定した章より後の内容はロックされます</span>
+  <!-- Compact chapter status bar -->
+  <div class="chapter-compact" id="chapter-compact">
+    <span class="cc-icon" aria-hidden="true">📖</span>
+    <div class="cc-info">
+      <span class="cc-label">読了章</span>
+      <span class="cc-text" id="cc-text">未設定</span>
     </div>
+    <button class="cc-change" id="cc-open-dialog" type="button" aria-haspopup="dialog">
+      設定 / 変更
+    </button>
+  </div>
 
-    <div class="cs-presets">
-      <button class="cs-preset" data-chapter="0">まだ読んでいない</button>
-      <button class="cs-preset" data-chapter="8">第8章まで</button>
-      <button class="cs-preset" data-chapter="9">第9章まで<span class="cs-preset-note">ロッキー登場</span></button>
-      <button class="cs-preset" data-chapter="28">全部読んだ</button>
+  <!-- First-visit onboarding guide (hidden by default) -->
+  <div class="onboarding-guide" id="onboarding-guide" hidden>
+    <div class="og-header">
+      <span class="og-eyebrow">🚀 使い方ガイド</span>
+      <button class="og-close" id="og-close" type="button">はじめる →</button>
     </div>
-
-    <div class="cs-custom">
-      <label class="cs-custom-label" for="chapter-range">または章番号を直接入力</label>
-      <div class="cs-input-row">
-        <input
-          type="range"
-          id="chapter-range"
-          min="0"
-          max="28"
-          value="0"
-          class="cs-range"
-          aria-describedby="cs-status-text"
-          aria-label="読了章のスライダー"
-        />
-        <div class="cs-number-wrap">
-          <label class="sr-only" for="chapter-number">現在の読了章</label>
-          <input
-            type="number"
-            id="chapter-number"
-            min="0"
-            max="28"
-            value="0"
-            class="cs-number"
-            inputmode="numeric"
-            aria-describedby="cs-status-text"
-          />
-          <span class="cs-number-unit">/ 28章</span>
+    <div class="og-items">
+      <div class="og-item">
+        <span class="og-icon" aria-hidden="true">☝</span>
+        <div class="og-body">
+          <strong>読了章を設定する</strong>
+          <span>「設定 / 変更」ボタンから何章まで読んだか設定できます。それ以降のネタバレが自動でロックされます。</span>
+        </div>
+      </div>
+      <div class="og-item">
+        <span class="og-icon" aria-hidden="true">👇</span>
+        <div class="og-body">
+          <strong>教科から読む</strong>
+          <span>下の4枚のカードから「物理」「化学」「生物」「数学」の各解説ページへ進めます。</span>
+        </div>
+      </div>
+      <div class="og-item">
+        <span class="og-icon" aria-hidden="true">↗</span>
+        <div class="og-body">
+          <strong>ナビから切り替え</strong>
+          <span>画面上部のナビバーからいつでも教科を切り替えられます。読了章の表示も確認できます。</span>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="cs-status" id="cs-status" role="status">
-      <span class="cs-status-icon">📖</span>
-      <span class="cs-status-text" id="cs-status-text" aria-live="polite">まだ読んでいません（ネタバレなし）</span>
+  <!-- Chapter selection dialog -->
+  <dialog id="chapter-dialog" class="chapter-dialog" aria-label="読了章の設定">
+    <div class="cd-inner">
+      <div class="cd-header">
+        <div class="cd-eyebrow">CHAPTER PROGRESS</div>
+        <h2 class="cd-title">何章まで読みましたか？</h2>
+        <p class="cd-sub">設定した章より後のネタバレがロックされます</p>
+      </div>
+
+      <div class="cs-presets">
+        <button class="cs-preset" data-chapter="0" type="button">まだ読んでいない</button>
+        <button class="cs-preset" data-chapter="8" type="button">第8章まで</button>
+        <button class="cs-preset" data-chapter="9" type="button">第9章まで<span class="cs-preset-note">ロッキー登場</span></button>
+        <button class="cs-preset" data-chapter="28" type="button">全部読んだ</button>
+      </div>
+
+      <div class="cs-custom">
+        <label class="cs-custom-label" for="chapter-range">または章番号を直接指定</label>
+        <div class="cs-input-row">
+          <input
+            type="range"
+            id="chapter-range"
+            min="0"
+            max="28"
+            value="0"
+            class="cs-range"
+            aria-describedby="cs-status-text"
+            aria-label="読了章のスライダー"
+          />
+          <div class="cs-number-wrap">
+            <label class="sr-only" for="chapter-number">現在の読了章</label>
+            <input
+              type="number"
+              id="chapter-number"
+              min="0"
+              max="28"
+              value="0"
+              class="cs-number"
+              inputmode="numeric"
+              aria-describedby="cs-status-text"
+            />
+            <span class="cs-number-unit">/ 28章</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-status" id="cs-status" role="status">
+        <span class="cs-status-icon">📖</span>
+        <span class="cs-status-text" id="cs-status-text" aria-live="polite">まだ読んでいません（ネタバレなし）</span>
+      </div>
+
+      <div class="cd-actions">
+        <button class="cd-confirm" id="cd-confirm" type="button">決定</button>
+      </div>
     </div>
-  </section>
+  </dialog>
 
   <div class="section-divider"><span class="divider-label">— SUBJECTS —</span></div>
 
@@ -116,32 +166,299 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     --star-tint-b: rgba(0, 212, 170, 0.3);
   }
 
-  /* Chapter selector */
-  .chapter-selector {
-    background: rgba(14, 22, 48, 0.6);
-    border: 1px solid rgba(0, 212, 170, 0.2);
-    padding: 32px 36px;
-    margin-bottom: 40px;
+  /* ===== Entry animations ===== */
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
-  .cs-label {
+  @keyframes dialogIn {
+    from { opacity: 0; transform: translateY(-14px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @keyframes backdropIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes onboardingIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Header staggered entrance */
+  .page-header .header-eyebrow {
+    animation: fadeSlideUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .page-header h1 {
+    animation: fadeSlideUp 0.65s 0.10s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .page-header .header-sub {
+    animation: fadeSlideUp 0.55s 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Respect prefers-reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    .page-header .header-eyebrow,
+    .page-header h1,
+    .page-header .header-sub,
+    .chapter-compact,
+    .onboarding-guide {
+      animation: none;
+    }
+    .chapter-dialog[open],
+    .chapter-dialog::backdrop {
+      animation: none;
+    }
+  }
+
+  html[data-motion='reduced'] .page-header .header-eyebrow,
+  html[data-motion='reduced'] .page-header h1,
+  html[data-motion='reduced'] .page-header .header-sub,
+  html[data-motion='reduced'] .chapter-compact,
+  html[data-motion='reduced'] .onboarding-guide,
+  html[data-motion='reduced'] .chapter-dialog[open],
+  html[data-motion='reduced'] .chapter-dialog::backdrop {
+    animation: none;
+  }
+
+  /* ===== Compact chapter bar ===== */
+  .chapter-compact {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(14, 22, 48, 0.6);
+    border: 1px solid rgba(0, 212, 170, 0.2);
+    padding: 14px 20px;
     margin-bottom: 20px;
+    animation: fadeSlideUp 0.5s 0.30s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
-  .cs-label-main {
+
+  .cc-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .cc-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .cc-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--dim-star);
+    text-transform: uppercase;
+  }
+
+  .cc-text {
     font-family: 'Shippori Mincho', serif;
-    font-size: 18px;
+    font-size: 15px;
+    color: var(--aurora);
     font-weight: 600;
-    color: var(--white-star);
-    display: block;
-    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  .cs-label-sub {
+
+  .cc-change {
     font-family: 'Space Mono', monospace;
     font-size: 10px;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.1em;
+    padding: 8px 16px;
+    border: 1px solid rgba(0, 212, 170, 0.4);
+    background: rgba(0, 212, 170, 0.06);
+    color: var(--aurora);
+    cursor: pointer;
+    flex-shrink: 0;
+    white-space: nowrap;
+    transition: border-color var(--transition-base), background var(--transition-base), transform var(--transition-base);
+  }
+
+  .cc-change:hover {
+    border-color: var(--aurora);
+    background: rgba(0, 212, 170, 0.14);
+    transform: translateY(-1px);
+  }
+
+  .cc-change:active { transform: translateY(0) scale(0.97); }
+
+  /* ===== Onboarding guide ===== */
+  .onboarding-guide {
+    background: rgba(14, 22, 48, 0.8);
+    border: 1px solid rgba(0, 212, 170, 0.3);
+    border-left: 3px solid var(--aurora);
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    animation: onboardingIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Ensure hidden attribute still hides the element */
+  .onboarding-guide[hidden] { display: none; }
+
+  .og-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .og-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--aurora);
+  }
+
+  .og-close {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 7px 16px;
+    border: 1px solid rgba(0, 212, 170, 0.5);
+    background: rgba(0, 212, 170, 0.08);
+    color: var(--aurora);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color var(--transition-base), background var(--transition-base), transform var(--transition-base);
+  }
+
+  .og-close:hover {
+    border-color: var(--aurora);
+    background: rgba(0, 212, 170, 0.16);
+    transform: translateY(-1px);
+  }
+
+  .og-close:active { transform: translateY(0) scale(0.97); }
+
+  .og-items {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .og-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .og-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    width: 24px;
+    text-align: center;
+    padding-top: 1px;
+  }
+
+  .og-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .og-body strong {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 13px;
+    color: var(--white-star);
+    font-weight: 600;
+    display: block;
+  }
+
+  .og-body span {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 12px;
+    color: var(--dim-star);
+    line-height: 1.7;
+  }
+
+  /* ===== Chapter dialog ===== */
+  .chapter-dialog {
+    background: var(--nebula);
+    border: 1px solid rgba(0, 212, 170, 0.3);
+    color: var(--white-star);
+    padding: 0;
+    max-width: 520px;
+    width: calc(100% - 40px);
+    margin: auto;
+  }
+
+  .chapter-dialog[open] {
+    animation: dialogIn 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .chapter-dialog::backdrop {
+    background: rgba(3, 5, 15, 0.8);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    animation: backdropIn 0.3s ease-out both;
+  }
+
+  .cd-inner {
+    padding: 32px 36px;
+  }
+
+  .cd-header {
+    margin-bottom: 24px;
+  }
+
+  .cd-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--aurora);
+    margin-bottom: 8px;
+  }
+
+  .cd-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--white-star);
+    margin-bottom: 6px;
+  }
+
+  .cd-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
     color: var(--dim-star);
   }
 
+  .cd-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .cd-confirm {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 10px 28px;
+    border: 1px solid rgba(0, 212, 170, 0.5);
+    background: rgba(0, 212, 170, 0.1);
+    color: var(--aurora);
+    cursor: pointer;
+    transition: border-color var(--transition-base), background var(--transition-base), transform var(--transition-base);
+  }
+
+  .cd-confirm:hover {
+    border-color: var(--aurora);
+    background: rgba(0, 212, 170, 0.18);
+    transform: translateY(-1px);
+  }
+
+  .cd-confirm:active { transform: translateY(0) scale(0.97); }
+
+  /* ===== Chapter selector (shared inside dialog) ===== */
   .cs-presets {
     display: flex;
     flex-wrap: wrap;
@@ -164,18 +481,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     cursor: pointer;
     transition: border-color var(--transition-base), background var(--transition-base), color var(--transition-base), transform var(--transition-base);
   }
+
   .cs-preset:hover {
     border-color: rgba(0, 212, 170, 0.4);
     background: rgba(0, 212, 170, 0.08);
     color: var(--white-star);
     transform: translateY(-1px);
   }
+
   .cs-preset:active { transform: translateY(0) scale(0.97); }
+
   .cs-preset.is-active {
     border-color: var(--aurora);
     background: rgba(0, 212, 170, 0.12);
     color: var(--aurora);
   }
+
   .cs-preset-note {
     font-size: 9px;
     letter-spacing: 0.05em;
@@ -184,6 +505,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .cs-custom { margin-bottom: 20px; }
+
   .cs-custom-label {
     font-family: 'Space Mono', monospace;
     font-size: 10px;
@@ -208,6 +530,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     border-radius: 2px;
     cursor: pointer;
   }
+
   .cs-range::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 18px;
@@ -219,10 +542,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     cursor: pointer;
     transition: box-shadow var(--transition-base), transform var(--transition-base);
   }
+
   .cs-range::-webkit-slider-thumb:hover {
     box-shadow: 0 0 16px rgba(0, 212, 170, 0.7);
     transform: scale(1.2);
   }
+
   .cs-range::-moz-range-thumb {
     width: 18px;
     height: 18px;
@@ -238,6 +563,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     gap: 6px;
     flex-shrink: 0;
   }
+
   .cs-number {
     font-family: 'Space Mono', monospace;
     font-size: 20px;
@@ -249,10 +575,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     text-align: center;
     transition: border-color var(--transition-base);
   }
+
   .cs-range:focus-visible {
     box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.25);
   }
+
   .cs-number:focus-visible { border-color: var(--aurora); }
+
   .cs-number-unit {
     font-family: 'Space Mono', monospace;
     font-size: 11px;
@@ -273,11 +602,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     color: var(--aurora);
     transition: all var(--transition-base);
   }
+
   .cs-status-icon { font-size: 16px; }
+
+  /* ===== Mobile ===== */
+  @media (max-width: 600px) {
+    .chapter-compact { padding: 12px 14px; gap: 10px; }
+    .cc-change { padding: 7px 12px; }
+    .cd-inner { padding: 24px 20px; }
+    .og-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  }
 </style>
 
 <script>
-  const STORAGE_KEY = 'hailmary-chapter';
+  const STORAGE_KEY     = 'hailmary-chapter';
+  const ONBOARDED_KEY   = 'hailmary-onboarded';
+  const SESSION_DIALOG_KEY = 'hailmary-dialog-shown';
 
   function getChapter(): number {
     const raw = Number.parseInt(localStorage.getItem(STORAGE_KEY) ?? '0', 10);
@@ -287,38 +627,43 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   function setChapter(v: number) {
     const clamped = Math.max(0, Math.min(28, v));
     localStorage.setItem(STORAGE_KEY, String(clamped));
-    updateUI(clamped);
+    updateDialogUI(clamped);
+    updateCompactBar(clamped);
     document.dispatchEvent(new CustomEvent('chapterChanged', { detail: clamped }));
   }
 
-  function updateUI(chapter: number) {
+  function compactLabel(chapter: number): string {
+    if (chapter === 0) return 'まだ読んでいない';
+    if (chapter >= 28) return '全章読了';
+    return `第${chapter}章まで`;
+  }
+
+  function statusLabel(chapter: number): string {
+    if (chapter === 0) return 'まだ読んでいません（ネタバレなし）';
+    if (chapter >= 28) return '全部読了（すべてのネタバレ解除）';
+    if (chapter >= 25) return `第${chapter}章まで読了（終盤・ロッキー関連すべて解除）`;
+    if (chapter >= 9)  return `第${chapter}章まで読了（ロッキー登場以降の内容解除）`;
+    return `第${chapter}章まで読了（ロッキー登場前まで）`;
+  }
+
+  function updateCompactBar(chapter: number) {
+    const el = document.getElementById('cc-text');
+    if (el) el.textContent = compactLabel(chapter);
+  }
+
+  function updateDialogUI(chapter: number) {
     const range = document.getElementById('chapter-range') as HTMLInputElement | null;
     const num   = document.getElementById('chapter-number') as HTMLInputElement | null;
     const text  = document.getElementById('cs-status-text');
     if (range) range.value = String(chapter);
     if (num)   num.value   = String(chapter);
+    if (text)  text.textContent = statusLabel(chapter);
 
-    if (text) {
-      if (chapter === 0) {
-        text.textContent = 'まだ読んでいません（ネタバレなし）';
-      } else if (chapter >= 28) {
-        text.textContent = '全部読了（すべてのネタバレ解除）';
-      } else if (chapter >= 25) {
-        text.textContent = `第${chapter}章まで読了（終盤・ロッキー関連すべて解除）`;
-      } else if (chapter >= 9) {
-        text.textContent = `第${chapter}章まで読了（ロッキー登場以降の内容解除）`;
-      } else {
-        text.textContent = `第${chapter}章まで読了（ロッキー登場前まで）`;
-      }
-    }
-
-    // Update preset button states
     document.querySelectorAll<HTMLElement>('.cs-preset').forEach((btn) => {
       const val = parseInt(btn.dataset.chapter ?? '0', 10);
       btn.classList.toggle('is-active', val === chapter);
     });
 
-    // Update nav chapter status
     const nav = document.getElementById('nav-chapter-status');
     if (nav) {
       nav.innerHTML = chapter === 0
@@ -329,46 +674,95 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     }
   }
 
-  function applyInlineSpoilers(e: Event) {
-    const chapter = (e as CustomEvent<number>).detail;
-    document.querySelectorAll<HTMLElement>('.spoiler-gate').forEach((gate) => {
-      const min = Number.parseInt(gate.dataset.minChapter ?? '999', 10);
-      gate.classList.toggle('is-unlocked', chapter >= min);
-    });
-    document.querySelectorAll<HTMLElement>('.timeline-item[data-min-chapter]').forEach((item) => {
-      const min = Number.parseInt(item.dataset.minChapter ?? '999', 10);
-      item.classList.toggle('is-locked', chapter < min);
-    });
+  function isFirstVisit(): boolean {
+    return !localStorage.getItem(ONBOARDED_KEY);
   }
 
-  function initChapterSelector() {
-    const root = document.querySelector<HTMLElement>('.chapter-selector');
-    if (!root) return;
+  function openDialog() {
+    const dialog = document.getElementById('chapter-dialog') as HTMLDialogElement | null;
+    if (!dialog) return;
+    updateDialogUI(getChapter());
+    dialog.showModal();
+  }
 
-    updateUI(getChapter());
+  function closeDialog() {
+    const dialog = document.getElementById('chapter-dialog') as HTMLDialogElement | null;
+    dialog?.close();
+  }
 
-    if (root.dataset.bound === 'true') return;
-    root.dataset.bound = 'true';
+  function showOnboarding() {
+    const guide = document.getElementById('onboarding-guide');
+    if (guide) guide.removeAttribute('hidden');
+  }
 
-    document.addEventListener('chapterChanged', applyInlineSpoilers);
+  function dismissOnboarding() {
+    const guide = document.getElementById('onboarding-guide');
+    if (guide) guide.setAttribute('hidden', '');
+    localStorage.setItem(ONBOARDED_KEY, 'true');
+  }
 
-    document.querySelectorAll<HTMLButtonElement>('.cs-preset').forEach((btn) => {
+  function initPage() {
+    const dialog = document.getElementById('chapter-dialog') as HTMLDialogElement | null;
+    if (!dialog || dialog.dataset.bound === 'true') return;
+    dialog.dataset.bound = 'true';
+
+    // Sync initial state
+    const chapter = getChapter();
+    updateCompactBar(chapter);
+    updateDialogUI(chapter);
+
+    // Open button on compact bar
+    document.getElementById('cc-open-dialog')?.addEventListener('click', openDialog);
+
+    // Preset buttons inside dialog — apply immediately and close
+    dialog.querySelectorAll<HTMLButtonElement>('.cs-preset').forEach((btn) => {
       btn.addEventListener('click', () => {
         setChapter(Number.parseInt(btn.dataset.chapter ?? '0', 10));
+        closeDialog();
       });
     });
 
+    // Range slider
     const rangeEl = document.getElementById('chapter-range') as HTMLInputElement | null;
     rangeEl?.addEventListener('input', () => setChapter(Number.parseInt(rangeEl.value, 10)));
 
+    // Number input
     const numEl = document.getElementById('chapter-number') as HTMLInputElement | null;
     numEl?.addEventListener('change', () => setChapter(Number.parseInt(numEl.value || '0', 10)));
     numEl?.addEventListener('input', () => {
-      const value = Number.parseInt(numEl.value || '0', 10);
-      if (Number.isFinite(value)) setChapter(value);
+      const v = Number.parseInt(numEl.value || '0', 10);
+      if (Number.isFinite(v)) setChapter(v);
     });
+
+    // Confirm button — just closes (changes already applied)
+    document.getElementById('cd-confirm')?.addEventListener('click', closeDialog);
+
+    // Close on backdrop click
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) closeDialog();
+    });
+
+    // After dialog closes on first visit: reveal onboarding guide
+    dialog.addEventListener('close', () => {
+      if (isFirstVisit()) showOnboarding();
+    });
+
+    // Onboarding dismiss
+    document.getElementById('og-close')?.addEventListener('click', dismissOnboarding);
+
+    // First-visit logic
+    if (isFirstVisit()) {
+      if (!sessionStorage.getItem(SESSION_DIALOG_KEY)) {
+        // Very first time: auto-open dialog once per session
+        sessionStorage.setItem(SESSION_DIALOG_KEY, 'true');
+        requestAnimationFrame(() => requestAnimationFrame(() => dialog.showModal()));
+      } else {
+        // Navigated back to index within the same session: show guide directly
+        showOnboarding();
+      }
+    }
   }
 
-  initChapterSelector();
-  document.addEventListener('astro:page-load', initChapterSelector);
+  initPage();
+  document.addEventListener('astro:page-load', initPage);
 </script>
