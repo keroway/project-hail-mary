@@ -367,6 +367,26 @@ const pageTransition = {
       el.classList.add('scroll-reveal');
       scrollRevealObserver.observe(el);
     }
+
+    /* モバイル（hover: none）デバイスのみ: viewport 侵入時に輝度フラッシュ */
+    const isTouchPrimary = window.matchMedia('(hover: none)').matches;
+    if (isTouchPrimary) {
+      const heroImages = document.querySelectorAll('.phase-hero');
+      const heroObserver = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('hero-revealed');
+              heroObserver.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -20px 0px' }
+      );
+      for (const img of heroImages) {
+        heroObserver.observe(img);
+      }
+    }
   }
 
   /* ===== Floating mascot scroll effect ===== */
