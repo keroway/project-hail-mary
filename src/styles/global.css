@@ -513,6 +513,10 @@ html[data-mobile-hero='enabled'] .phase-hero:active {
 html[data-mobile-hero='enabled'] .phase-hero.hero-revealed {
   animation: heroReveal 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
+html[data-mobile-hero='enabled'] .phase-hero.hero-heading-zone {
+  opacity: 0.75;
+  filter: brightness(0.70) saturate(0.85);
+}
 
 /* ===== Phase sections ===== */
 .phase {
