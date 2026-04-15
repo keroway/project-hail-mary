@@ -34,6 +34,7 @@ const pageTransition = {
   <meta name="description" content={description} />
   <meta name="theme-color" content="#03050f" />
   <meta name="color-scheme" content="dark" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="プロジェクト・ヘイルメアリー 科学入門ガイド" />
   <meta property="og:locale" content="ja_JP" />
@@ -341,6 +342,7 @@ const pageTransition = {
   /* ===== Scroll reveal via IntersectionObserver ===== */
   let scrollRevealObserver = null;
   let heroRevealObserver = null;
+  let headingZoneObserver = null;
 
   function hasMobileHeroMode() {
     return window.matchMedia('(max-width: 820px)').matches
@@ -363,6 +365,7 @@ const pageTransition = {
   function initScrollReveal() {
     if (scrollRevealObserver) scrollRevealObserver.disconnect();
     if (heroRevealObserver) heroRevealObserver.disconnect();
+    if (headingZoneObserver) headingZoneObserver.disconnect();
 
     const mobileHeroMode = syncMobileHeroMode();
     const heroImages = document.querySelectorAll('.phase-hero');
@@ -409,12 +412,30 @@ const pageTransition = {
         },
         { threshold: 0.1, rootMargin: '0px 0px -20px 0px' }
       );
+
+      /* フラッシュアニメーション終了後にクラスを除去（heading-zone が効くように） */
       for (const img of heroImages) {
         heroRevealObserver.observe(img);
+        img.addEventListener('animationend', () => {
+          img.classList.remove('hero-revealed');
+        }, { once: true });
+      }
+
+      /* viewport 上部 10%–40% にいる間は中間輝度を維持 */
+      headingZoneObserver = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            entry.target.classList.toggle('hero-heading-zone', entry.isIntersecting);
+          }
+        },
+        { rootMargin: '-10% 0px -60% 0px', threshold: 0 }
+      );
+      for (const img of heroImages) {
+        headingZoneObserver.observe(img);
       }
     } else {
       for (const img of heroImages) {
-        img.classList.remove('hero-revealed');
+        img.classList.remove('hero-revealed', 'hero-heading-zone');
       }
     }
   }
