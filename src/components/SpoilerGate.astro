@@ -23,7 +23,7 @@ const displayLabel = label ?? `第${minChapter}章以降のネタバレ`;
     <p class="spoiler-gate-desc">{hint}</p>
     <a href="/" class="spoiler-gate-link">トップで読了章を設定する →</a>
   </div>
-  <div class="spoiler-gate-content">
-    <slot />
-  </div>
+  <!-- template タグ内コンテンツは inert: CSSが適用されず描画もされないため JS なしでは見えない -->
+  <template class="spoiler-gate-template"><slot /></template>
+  <div class="spoiler-gate-content"></div>
 </div>
