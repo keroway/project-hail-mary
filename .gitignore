@@ -13,3 +13,6 @@ node_modules/
 
 # Cloudflare Pages build cache
 .cache/
+
+# Claude Code local settings (machine-specific)
+.claude/settings.local.json
