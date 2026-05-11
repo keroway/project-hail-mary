@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hailmary.keroway.com/sitemap-index.xml
