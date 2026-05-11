@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#0d1a3a"/>
+      <stop offset="100%" stop-color="#03050f"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Stars -->
+  <g fill="white" opacity="0.6">
+    <circle cx="87" cy="43" r="1.2"/><circle cx="213" cy="112" r="0.8"/>
+    <circle cx="456" cy="28" r="1.5"/><circle cx="678" cy="67" r="0.9"/>
+    <circle cx="890" cy="34" r="1.1"/><circle cx="1050" cy="89" r="1.3"/>
+    <circle cx="1140" cy="45" r="0.7"/><circle cx="34" cy="198" r="0.9"/>
+    <circle cx="167" cy="267" r="1.4"/><circle cx="312" cy="189" r="0.8"/>
+    <circle cx="534" cy="145" r="1.2"/><circle cx="765" cy="178" r="0.6"/>
+    <circle cx="923" cy="123" r="1.0"/><circle cx="1089" cy="201" r="0.9"/>
+    <circle cx="1178" cy="156" r="1.3"/><circle cx="56" cy="478" r="1.1"/>
+    <circle cx="189" cy="512" r="0.7"/><circle cx="378" cy="489" r="1.4"/>
+    <circle cx="601" cy="534" r="0.8"/><circle cx="812" cy="501" r="1.2"/>
+    <circle cx="967" cy="567" r="0.9"/><circle cx="1112" cy="489" r="1.0"/>
+    <circle cx="1167" cy="543" r="0.7"/><circle cx="78" cy="589" r="1.3"/>
+    <circle cx="289" cy="601" r="0.8"/><circle cx="478" cy="618" r="1.1"/>
+  </g>
+
+  <!-- Glow accent -->
+  <circle cx="600" cy="315" r="350" fill="url(#glow)"/>
+
+  <!-- Orbit ring (decorative) -->
+  <ellipse cx="600" cy="315" rx="480" ry="200" fill="none" stroke="#3b82f6" stroke-width="0.8" stroke-opacity="0.2" stroke-dasharray="6 8"/>
+
+  <!-- Top label -->
+  <text x="600" y="148" text-anchor="middle" font-family="'Space Mono', 'Courier New', monospace" font-size="16" letter-spacing="6" fill="#3b82f6" opacity="0.9">SCIENCE GUIDE</text>
+
+  <!-- Main title - line 1 -->
+  <text x="600" y="258" text-anchor="middle" font-family="'Shippori Mincho', 'Noto Serif JP', serif" font-size="62" font-weight="700" fill="white" opacity="0.95">プロジェクト・</text>
+
+  <!-- Main title - line 2 -->
+  <text x="600" y="338" text-anchor="middle" font-family="'Shippori Mincho', 'Noto Serif JP', serif" font-size="62" font-weight="700" fill="white" opacity="0.95">ヘイルメアリー</text>
+
+  <!-- Subtitle -->
+  <text x="600" y="406" text-anchor="middle" font-family="'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', sans-serif" font-size="26" fill="#94a3b8" letter-spacing="2">科学入門ガイド</text>
+
+  <!-- Subject tags -->
+  <g font-family="'Space Mono', 'Courier New', monospace" font-size="13" letter-spacing="1">
+    <rect x="230" y="448" width="78" height="26" rx="4" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.6"/>
+    <text x="269" y="466" text-anchor="middle" fill="#60a5fa">物理</text>
+
+    <rect x="324" y="448" width="78" height="26" rx="4" fill="#2d1b4e" stroke="#8b5cf6" stroke-width="1" stroke-opacity="0.6"/>
+    <text x="363" y="466" text-anchor="middle" fill="#a78bfa">化学</text>
+
+    <rect x="418" y="448" width="78" height="26" rx="4" fill="#14291a" stroke="#22c55e" stroke-width="1" stroke-opacity="0.6"/>
+    <text x="457" y="466" text-anchor="middle" fill="#4ade80">生物</text>
+
+    <rect x="512" y="448" width="78" height="26" rx="4" fill="#2a1f00" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.6"/>
+    <text x="551" y="466" text-anchor="middle" fill="#fbbf24">数学</text>
+
+    <rect x="624" y="448" width="346" height="26" rx="4" fill="#0d1520" stroke="#475569" stroke-width="1" stroke-opacity="0.4"/>
+    <text x="797" y="466" text-anchor="middle" fill="#64748b">中学2年生のための SF 科学読書補助資料</text>
+  </g>
+
+  <!-- URL -->
+  <text x="600" y="568" text-anchor="middle" font-family="'Space Mono', 'Courier New', monospace" font-size="14" letter-spacing="2" fill="#475569">hailmary.keroway.com</text>
+
+  <!-- Separator line -->
+  <line x1="340" y1="430" x2="860" y2="430" stroke="#1e3a5f" stroke-width="1" opacity="0.6"/>
+</svg>
