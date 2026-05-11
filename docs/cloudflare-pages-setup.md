@@ -2,8 +2,11 @@
 
 ## 概要
 
-このサイトは Cloudflare Pages の静的ホスティングを使用する。
-Astro でビルドした `dist/` を配信する。
+このサイトは GitHub Actions + `cloudflare/wrangler-action@v3` で Cloudflare Pages に **direct upload** するデプロイ方式を採用している。Cloudflare Pages の Git Integration（Connect to Git）は使わない。
+
+```
+main push → GitHub Actions → npm run build → wrangler pages deploy dist
+```
 
 ## 前提条件
 
@@ -13,75 +16,77 @@ Astro でビルドした `dist/` を配信する。
 
 ## 初回セットアップ
 
-### 1. Cloudflare ダッシュボードにログイン
+### 1. Pages プロジェクトを作成
 
-`https://dash.cloudflare.com` にアクセスしてログイン。
-アカウント未作成の場合は無料プランで作成する。
+Cloudflare ダッシュボード (`https://dash.cloudflare.com`) にログインし、以下いずれかの方法でプロジェクトを作成する。
 
-### 2. Pages プロジェクトを作成
+**ダッシュボード経由:**
 
-1. 左サイドバー「Workers & Pages」をクリック
-2. 「Create」→「Pages タブ」→「Connect to Git」を選択
-3. GitHub 認証（初回のみ）後、リポジトリ一覧から `keroway-family/project-hail-mary` を選択
+1. 左サイドバー「Workers & Pages」→「Create」→「Pages タブ」
+2. 「Direct Upload」を選択し、プロジェクト名を `project-hail-mary` にする
 
-### 3. ビルド設定
+**wrangler CLI 経由:**
 
-以下のとおりに設定する：
+```bash
+npx wrangler pages project create project-hail-mary
+```
 
-| 項目 | 設定値 |
+### 2. Account ID を取得
+
+ダッシュボード右サイドバーまたは `https://dash.cloudflare.com/<account-id>` の URL から確認できる。
+
+### 3. API Token を作成
+
+1. ダッシュボード右上のユーザーアイコン →「My Profile」→「API Tokens」→「Create Token」
+2. テンプレート「Cloudflare Pages — Edit」を選択
+3. 生成されたトークン文字列をコピーする
+
+### 4. GitHub Secrets を登録
+
+リポジトリの Settings → Secrets and variables → Actions → New repository secret で以下を登録:
+
+| Secret 名 | 値 |
 |---|---|
-| Production branch | `main` |
-| Framework preset | `Astro` または `None` |
-| Build command | `npm run build` |
-| Build output directory | `dist` |
-| Root directory（詳細設定） | **（空欄のまま）** |
-
-> `public/` は配信ルートではなく、主に `_headers` などの静的アセット配置に使う。実際のHTMLは Astro が `dist/` に出力する。
-
-### 4. デプロイ実行
-
-「Save and Deploy」をクリック。初回デプロイは 30〜60 秒で完了する。
-完了すると `https://xxx.pages.dev` 形式の URL が発行される。
+| `CLOUDFLARE_API_TOKEN` | 手順 3 で作成したトークン |
+| `CLOUDFLARE_ACCOUNT_ID` | 手順 2 で確認した Account ID |
 
 ## デプロイの仕組み
 
+`.github/workflows/deploy.yml` の内容:
+
+```yaml
+- uses: cloudflare/wrangler-action@v3
+  with:
+    apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    command: pages deploy dist --project-name=project-hail-mary
+```
+
 | ブランチ | デプロイ先 |
 |---|---|
-| `main` | 本番（`https://xxx.pages.dev`） |
-| その他のブランチ | プレビュー（`https://<branch-name>.xxx.pages.dev`） |
+| `main` | 本番（`https://hailmary.keroway.com`） |
+| その他 | Cloudflare Pages のプレビュー URL（wrangler-action が自動生成） |
 
 `main` へのプッシュまたはマージで自動的に本番デプロイが走る。
-フィーチャーブランチでの作業中は、そのブランチ専用のプレビュー URL で確認できる。
 
 ## セキュリティヘッダーの確認
 
-デプロイ後、ブラウザの DevTools > Network タブでレスポンスヘッダーを確認する：
+`public/_headers` は Astro ビルド時に `dist/_headers` へそのままコピーされる。Cloudflare Pages がネイティブで処理するため、ビルド設定は不要。
 
-- `X-Frame-Options: DENY` — クリックジャッキング対策
-- `X-Content-Type-Options: nosniff` — MIME タイプスニッフィング対策
-- `Referrer-Policy: strict-origin-when-cross-origin` — リファラー制御
-- `Cache-Control: no-cache`（HTML ファイル）— 更新が即時反映される
+デプロイ後、DevTools > Network タブでレスポンスヘッダーを確認する:
 
-`_headers` ファイルは Cloudflare Pages がネイティブで処理する。ビルド設定不要。
-
-## コンテンツ更新の手順
-
-```bash
-# ローカルで編集後
-git add src/pages public/_headers
-git commit -m "Update study guide: <変更内容>"
-git push origin main
-```
-
-プッシュ後、Cloudflare Pages ダッシュボードでデプロイ状況を確認できる。
+- `X-Frame-Options: DENY`
+- `X-Content-Type-Options: nosniff`
+- `Referrer-Policy: strict-origin-when-cross-origin`
+- `Cache-Control: no-cache`（HTML ファイル）
 
 ## トラブルシューティング
 
 **ページが表示されない**
-→ `npm run build` が通るか確認。Cloudflare Pages の Build output directory が `dist` になっているか確認。
+→ `npm run build` がローカルで通るか確認する。`dist/index.html` が生成されていることを確認する。
 
-**更新が反映されない**
-→ ブラウザのキャッシュをクリア（Ctrl+Shift+R）。Cloudflare ダッシュボードでデプロイが完了しているか確認。
+**Actions の wrangler ステップが失敗する**
+→ GitHub Secrets (`CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`) が正しく設定されているか確認する。API Token の権限が「Cloudflare Pages — Edit」相当か確認する。Pages プロジェクト名が `project-hail-mary` と一致しているか確認する。
 
 **`_headers` が効いていない**
-→ ファイルパスが `public/_headers` であることを確認。Astro ビルド時にそのまま `dist/_headers` へコピーされる。
+→ ファイルパスが `public/_headers` であることを確認する。Astro ビルド時に `dist/_headers` へコピーされ、Cloudflare Pages 側で自動認識される。

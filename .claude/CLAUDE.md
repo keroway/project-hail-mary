@@ -19,7 +19,8 @@ src/
 ├── layouts/
 │   └── BaseLayout.astro      # 共通レイアウト（ナビ・ViewTransitions・ネタバレスクリプト）
 ├── components/
-│   └── SpoilerGate.astro     # ネタバレロックコンポーネント
+│   ├── SpoilerGate.astro     # ネタバレロックコンポーネント
+│   └── ScienceDiagram.astro  # SVGベース科学概念図（軌道・振り子・スペクトル等をkindプロップで切替）
 ├── styles/
 │   └── global.css            # 共通CSS（変数・コンポーネントスタイル）
 └── pages/

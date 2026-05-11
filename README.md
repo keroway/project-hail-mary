@@ -14,13 +14,15 @@
 project-hail-mary/
 ├── .claude/
 │   └── CLAUDE.md                    # Claude Code 向け作業ガイド
+├── AGENTS.md                        # Codex 等エージェント向け（CLAUDE.md のシンボリックリンク）
 ├── docs/
-│   └── cloudflare-pages-setup.md   # Cloudflare Pages 設定手順
+│   └── cloudflare-pages-setup.md   # Cloudflare Pages 初回セットアップ手順
 ├── public/
 │   └── _headers                    # Cloudflare セキュリティヘッダー
 ├── src/
 │   ├── components/
-│   │   └── SpoilerGate.astro       # 読了章ベースのネタバレ制御
+│   │   ├── SpoilerGate.astro       # 読了章ベースのネタバレ制御
+│   │   └── ScienceDiagram.astro    # SVGベース科学概念図コンポーネント
 │   ├── layouts/
 │   │   └── BaseLayout.astro        # 共通レイアウトと章状態スクリプト
 │   ├── pages/
@@ -32,7 +34,6 @@ project-hail-mary/
 │   │   └── math.astro
 │   └── styles/
 │       └── global.css              # 共通スタイル
-├── tmp/                            # 旧HTML版の退避
 ├── astro.config.mjs
 ├── package.json
 └── README.md
@@ -51,13 +52,15 @@ npm run dev
 
 ## デプロイ
 
-Cloudflare Pages 側では Astro ビルド前提の設定が必要です。
+`main` ブランチへ push すると GitHub Actions (`.github/workflows/deploy.yml`) が自動実行されます。
 
-- Build command: `npm run build`
-- Build output directory: `dist`
-- Production branch: `main`
+1. `npm ci` → `npm run build` でビルド
+2. `cloudflare/wrangler-action@v3` が `dist/` を Cloudflare Pages に direct upload
 
-詳細は [docs/cloudflare-pages-setup.md](docs/cloudflare-pages-setup.md) を参照してください。
+Cloudflare Pages 側のビルド設定は不要です（ビルドは Actions 側で行います）。  
+必要な GitHub Secrets: `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`（設定済み）。
+
+初回プロジェクト作成手順は [docs/cloudflare-pages-setup.md](docs/cloudflare-pages-setup.md) を参照してください。
 
 ## コンテンツ更新
 
