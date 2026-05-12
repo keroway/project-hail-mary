@@ -46,7 +46,7 @@ const { kind, title, caption } = Astro.props;
       <text x="360" y="114" class="diagram-label">進む速さ</text>
       <text x="215" y="108" class="diagram-label diagram-label-warm">重力</text>
       <text x="262" y="102" class="diagram-label">ISS</text>
-      <text x="147" y="126" class="diagram-label">地球</text>
+      <text x="175" y="126" text-anchor="middle" class="diagram-label">地球</text>
       <text x="418" y="92" class="diagram-caption">
         前へ進む向き
       </text>
@@ -184,13 +184,13 @@ const { kind, title, caption } = Astro.props;
       <polygon points="-3.5,-3.5 0,5 3.5,-3.5" class="diagram-anim diagram-flow-accent" opacity="0.52">
         <animateMotion dur="2s" begin="0s" repeatCount="indefinite" path="M478,108 L478,144" calcMode="spline" keySplines="0.4 0 0.6 1" keyTimes="0;1" />
       </polygon>
-      <text x="78" y="152" class="diagram-label diagram-label-warm">光</text>
-      <text x="228" y="84" class="diagram-label">光反応</text>
-      <text x="214" y="150" class="diagram-caption">H₂O → O₂</text>
-      <text x="430" y="84" class="diagram-label">カルビン回路</text>
-      <text x="438" y="150" class="diagram-caption">CO₂ → 糖</text>
-      <text x="366" y="69" class="diagram-caption">ATP / NADPH</text>
-      <text x="404" y="188" class="diagram-caption">光エネルギーを化学エネルギーへ</text>
+      <text x="112" y="152" text-anchor="middle" class="diagram-label diagram-label-warm">光</text>
+      <text x="281" y="80" text-anchor="middle" dominant-baseline="middle" class="diagram-label">光反応</text>
+      <text x="281" y="150" text-anchor="middle" class="diagram-caption">H₂O → O₂</text>
+      <text x="486" y="80" text-anchor="middle" dominant-baseline="middle" class="diagram-label">カルビン回路</text>
+      <text x="486" y="150" text-anchor="middle" class="diagram-caption">CO₂ → 糖</text>
+      <text x="380" y="69" text-anchor="middle" class="diagram-caption">ATP / NADPH</text>
+      <text x="340" y="188" text-anchor="middle" class="diagram-caption">光エネルギーを化学エネルギーへ</text>
     </svg>
   )}
 
@@ -214,7 +214,7 @@ const { kind, title, caption } = Astro.props;
       <line x1="516" y1="72" x2="516" y2="150" class="diagram-accent-line" />
       <line x1="196" y1="84" x2="196" y2="140" class="diagram-muted-line" />
       <text x="80" y="88" class="diagram-label">短波長 / 高エネルギー</text>
-      <text x="436" y="88" class="diagram-label">赤外線</text>
+      <text x="516" y="88" text-anchor="middle" class="diagram-label">赤外線</text>
       <text x="468" y="168" class="diagram-caption">Petrova line 25.984 μm</text>
       <text x="80" y="168" class="diagram-caption">可視光はごく狭い帯</text>
       <text x="80" y="193" class="diagram-caption">長波長ほど光子1個のエネルギーは小さい</text>
