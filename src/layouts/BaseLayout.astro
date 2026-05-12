@@ -485,7 +485,7 @@ const pageTransition = {
   function initScrollMascot() {
     if (mascotRafId) { cancelAnimationFrame(mascotRafId); mascotRafId = null; }
 
-    const mascot = document.querySelector('.scroll-mascot');
+    const mascot = document.querySelector<HTMLElement>('.scroll-mascot');
     if (!mascot) return;
 
     const isReduced = document.documentElement.dataset.motion === 'reduced';
