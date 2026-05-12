@@ -1,0 +1,49 @@
+name: CI — Check & Preview Deploy
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Type Check, Build & Preview Deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run check
+
+      - run: npm run build
+
+      - name: Deploy Preview
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        env:
+          BRANCH_NAME: ${{ github.head_ref }}
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=project-hail-mary --branch=$BRANCH_NAME
+
+      - name: Comment Preview URL
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            ## プレビュー URL
+
+            ${{ steps.deploy.outputs.deployment-url }}

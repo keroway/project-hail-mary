@@ -4,13 +4,16 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "check": "astro check"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.2",
     "astro": "5.18.1"
   },
   "devDependencies": {
+    "@astrojs/check": "0.9.9",
+    "typescript": "5.9.3",
     "wrangler": "4.81.1"
   }
 }
