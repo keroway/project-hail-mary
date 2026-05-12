@@ -988,6 +988,16 @@ html[data-contrast='high'] .link-desc {
   box-shadow: none;
 }
 .btn:active::after { opacity: 0.08; }
+.btn-secondary {
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--dim-star);
+  background: rgba(255, 255, 255, 0.03);
+}
+.btn-secondary:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.08);
+  color: var(--star-white);
+}
 
 /* ===== Subject cards (used on index/story) ===== */
 .subject-grid {
