@@ -134,6 +134,19 @@ import ScienceDiagram from '../components/ScienceDiagram.astro';
         <p>「1%の輝度低下」が現実の問題になる。<span class="hl-amber">指数関数は序盤がゆっくりすぎて、気づいたときには手遅れになりやすい</span>。これが作中でミッション計画に「余裕のなさ」をもたらしている。</p>
       </div>
     </div>
+    <div class="science-block">
+      <div class="block-label">📺 余談：ドラえもん「バイバイン」</div>
+      <div class="science-content">
+        <p>「バイバイン」は、かけた食べ物を<span class="hl-amber">5分ごとに2倍</span>に増やすひみつ道具。のびたが栗まんじゅうにかけたら食べきれなくなり、最終的にロケットで宇宙へ追放するはめになる——日本で最もポピュラーな「指数関数の暴走」だ。</p>
+        <p style="margin-top:12px;">栗まんじゅう1個（体積 約50 cm³）にかけたら、地球（体積 1.08 × 10²⁷ cm³）が埋め尽くされるまで何分かかるか？</p>
+        <ul style="margin:10px 0 10px 20px; font-size:13px; color:rgba(232,244,253,0.75); line-height:2.2;">
+          <li>必要な個数：1.08 × 10²⁷ ÷ 50 ≈ <span style="font-family:'Space Mono',monospace;">2.16 × 10²⁵</span> 個</li>
+          <li>倍増回数：log₂(2.16 × 10²⁵) ≈ <span class="hl-amber">84 回</span></li>
+          <li>所要時間：84 × 5分 = <span class="hl-amber">420分（約7時間）</span></li>
+        </ul>
+        <p>朝に1個かけたら、夕方には地球が栗まんじゅうで埋め尽くされる。<span class="hl-amber">「まだ大丈夫」と思っている間に手遅れになる</span>のは、アストロファージが太陽を蝕むしくみとまったく同じ数学だ。倍増時間（T_d）が5分か1日かの違いだけで、本質は上の式 N(t) = N₀ × 2^(t / T_d) と完全に同じ。</p>
+      </div>
+    </div>
     <div class="question-box">
       <div class="q-label">💭 考えてみよう</div>
       <div class="q-text">新型コロナウイルスの初期拡大も指数関数だった。「倍増時間が3日」だとすると、最初の感染者1人から100万人に達するのは何日後か？（ヒント：2の何乗が100万か考えよう）</div>
