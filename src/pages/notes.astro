@@ -1,0 +1,245 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout
+  title="余談・コラム編 — ヘイルメアリー サイエンスガイド"
+  description="ヤードポンド法・メートル・秒——プロジェクトへイルメアリーに登場する単位の謎を中学生向けに解説。グレースの国籍推測エピソードから始まる単位系の歴史と、現代の物理定数による定義を詳しく紹介。"
+  currentPath="/notes"
+>
+
+<div class="container">
+
+  <header>
+    <div class="header-eyebrow">NOTES</div>
+    <h1>プロジェクト・ヘイルメアリー<br>サイエンスガイド — 余談・コラム編</h1>
+    <p class="header-sub">単位の話——ヤードポンド法・メートル・秒、その意外な歴史</p>
+    <div class="header-meta">
+      <span class="meta-tag">TARGET: 中学2年〜高校生</span>
+      <span class="meta-tag">SUBJECT: 単位・科学史</span>
+      <span class="meta-tag">ネタバレなし</span>
+    </div>
+  </header>
+
+  <div class="intro">
+    <p>宇宙では、どんな単位を使えばいい？この問いはグレースにとって深刻だ。彼が記憶喪失から目覚めたとき、自分の思考パターンが手がかりになった。メートルでもなく、フィートで考えていた——その一点が、彼の<strong>国籍を推測するヒント</strong>になった。単位とは単なる「計測のルール」ではなく、その社会の歴史と文化を映す鏡だ。</p>
+  </div>
+
+  <!-- NOTE 01 -->
+  <div class="phase" id="note01">
+    <div class="phase-header">
+      <div class="phase-number">NOTE 01</div>
+      <div class="phase-title-group">
+        <h2 class="phase-title">ヤードポンド法——アメリカだけが使い続ける理由</h2>
+        <div class="phase-topic">単位系 / 科学史 / 文化的慣習</div>
+      </div>
+    </div>
+    <div class="level-badge level-middle">▶ 中学2〜3年レベル</div>
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      記憶喪失のグレースは、目覚めた宇宙船の中で自分のことを少しずつ思い出そうとする。身長を考えるとき、頭の中に浮かぶのは「175センチ」ではなく「<strong>5フィート9インチ弱</strong>」だった。ロッキーはこの思考パターンを見抜き、「ヤードポンド法を日常的に使う国の出身だ」と推測する——それがグレースの国籍を絞り込む伏線のひとつになる。
+    </div>
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：ヤードポンド法とは何か</div>
+      <div class="science-content">
+        <p>世界のほとんどの国は<span class="hl-teal">メートル法（SI単位系）</span>を使っている。しかしアメリカ・リベリア・ミャンマーの3ヶ国は現在も<span class="hl-yellow">ヤードポンド法</span>を日常的に使い続けている。</p><br>
+        <p>ヤードポンド法の主な単位：</p>
+        <ul style="margin:10px 0 10px 20px; font-size:13px; color:rgba(232,244,253,0.75); line-height:2.2;">
+          <li>長さ：インチ（2.54 cm）、フィート（30.48 cm）、ヤード（91.44 cm）、マイル（1.609 km）</li>
+          <li>重さ：オンス（28.35 g）、ポンド（453.6 g）</li>
+          <li>温度：°F（ファーレンハイト）——水の沸点212°F、氷点32°F</li>
+        </ul>
+        <p>なぜアメリカは変えないのか？1800年代にメートル法への切り替えが試みられたが、<span class="hl-red">インフラコスト・産業慣習・国民の抵抗</span>で頓挫した。1999年には火星探査機「マーズ・クライメイト・オービター」が、ヤードポンド法とメートル法の変換ミスで<strong>大気圏に突入して消滅</strong>するという事故も起きた。単位の混在は現実の大問題だ。</p>
+      </div>
+    </div>
+    <div class="formula-box" data-label="CONVERT">
+      <span class="formula">1 ft = 0.3048 m　／　1 lb = 0.4536 kg　／　°F = °C × 9/5 + 32</span>
+      <div class="formula-note">
+        <span>ft（フィート）</span>：もとは人間の足の長さに由来。12インチ = 1フィート<br>
+        <span>lb（ポンド）</span>：ローマ時代の重さ「リブラ」に由来。化学式の「Pb（鉛）」の語源でもある<br>
+        <span>°F</span>：ファーレンハイトが1724年に提案。ヒトの体温を100°Fに設定しようとしたが微妙にズレた
+      </div>
+    </div>
+    <div class="person-block">
+      <div class="person-icon">🧪</div>
+      <div class="person-info">
+        <div class="person-name">ダニエル・ガブリエル・ファーレンハイト（1686〜1736）</div>
+        <p>ポーランド生まれの物理学者。水銀温度計を発明し、現在も主にアメリカで使われる°Fスケールを考案。「塩水の氷点を0°F、ヒトの体温を96°F」とする基準を設けたが、後に水の氷点・沸点（32°F・212°F）が正規の基準点になった。</p>
+      </div>
+    </div>
+    <div class="question-box">
+      <div class="q-label">💭 考えてみよう</div>
+      <div class="q-text">グレースの身長「5フィート9インチ」は何センチか？また、体重「175ポンド」は何キログラムか？変換式を使って計算してみよう。（ヒント：1フィート=30.48cm、1インチ=2.54cm、1ポンド≈0.454kg）</div>
+    </div>
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.youtube.com/watch?v=7ff-XVuBJ4w" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">「なぜアメリカはメートル法を採用しないのか」</span><span class="link-desc">YouTube / 英語解説 / 約10分</span></span>
+        </a>
+        <a class="link-item" href="https://science.nasa.gov/mission/mars-climate-orbiter/" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon">🚀</span>
+          <span class="link-text"><span class="link-title">NASA「マーズ・クライメイト・オービター」ミッション記録</span><span class="link-desc">NASA 公式 / 単位ミスによる失敗の詳細</span></span>
+        </a>
+        <a class="link-item" href="https://www.bipm.org/en/measurement-units" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon">📐</span>
+          <span class="link-text"><span class="link-title">BIPM（国際度量衡局）公式サイト</span><span class="link-desc">SI 単位系の公式定義・歴史</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— SCIENCE LOG —</span></div>
+
+  <!-- NOTE 02 -->
+  <div class="phase" id="note02">
+    <div class="phase-header">
+      <div class="phase-number">NOTE 02</div>
+      <div class="phase-title-group">
+        <h2 class="phase-title">メートルの定義変遷——「光速」にたどり着くまで</h2>
+        <div class="phase-topic">メートル法 / 物理定数 / 度量衡の歴史</div>
+      </div>
+    </div>
+    <div class="level-badge level-middle">▶ 中学2〜3年レベル</div>
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      宇宙空間で物体の大きさを測るグレース。地球上の「原器」にも「地球の大きさ」にも縛られない、<strong>宇宙のどこでも通用する長さの定義</strong>とは何か？この問いは、人類が200年かけて答えを探し続けてきたものと同じだ。
+    </div>
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：メートルの定義はどう変わってきたか</div>
+      <div class="science-content">
+        <p>「1メートル」という長さの定義は、人類の測定精度の向上とともに何度も更新されてきた。</p><br>
+        <p><span class="hl-teal">第1段階（1791年）：地球の子午線基準</span><br>
+        フランス革命後、「誰の体にも依存しない、自然に基づく普遍的な単位」として「<strong>北極から赤道までの距離の1000万分の1</strong>」を1メートルと定めた。しかし地球の測量には誤差があり、完全ではなかった。</p><br>
+        <p><span class="hl-yellow">第2段階（1889年）：国際メートル原器</span><br>
+        プラチナ・イリジウム合金で作られた金属棒の2本の刻み線の間隔を1メートルとした。物理的な「モノ」が基準になった。しかし原器は傷つき、温度変化で伸縮する。</p><br>
+        <p><span class="hl-purple">第3段階（1960年）：クリプトン86の光の波長</span><br>
+        「クリプトン86原子が放つオレンジ色の光の波長 × 1,650,763.73」を1メートルと再定義。より再現性が高くなった。</p><br>
+        <p><span class="hl-green">第4段階（1983年〜現在）：光速に基づく定義</span><br>
+        「真空中で光が1/299,792,458秒に進む距離」を1メートルと定めた。これにより、メートルは光速（c）という<strong>宇宙定数</strong>に完全に固定された。宇宙のどこでも、同じ物理法則が成り立つならば、同じ「1メートル」が再現できる。</p>
+      </div>
+    </div>
+    <div class="formula-box" data-label="DEFINE">
+      <span class="formula">1 m = c × (1 / 299,792,458) s</span>
+      <div class="formula-note">
+        <span>c</span>：光速（真空中）= 299,792,458 m/s（厳密に定義された定数）<br>
+        <span>1/299,792,458 s</span>：光が1メートル進むのにかかる時間<br><br>
+        「光速」が先に定義され、「メートル」はそこから導かれる。現在の SI では c は<strong>測定値ではなく定義値</strong>（誤差ゼロ）。
+      </div>
+    </div>
+    <div class="person-block">
+      <div class="person-icon">⚖️</div>
+      <div class="person-info">
+        <div class="person-name">ジャン＝シャルル・ド・ボルダ（1733〜1799）</div>
+        <p>フランスの数学者・測量家。フランス革命期にメートル法の基礎を設計した委員会のメンバー。「地球の大きさに基づく普遍的な単位を作ろう」という発想を提案した先駆者のひとり。ボルダらの子午線測量の結果から「1メートル」の原型が生まれた。</p>
+      </div>
+    </div>
+    <div class="question-box">
+      <div class="q-label">💭 考えてみよう</div>
+      <div class="q-text">光は1秒間に約30万kmを進む。これを使って「1メートル」を秒で表すと何秒か？また、1ナノ秒（10⁻⁹秒）で光が進む距離は何cmか？これが「光速コンピュータ」の限界を考えるときに使われる数字だ。</div>
+    </div>
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.bipm.org/en/measurement-units/si-defining-constants" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon">📐</span>
+          <span class="link-text"><span class="link-title">BIPM「SI の7つの定義定数」</span><span class="link-desc">英語 / 現行 SI の定義 / 公式資料</span></span>
+        </a>
+        <a class="link-item" href="https://www.youtube.com/watch?v=XECCBYwMW4M" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">「The History of the Metre」</span><span class="link-desc">YouTube / 英語 / メートル法の歴史をビジュアルで解説</span></span>
+        </a>
+        <a class="link-item" href="https://www.nict.go.jp/publication/NICT-News/0504/index.html" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon">🔬</span>
+          <span class="link-text"><span class="link-title">NICT「SI 単位の改定について」</span><span class="link-desc">情報通信研究機構 / 日本語 / 2019年改定の解説</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— SCIENCE LOG —</span></div>
+
+  <!-- NOTE 03 -->
+  <div class="phase" id="note03">
+    <div class="phase-header">
+      <div class="phase-number">NOTE 03</div>
+      <div class="phase-title-group">
+        <h2 class="phase-title">秒の定義変遷——原子時計と「絶対的な時間」</h2>
+        <div class="phase-topic">時間の単位 / 原子時計 / 物理定数</div>
+      </div>
+    </div>
+    <div class="level-badge level-middle">▶ 中学2〜3年レベル</div>
+    <div class="story-block">
+      <div class="block-label">📖 ストーリー</div>
+      アストロファージは1秒間にどれだけのエネルギーを放出するか？グレースが宇宙船のエネルギー計算を行うとき、<strong>「1秒」という時間の正確な定義</strong>が前提になる。地球の自転をもとに作られた「1秒」は、GPSや宇宙探査では精度が足りない。現代の「1秒」は、原子の振動という宇宙普遍の現象から定義される。
+    </div>
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：「1秒」の定義はどう変わってきたか</div>
+      <div class="science-content">
+        <p><span class="hl-teal">第1段階（古代〜1956年）：地球の自転基準</span><br>
+        「1日を86,400等分したもの」が1秒だった。1日 = 24時間 × 60分 × 60秒 = 86,400秒。しかし<strong>地球の自転速度はわずかに変動する</strong>（月の引力や地球内部の運動のため）。これでは精密科学には不十分だ。</p><br>
+        <p><span class="hl-yellow">第2段階（1956〜1967年）：暦表時（天文学的時間）</span><br>
+        「1900年1月1日の太陽年の1/31,556,925.9747」を1秒と定義。天文学的な計算に基づく精密な定義だが、測定には膨大な観測が必要だった。</p><br>
+        <p><span class="hl-green">第3段階（1967年〜現在）：セシウム133原子時計</span><br>
+        「<strong>セシウム133原子の基底状態の超微細遷移周波数の9,192,631,770回</strong>の振動時間」を1秒と定義。この定義は現在も使われている。原子の振動は宇宙のどこでも同じ（量子力学の原理）なので、完全に再現可能だ。</p><br>
+        <p>現代の原子時計は<span class="hl-purple">3000万年に1秒もズレない</span>精度を持つ。GPS衛星に搭載された原子時計が狂うと、地上の位置情報が数十メートルもズレてしまう。「1秒の精度」は宇宙探査からスマートフォンまで直結している。</p>
+      </div>
+    </div>
+    <div class="formula-box" data-label="DEFINE">
+      <span class="formula">1 s = 9,192,631,770 × T_Cs</span>
+      <div class="formula-note">
+        <span>T_Cs</span>：セシウム133原子の基底状態における2つの超微細エネルギー準位間の遷移の周期<br>
+        <span>9,192,631,770</span>：この振動回数が厳密に1秒と定義される（誤差ゼロの定義値）<br><br>
+        この振動は「マイクロ波」の領域（約9.2 GHz）。セシウム原子に電磁波を照射し、エネルギー遷移を起こすことで正確な周波数が得られる。
+      </div>
+    </div>
+    <div class="person-block">
+      <div class="person-icon">⏱️</div>
+      <div class="person-info">
+        <div class="person-name">ルイス・エッセン（1908〜1997）</div>
+        <p>イギリスの物理学者。1955年、世界初の実用的なセシウム原子時計を開発。それまでの天文学的時計を大きく上回る精度を実現し、1967年の「秒」の再定義に直接貢献した。彼の業績はGPS・インターネット・金融決済など現代インフラのすべてに生きている。</p>
+      </div>
+    </div>
+    <div class="question-box">
+      <div class="q-label">💭 考えてみよう</div>
+      <div class="q-text">GPS衛星は高度約2万kmを周回しているため、相対性理論の効果で地上より1日に約38マイクロ秒（0.000038秒）時計が進む。これを補正しないと、1日で位置誤差が何メートルになるか？（ヒント：38 × 10⁻⁶秒 × 光速 = ? m）</div>
+    </div>
+    <div class="links-block">
+      <div class="block-label">🔗 参考リンク</div>
+      <div class="link-grid">
+        <a class="link-item" href="https://www.nict.go.jp/press/2023/03/22-1.html" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon">⏱️</span>
+          <span class="link-text"><span class="link-title">NICT「日本標準時と原子時計の仕組み」</span><span class="link-desc">情報通信研究機構 / 日本語 / 国内の時刻管理の解説</span></span>
+        </a>
+        <a class="link-item" href="https://www.youtube.com/watch?v=p2BxAu6WZI8" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon">▶</span>
+          <span class="link-text"><span class="link-title">「How does an Atomic Clock work?」</span><span class="link-desc">YouTube / 英語 / 原子時計の仕組みをアニメーションで解説</span></span>
+        </a>
+        <a class="link-item" href="https://gps.gov/systems/gps/space/" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon">🛰️</span>
+          <span class="link-text"><span class="link-title">GPS.gov「GPS 衛星の仕組みと相対性補正」</span><span class="link-desc">米国政府公式 / 英語 / GPS と相対論補正の解説</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-note">
+      「1メートル」も「1秒」も、もとは人間が決めた便宜的なルールだった。<br>
+      しかし今や光速やセシウム原子という<strong>宇宙普遍の定数</strong>に刻まれている。<br>
+      宇宙人のロッキーと交流するグレースが直面した「単位の壁」は、<br>
+      人類が2世紀かけて乗り越えてきた問いと同じものだ。
+    </div>
+  </footer>
+
+</div>
+</BaseLayout>
+
+<style>
+  :root {
+    --accent:        #00d4aa;
+    --accent-glow:   rgba(0, 212, 170, 0.3);
+    --accent-bg:     rgba(0, 212, 170, 0.08);
+    --accent-border: rgba(0, 212, 170, 0.2);
+  }
+</style>
