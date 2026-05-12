@@ -292,6 +292,75 @@ import ScienceDiagram from '../components/ScienceDiagram.astro';
     </div>
   </SpoilerGate>
 
+  <div class="section-divider"><span class="divider-label">— BIO LOG —</span></div>
+
+  <!-- BIO 05 — SPOILER ch25 -->
+  <SpoilerGate id="bio05" minChapter={25} label="第25章以降のネタバレ" hint="タウメーバが窒素耐性・キセノナイト透過能力を獲得する終盤の展開を含みます。">
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-number">BIO 05</div>
+        <div class="phase-title-group">
+          <h2 class="phase-title">タウメーバの進化獲得——グレースが仕掛けた「進化実験」</h2>
+          <div class="phase-topic">実験進化学 / 自然選択 / 抗生物質耐性 / 選択圧</div>
+        </div>
+      </div>
+      <div class="spoiler-warn">⚠ SPOILER: タウメーバの窒素耐性・キセノナイト透過能力の獲得を含む</div>
+      <div class="level-badge level-both">▶ 中3〜高2レベル</div>
+      <div class="story-block">
+        <div class="block-label">📖 ストーリー</div>
+        物語の終盤、グレースはタウメーバを使ってアストロファージを駆除する方法を模索する。まず<strong>窒素耐性</strong>を持つタウメーバを選別するため、窒素濃度を少しずつ上げた環境でタウメーバを継代培養し、耐性個体だけが生き残る選択圧をかけた。さらに、アストロファージが利用する<strong>キセノナイト</strong>（太陽系外希少元素）の膜を透過できるタウメーバを選別することで、アストロファージに直接寄生して増殖できる変異株の獲得に成功した。この「意図的な選択圧」による進化誘導こそが、物語を解決へ導く科学的核心だ。
+      </div>
+      <div class="science-block">
+        <div class="block-label">🔬 科学解説①：実験進化学——「今この瞬間」の進化を観察する</div>
+        <div class="science-content">
+          <p><span class="hl-green">実験進化学（experimental evolution）</span>とは、実験室の中で人工的な選択圧を加えながら生物の進化をリアルタイムで追跡する研究分野だ。生物の世代交代が速い微生物（細菌・ウイルスなど）を使えば、何万世代にもわたる進化を数年〜数十年で再現できる。</p><br>
+          <p>最も有名な実験が、ミシガン州立大学のリチャード・レンスキーが1988年に開始した<span class="hl-yellow">「長期大腸菌進化実験（LTEE: Long-Term Evolution Experiment）」</span>だ。12系統の大腸菌集団を同一条件で毎日継代培養し、2025年現在まで80,000世代以上（！）の進化データを蓄積している。ある系統では、約33,000世代目に突然「クエン酸を好気条件で代謝できる」という全く新しい能力が出現した——これは非常に稀な変異が重なって生じた「大進化」の現場だった。</p><br>
+          <p>グレースがやったことはこの研究と同じ発想だ。窒素耐性という特定の形質を持つ個体だけが生き残れる環境を作り、世代を重ねることで集団全体がその能力を持つように進化させた。</p>
+        </div>
+      </div>
+      <div class="science-block" style="margin-top:16px;">
+        <div class="block-label">🔬 科学解説②：抗生物質耐性——現実世界で起きている「タウメーバの進化」</div>
+        <div class="science-content">
+          <p>タウメーバが窒素耐性を獲得するプロセスは、<span class="hl-red">抗生物質耐性菌の出現</span>と全く同じメカニズムだ。</p><br>
+          <p>抗生物質を中途半端な量・期間使い続けると、「完全には死なないが弱い」環境が生まれる。この選択圧のもとで、たまたま耐性変異を持つ細菌だけが生き残り、増殖を続ける。数世代もすれば集団の大部分が耐性を持つようになる——これが耐性菌が生まれる仕組みだ。</p><br>
+          <div class="formula-box" data-label="実験：MEGA plate（巨大ペトリ皿）">
+            ハーバード大学医学部が2016年に行った「MEGA plate実験」では、2メートル×1.2メートルの巨大なペトリ皿に、端から中央に向かって抗生物質濃度を段階的に上げた培地を用意した。大腸菌を両端に接種すると、ものの数日で菌が「抗生物質の壁」を突破して中央（最高濃度ゾーン）まで進出する様子が動画で確認できた。抗生物質耐性は「未来の問題」ではなく、目の前で起きている現実だ。
+          </div>
+          <br>
+          <p>グレースが「キセノナイト透過能力」を獲得させたのも同じ原理——キセノナイトが障壁として機能する環境を繰り返し与えることで、透過できる変異株だけが生き残るよう選択圧をかけた。</p>
+        </div>
+      </div>
+      <div class="person-block">
+        <div class="person-icon">🧬</div>
+        <div class="person-info">
+          <div class="person-name">リチャード・レンスキー（1956〜）</div>
+          <p>ミシガン州立大学の進化生物学者。1988年から続く大腸菌の長期進化実験（LTEE）を主導。大腸菌がクエン酸代謝能力を新たに獲得する「大進化」の瞬間を初めてリアルタイムで記録した。「進化は再現可能か？」という問いに実験で挑む姿勢は、グレースが宇宙船でタウメーバに行った進化実験のモデルそのものだ。</p>
+        </div>
+      </div>
+      <div class="question-box">
+        <div class="q-label">💭 考えてみよう</div>
+        <div class="q-text">グレースはタウメーバを「意図的に進化させた」。では、自然界の進化と人間が誘導する進化の違いは何だろう？もし人間が意図的に病原菌を進化させて別の病原菌を倒させることができたとしたら、それはどんな可能性とリスクをはらんでいると思う？</div>
+      </div>
+      <div class="links-block">
+        <div class="block-label">🔗 参考リンク</div>
+        <div class="link-grid">
+          <a class="link-item" href="https://www.youtube.com/watch?v=plVk4NVIUh8" target="_blank" rel="noopener noreferrer">
+            <span class="link-icon">▶</span>
+            <span class="link-text"><span class="link-title">Harvard Medical School「MEGA plate」動画</span><span class="link-desc">YouTube / 2分 / 抗生物質耐性菌が目の前で進化する衝撃映像</span></span>
+          </a>
+          <a class="link-item" href="https://www.youtube.com/watch?v=0SCjhI86grU" target="_blank" rel="noopener noreferrer">
+            <span class="link-icon">▶</span>
+            <span class="link-text"><span class="link-title">Kurzgesagt「Antibiotic Resistance」</span><span class="link-desc">英語アニメ / 12分 / 抗生物質耐性菌の出現メカニズムと対策</span></span>
+          </a>
+          <a class="link-item" href="https://www.youtube.com/watch?v=wvQbCLdSHZ8" target="_blank" rel="noopener noreferrer">
+            <span class="link-icon">▶</span>
+            <span class="link-text"><span class="link-title">HHMI「Richard Lenski's Long-Term Evolution Experiment」</span><span class="link-desc">英語 / 6分 / LTEE実験の解説（字幕あり）</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </SpoilerGate>
+
   <div class="section-divider"><span class="divider-label">— APPENDIX —</span></div>
 
   <!-- Roadmap -->
