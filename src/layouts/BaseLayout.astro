@@ -380,8 +380,8 @@ const pageTransition = {
 
   /* ===== Scroll reveal via IntersectionObserver ===== */
   let scrollRevealObserver = null;
-  let heroRevealObserver = null;
-  let headingZoneObserver = null;
+  let heroEnterObserver = null;
+  let heroLeaveObserver = null;
 
   function hasMobileHeroMode() {
     return window.matchMedia('(max-width: 820px)').matches
@@ -403,19 +403,12 @@ const pageTransition = {
 
   function initScrollReveal() {
     if (scrollRevealObserver) scrollRevealObserver.disconnect();
-    if (heroRevealObserver) heroRevealObserver.disconnect();
-    if (headingZoneObserver) headingZoneObserver.disconnect();
+    if (heroEnterObserver) heroEnterObserver.disconnect();
+    if (heroLeaveObserver) heroLeaveObserver.disconnect();
 
     const mobileHeroMode = syncMobileHeroMode();
-    const heroImages = document.querySelectorAll('.phase-hero');
-
     const isReduced = document.documentElement.dataset.motion === 'reduced';
-    if (isReduced) {
-      for (const img of heroImages) {
-        img.classList.remove('hero-revealed');
-      }
-      return;
-    }
+    const heroImages = document.querySelectorAll('.phase-hero');
 
     const targets = document.querySelectorAll(
       '.phase, .intro, .chapter-selector, .subject-card, .timeline-item'
@@ -438,44 +431,53 @@ const pageTransition = {
       scrollRevealObserver.observe(el);
     }
 
-    /* モバイル表示では viewport 侵入時に輝度フラッシュ */
-    if (mobileHeroMode) {
-      heroRevealObserver = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('hero-revealed');
-              heroRevealObserver?.unobserve(entry.target);
-            }
-          }
-        },
-        { threshold: 0.1, rootMargin: '0px 0px -20px 0px' }
-      );
+    for (const img of heroImages) {
+      img.classList.remove('is-in-view', 'hero-revealed', 'hero-heading-zone');
+    }
 
-      /* フラッシュアニメーション終了後にクラスを除去（heading-zone が効くように） */
-      for (const img of heroImages) {
-        heroRevealObserver.observe(img);
-        img.addEventListener('animationend', () => {
-          img.classList.remove('hero-revealed');
-        }, { once: true });
-      }
+    if (!mobileHeroMode || isReduced) return;
 
-      /* viewport 上部 10%–40% にいる間は中間輝度を維持 */
-      headingZoneObserver = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            entry.target.classList.toggle('hero-heading-zone', entry.isIntersecting);
-          }
-        },
-        { rootMargin: '-10% 0px -60% 0px', threshold: 0 }
-      );
-      for (const img of heroImages) {
-        headingZoneObserver.observe(img);
+    /* ヒステリシス付き2状態: 入域は厳しめ・退域はゆるめの rootMargin で切替を安定させる */
+    const heroState = new WeakMap();
+    let rafPending = null;
+    const pendingOps = new Map();
+
+    function flushHeroState() {
+      rafPending = null;
+      for (const [el, next] of pendingOps) {
+        if (heroState.get(el) === next) continue;
+        heroState.set(el, next);
+        el.classList.toggle('is-in-view', next === 'in');
       }
-    } else {
-      for (const img of heroImages) {
-        img.classList.remove('hero-revealed', 'hero-heading-zone');
-      }
+      pendingOps.clear();
+    }
+
+    function scheduleHeroUpdate(el, next) {
+      pendingOps.set(el, next);
+      if (rafPending == null) rafPending = requestAnimationFrame(flushHeroState);
+    }
+
+    heroEnterObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) scheduleHeroUpdate(entry.target, 'in');
+        }
+      },
+      { rootMargin: '-20% 0px -50% 0px', threshold: 0 }
+    );
+
+    heroLeaveObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) scheduleHeroUpdate(entry.target, 'out');
+        }
+      },
+      { rootMargin: '0% 0px -70% 0px', threshold: 0 }
+    );
+
+    for (const img of heroImages) {
+      heroEnterObserver.observe(img);
+      heroLeaveObserver.observe(img);
     }
   }
 
