@@ -1,0 +1,39 @@
+---
+import { getCitationsFor, type PageId } from '../data/citations';
+
+interface Props {
+  page: PageId;
+  phaseId: string;
+}
+
+const { page, phaseId } = Astro.props;
+const items = getCitationsFor(page, phaseId);
+
+const typeIcon: Record<string, string> = {
+  paper:    '📄',
+  spec:     '📐',
+  textbook: '📘',
+  database: '🗂️',
+  official: '🏛️',
+};
+---
+{items.length > 0 && (
+  <div class="links-block citations-block">
+    <div class="block-label">📚 一次資料</div>
+    <div class="link-grid">
+      {items.map((c) => (
+        <a class="link-item" href={c.url} target="_blank" rel="noopener noreferrer">
+          <span class="link-icon">{typeIcon[c.type] ?? '📄'}</span>
+          <span class="link-text">
+            <span class="link-title">{c.title}</span>
+            <span class="link-desc">
+              {c.authors}{c.authors && c.year ? ' · ' : ''}{c.year}
+              {c.note && <Fragment><br />{c.note}</Fragment>}
+            </span>
+            <span class={`citation-type-badge type-${c.type}`}>{c.type}</span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+)}

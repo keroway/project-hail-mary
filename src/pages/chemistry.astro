@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ScienceDiagram from '../components/ScienceDiagram.astro';
+import CitationList from '../components/CitationList.astro';
 import { Image } from 'astro:assets';
 import ch01 from '../assets/images/ch01-elements.jpg';
 import ch02 from '../assets/images/ch02-spectrum.jpg';
@@ -89,6 +90,7 @@ import ch03 from '../assets/images/ch03-air.jpg';
         </a>
       </div>
     </div>
+    <CitationList page="chemistry" phaseId="chem01" />
   </div>
 
   <div class="section-divider"><span class="divider-label">— CHEM LOG —</span></div>
@@ -157,6 +159,7 @@ import ch03 from '../assets/images/ch03-air.jpg';
         </a>
       </div>
     </div>
+    <CitationList page="chemistry" phaseId="chem02" />
   </div>
 
   <div class="section-divider"><span class="divider-label">— CHEM LOG —</span></div>
@@ -223,6 +226,7 @@ import ch03 from '../assets/images/ch03-air.jpg';
         </a>
       </div>
     </div>
+    <CitationList page="chemistry" phaseId="chem03" />
   </div>
 
   <div class="section-divider"><span class="divider-label">— APPENDIX —</span></div>
