@@ -2,6 +2,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SpoilerGate from '../components/SpoilerGate.astro';
 import ScienceDiagram from '../components/ScienceDiagram.astro';
+import { Image } from 'astro:assets';
+import bi01 from '../assets/images/bi01-cells.jpg';
+import bi02 from '../assets/images/bi02-brain.jpg';
+import bi03 from '../assets/images/bi03-evolution.jpg';
+import bi04 from '../assets/images/bi04-hydrothermal.jpg';
 ---
 <BaseLayout
   title="生物編 — ヘイルメアリー サイエンスガイド"
@@ -28,7 +33,7 @@ import ScienceDiagram from '../components/ScienceDiagram.astro';
 
   <!-- BIO 01 -->
   <div class="phase" id="bio01">
-    <img class="phase-hero" src="/images/bi01-cells.jpg" alt="顕微鏡で見る細胞構造" loading="lazy" />
+    <Image class="phase-hero" src={bi01} alt="顕微鏡で見る細胞構造" loading="lazy" />
     <div class="phase-header">
       <div class="phase-number">BIO 01</div>
       <div class="phase-title-group">
@@ -93,7 +98,7 @@ import ScienceDiagram from '../components/ScienceDiagram.astro';
 
   <!-- BIO 04 -->
   <div class="phase" id="bio04">
-    <img class="phase-hero" src="/images/bi04-hydrothermal.jpg" alt="深海熱水噴出孔の生態系" loading="lazy" />
+    <Image class="phase-hero" src={bi04} alt="深海熱水噴出孔の生態系" loading="lazy" />
     <div class="phase-header">
       <div class="phase-number">BIO 04</div>
       <div class="phase-title-group">
@@ -165,7 +170,7 @@ import ScienceDiagram from '../components/ScienceDiagram.astro';
 
   <!-- BIO 02 -->
   <div class="phase" id="bio02">
-    <img class="phase-hero" src="/images/bi02-brain.jpg" alt="神経ネットワークのイメージ" loading="lazy" />
+    <Image class="phase-hero" src={bi02} alt="神経ネットワークのイメージ" loading="lazy" />
     <div class="phase-header">
       <div class="phase-number">BIO 02</div>
       <div class="phase-title-group">
@@ -223,7 +228,7 @@ import ScienceDiagram from '../components/ScienceDiagram.astro';
   <!-- BIO 03 — SPOILER ch9 -->
   <SpoilerGate id="bio03" minChapter={9} label="第9章以降のネタバレ" hint="ロッキー（異星人）の描写と、収斂進化の観点からの考察を含みます。">
     <div class="phase">
-      <img class="phase-hero" src="/images/bi03-evolution.jpg" alt="海中の生命——収斂進化の例" loading="lazy" />
+      <Image class="phase-hero" src={bi03} alt="海中の生命——収斂進化の例" loading="lazy" />
       <div class="phase-header">
         <div class="phase-number">BIO 03</div>
         <div class="phase-title-group">
