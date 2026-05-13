@@ -502,20 +502,24 @@ h1 {
   .phase-hero { height: 120px; }
 }
 html[data-mobile-hero='enabled'] .phase-hero {
-  opacity: 0.65;
-  filter: brightness(0.58) saturate(0.75);
+  opacity: 0.7;
+  filter: brightness(0.7) saturate(0.8);
+  transition: opacity 200ms ease-out, filter 200ms ease-out;
 }
 html[data-mobile-hero='enabled'] .phase-hero:active {
   opacity: 0.85;
   filter: brightness(0.75) saturate(0.95);
   transform: scale(1.01);
 }
-html[data-mobile-hero='enabled'] .phase-hero.hero-revealed {
-  animation: heroReveal 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+html[data-mobile-hero='enabled'] .phase-hero.is-in-view {
+  opacity: 1;
+  filter: brightness(1.0) saturate(1.0);
 }
-html[data-mobile-hero='enabled'] .phase-hero.hero-heading-zone {
-  opacity: 0.75;
-  filter: brightness(0.70) saturate(0.85);
+@media (prefers-reduced-motion: reduce) {
+  html[data-mobile-hero='enabled'] .phase-hero,
+  html[data-mobile-hero='enabled'] .phase-hero.is-in-view {
+    transition: none;
+  }
 }
 
 /* ===== Phase sections ===== */
@@ -712,6 +716,35 @@ html[data-mobile-hero='enabled'] .phase-hero.hero-heading-zone {
 .link-title { font-size: calc(13px * var(--font-scale)); color: var(--aurora); display: block; margin-bottom: 2px; line-height: 1.4; }
 .link-desc { font-size: calc(11px * var(--font-scale)); color: var(--dim-star); line-height: 1.5; }
 .link-text { flex: 1; }
+
+/* ===== Citations block (一次資料) ===== */
+.citations-block .block-label { color: var(--warm-star); }
+.citations-block .link-item {
+  background: rgba(255, 209, 102, 0.04);
+  border-color: rgba(255, 209, 102, 0.15);
+}
+.citations-block .link-item:hover {
+  background: rgba(255, 209, 102, 0.09);
+  border-color: rgba(255, 209, 102, 0.30);
+}
+.citations-block .link-title { color: var(--warm-star); }
+
+.citation-type-badge {
+  display: inline-block;
+  margin-top: 6px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border: 1px solid currentColor;
+  opacity: 0.75;
+}
+.citation-type-badge.type-paper    { color: var(--aurora); }
+.citation-type-badge.type-spec     { color: var(--accent); }
+.citation-type-badge.type-textbook { color: var(--warm-star); }
+.citation-type-badge.type-official { color: var(--dim-star); }
+.citation-type-badge.type-database { color: var(--dim-star); }
 
 /* ===== Badges ===== */
 .level-badge {
@@ -1257,12 +1290,6 @@ html:not([data-motion='reduced']) .scroll-mascot.is-active {
 
 @media (max-width: 400px) {
   .subject-grid { grid-template-columns: 1fr; }
-}
-
-@keyframes heroReveal {
-  0%   { opacity: 0.65; filter: brightness(0.58) saturate(0.75); }
-  35%  { opacity: 0.85; filter: brightness(0.88) saturate(1.0); }
-  100% { opacity: 0.65; filter: brightness(0.58) saturate(0.75); }
 }
 
 @keyframes navProgressSweep {
