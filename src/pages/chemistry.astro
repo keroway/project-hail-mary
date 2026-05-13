@@ -1,6 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ScienceDiagram from '../components/ScienceDiagram.astro';
+import { Image } from 'astro:assets';
+import ch01 from '../assets/images/ch01-elements.jpg';
+import ch02 from '../assets/images/ch02-spectrum.jpg';
+import ch03 from '../assets/images/ch03-air.jpg';
 ---
 <BaseLayout
   title="化学編 — ヘイルメアリー サイエンスガイド"
@@ -26,7 +30,7 @@ import ScienceDiagram from '../components/ScienceDiagram.astro';
 
   <!-- CHEM 01 -->
   <div class="phase" id="chem01">
-    <img class="phase-hero" src="/images/ch01-elements.jpg" alt="化学実験と分子構造" loading="lazy" />
+    <Image class="phase-hero" src={ch01} alt="化学実験と分子構造" loading="lazy" />
     <div class="phase-header">
       <div class="phase-number">CHEM 01</div>
       <div class="phase-title-group">
@@ -91,7 +95,7 @@ import ScienceDiagram from '../components/ScienceDiagram.astro';
 
   <!-- CHEM 02 -->
   <div class="phase" id="chem02">
-    <img class="phase-hero" src="/images/ch02-spectrum.jpg" alt="光のスペクトル" loading="lazy" />
+    <Image class="phase-hero" src={ch02} alt="光のスペクトル" loading="lazy" />
     <div class="phase-header">
       <div class="phase-number">CHEM 02</div>
       <div class="phase-title-group">
@@ -159,7 +163,7 @@ import ScienceDiagram from '../components/ScienceDiagram.astro';
 
   <!-- CHEM 03 -->
   <div class="phase" id="chem03">
-    <img class="phase-hero" src="/images/ch03-air.jpg" alt="宇宙船内部の空気管理" loading="lazy" />
+    <Image class="phase-hero" src={ch03} alt="宇宙船内部の空気管理" loading="lazy" />
     <div class="phase-header">
       <div class="phase-number">CHEM 03</div>
       <div class="phase-title-group">
