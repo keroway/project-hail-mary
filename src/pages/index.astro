@@ -71,7 +71,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <button class="cs-preset" data-chapter="0" type="button">まだ読んでいない</button>
         <button class="cs-preset" data-chapter="8" type="button">第8章まで</button>
         <button class="cs-preset" data-chapter="9" type="button">第9章まで<span class="cs-preset-note">ロッキー登場</span></button>
-        <button class="cs-preset" data-chapter="28" type="button">全部読んだ</button>
+        <button class="cs-preset" data-chapter="25" type="button">第25章まで<span class="cs-preset-note">終盤突入</span></button>
+        <button class="cs-preset" data-chapter="30" type="button">全部読んだ</button>
       </div>
 
       <div class="cs-custom">
@@ -81,7 +82,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             type="range"
             id="chapter-range"
             min="0"
-            max="28"
+            max="30"
             value="0"
             class="cs-range"
             aria-describedby="cs-status-text"
@@ -93,13 +94,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               type="number"
               id="chapter-number"
               min="0"
-              max="28"
+              max="30"
               value="0"
               class="cs-number"
               inputmode="numeric"
               aria-describedby="cs-status-text"
             />
-            <span class="cs-number-unit">/ 28章</span>
+            <span class="cs-number-unit">/ 30章</span>
           </div>
         </div>
       </div>
@@ -636,11 +637,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   function getChapter(): number {
     const raw = Number.parseInt(localStorage.getItem(STORAGE_KEY) ?? '0', 10);
-    return Number.isFinite(raw) ? Math.max(0, Math.min(28, raw)) : 0;
+    return Number.isFinite(raw) ? Math.max(0, Math.min(30, raw)) : 0;
   }
 
   function setChapter(v: number) {
-    const clamped = Math.max(0, Math.min(28, v));
+    const clamped = Math.max(0, Math.min(30, v));
     localStorage.setItem(STORAGE_KEY, String(clamped));
     updateDialogUI(clamped);
     updateCompactBar(clamped);
@@ -649,14 +650,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   function compactLabel(chapter: number): string {
     if (chapter === 0) return 'まだ読んでいない';
-    if (chapter >= 28) return '全章読了';
+    if (chapter >= 30) return '全章読了';
     return `第${chapter}章まで`;
   }
 
   function statusLabel(chapter: number): string {
     if (chapter === 0) return 'まだ読んでいません（ネタバレなし）';
-    if (chapter >= 28) return '全部読了（すべてのネタバレ解除）';
-    if (chapter >= 25) return `第${chapter}章まで読了（終盤・ロッキー関連すべて解除）`;
+    if (chapter >= 30) return '全部読了（すべてのネタバレ解除）';
+    if (chapter >= 29) return `第${chapter}章まで読了（ロッキー船の危機・救出）`;
+    if (chapter >= 25) return `第${chapter}章まで読了（終盤・タウメーバ漏洩）`;
     if (chapter >= 9)  return `第${chapter}章まで読了（ロッキー登場以降の内容解除）`;
     return `第${chapter}章まで読了（ロッキー登場前まで）`;
   }
@@ -683,7 +685,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     if (nav) {
       nav.innerHTML = chapter === 0
         ? '未読'
-        : chapter >= 28
+        : chapter >= 30
           ? '読了'
           : `第<span>${chapter}</span>章まで`;
     }
