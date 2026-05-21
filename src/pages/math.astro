@@ -11,7 +11,7 @@ import ma04 from '../assets/images/ma04-growth.jpg';
 ---
 <BaseLayout
   title="数学編 — ヘイルメアリー サイエンスガイド"
-  description="素数・対数・指数増殖・軌道計算——ヘイルメアリーに登場する数学の謎を中学生向けに解説。異星人との初コンタクトで使われた素数の法則や、指数爆発が地球を脅かすしくみが分かる。"
+  description="N 進数・対数・指数増殖・軌道計算——ヘイルメアリーに登場する数学の謎を中学生向けに解説。エリディアンが使う 6 進数や、指数爆発が地球を脅かすしくみが分かる。"
   currentPath="/math"
 >
 
@@ -20,7 +20,7 @@ import ma04 from '../assets/images/ma04-growth.jpg';
   <header>
     <div class="subject-badge">MATHEMATICS</div>
     <h1>プロジェクト・ヘイルメアリー<br>サイエンスガイド — 数学編</h1>
-    <p class="header-sub">素数・対数・軌道計算——宇宙の言語としての数学</p>
+    <p class="header-sub">N 進数・対数・軌道計算——宇宙の言語としての数学</p>
     <div class="header-meta">
       <span class="meta-tag">TARGET: 中学2年〜高校生</span>
       <span class="meta-tag">SUBJECT: 数学</span>
@@ -29,7 +29,7 @@ import ma04 from '../assets/images/ma04-growth.jpg';
   </header>
 
   <div class="intro">
-    <p>数学はこの物語のなかで「<strong>宇宙共通の言語</strong>」として機能する。グレースとロッキーが最初に交わすのは言葉ではなく、数の列だ。軌道計算も、エネルギー密度の比較も、すべて数学なしには成り立たない。「なぜ数学は宇宙で通じるのか」という問いそのものが、深い哲学的問いを含んでいる。</p>
+    <p>数学はこの物語のなかで「<strong>宇宙共通の言語</strong>」として機能する。グレースがロッキーの時計から「6 進数」を読み解く場面は、ちがう身体・ちがう文化を持つ知性同士が、数を通じて確かに通じ合うことの象徴だ。軌道計算も、エネルギー密度の比較も、すべて数学なしには成り立たない。「なぜ数学は宇宙で通じるのか」という問いそのものが、深い哲学的問いを含んでいる。</p>
   </div>
 
   <!-- MATH 02 先に表示（ネタバレなし） -->
@@ -107,7 +107,7 @@ import ma04 from '../assets/images/ma04-growth.jpg';
     <div class="level-badge level-middle">▶ 中3〜高1レベル</div>
     <div class="story-block">
       <div class="block-label">📖 ストーリー</div>
-      太陽が少しずつ暗くなっている——最初はわずか0.1%。しかしその減少速度が「倍々に増えている」ことに気づいたとき、人類に残された時間は急に短くなった。アストロファージの増殖は指数関数に従い、線形的な感覚で予測すると致命的な見誤りをする。
+      太陽が少しずつ暗くなっている——観測衛星アマテラスが捉えた減少量はわずか0.01%。しかしその減少速度が「倍々に増えている」ことに気づいたとき、人類に残された時間は急に短くなった。アストロファージの増殖は指数関数に従い、線形的な感覚で予測すると致命的な見誤りをする。
     </div>
     <div class="science-block">
       <div class="block-label">🔬 数学解説：指数関数——「少し先」が急変する理由</div>
@@ -129,16 +129,16 @@ import ma04 from '../assets/images/ma04-growth.jpg';
       </div>
     </div>
     <div class="science-block">
-      <div class="block-label">📐 アストロファージで計算してみよう</div>
+      <div class="block-label">📐 物語の数値で計算してみよう</div>
       <div class="science-content">
-        <p>太陽の輝度低下が最初の1年で0.04%、毎年その量が1.4倍に増えていくとする。10年後の輝度低下は何%か？</p>
+        <p>物語の冒頭、JAXA の観測衛星「アマテラス」が捉えた太陽の明るさの変化はわずか<span class="hl-amber">0.01%</span>。しかし専門家たちはこう予測する——<span class="hl-amber">9 年後に 1%、20 年後に 5%</span>減少すると。</p><br>
+        <p>もし「毎年同じ量ずつ減る」線形の減少なら、9 年で 1% に達するペースは 20 年で約 2.2% にしかならないはず。実際の予測 (5%) はその 2 倍以上。<span class="hl-amber">これが指数関数の正体で、後半ほど加速する</span>。</p>
         <ul style="margin:10px 0 10px 20px; font-size:13px; color:rgba(232,244,253,0.75); line-height:2.2;">
-          <li>1年目：0.04%</li>
-          <li>2年目：0.04 × 1.4 = 0.056%</li>
-          <li>5年目：0.04 × 1.4⁴ ≈ 0.154%</li>
-          <li>10年目：0.04 × 1.4⁹ ≈ 1.07%　← 地球の農業が崩壊し始めるレベル</li>
+          <li>観測時点：0.01%（アマテラスが捉えた初期値）</li>
+          <li>9 年後の累積：1%</li>
+          <li>20 年後の累積：5% ← 地球の農業が崩壊し始めるレベル</li>
         </ul>
-        <p>「1%の輝度低下」が現実の問題になる。<span class="hl-amber">指数関数は序盤がゆっくりすぎて、気づいたときには手遅れになりやすい</span>。これが作中でミッション計画に「余裕のなさ」をもたらしている。</p>
+        <p>作中ではストラットがこう指摘する——「太陽光の指数関数的減少は典型的生命体の指数関数的増加と一致しているの」。<span class="hl-amber">減り方の形そのものが「生命の増殖」を示唆していた</span>のだ。これがアストロファージの存在を裏付ける推理になる。</p>
       </div>
     </div>
     <div class="science-block">
@@ -181,26 +181,26 @@ import ma04 from '../assets/images/ma04-growth.jpg';
     <div class="phase-header">
       <div class="phase-number">MATH 03</div>
       <div class="phase-title-group">
-        <h2 class="phase-title">軌道計算とホーマン遷移</h2>
-        <div class="phase-topic">微積分 / ケプラーの法則 / 最適経路問題</div>
+        <h2 class="phase-title">軌道計算——惑星間航行の数学</h2>
+        <div class="phase-topic">微積分 / ケプラーの法則 / 楕円軌道</div>
       </div>
     </div>
     <div class="level-badge level-high">▶ 高校〜大学入門レベル（発展）</div>
     <div class="story-block">
       <div class="block-label">📖 ストーリー</div>
-      タウ・セチ星系に到着したグレースは、惑星間を移動するために軌道力学を計算する必要がある。燃料を最小限に抑えながら目的地に到達する「最適軌道」は、ニュートン力学と微積分の結晶だ。
+      タウ・セチ星系に到着したグレースは、目的の惑星アドリアン (タウ・セチ e) の軌道に乗るため、<span class="hl-amber">2 日間かけて軌道計算</span>を行う。重力に引かれながら正しい速度・方向で噴射しなければ、惑星の重力圏を通り過ぎてしまう——軌道力学は、ニュートン力学と微積分の結晶だ。
     </div>
     <div class="science-block">
       <div class="block-label">🔬 数学解説：ケプラーの法則と軌道の幾何学</div>
       <div class="science-content">
         <p>惑星の軌道は円ではなく<span class="hl-amber">楕円</span>だ（ケプラーの第1法則）。太陽（または恒星）はその楕円の焦点のひとつにある。</p><br>
-        <p>宇宙船が最も燃料効率よく軌道を移動する方法を<span class="hl-amber">ホーマン遷移軌道</span>という。2回だけエンジンを噴射して、小さな軌道から大きな軌道に移る方法だ。</p>
+        <p>宇宙船が惑星の重力圏に「乗る」には、その惑星と同じ速さ・方向に揃わなければならない。速すぎれば通り過ぎ、遅すぎれば落下する。軌道計算とは<span class="hl-amber">「いつ・どの方向に・どれだけエンジンを噴射するか」</span>を、惑星の重力と現在の速度から逆算する作業だ。</p>
       </div>
     </div>
     <ScienceDiagram
-      kind="hohmann"
-      title="ホーマン遷移は、内側軌道と外側軌道を楕円で一度だけ橋渡しする"
-      caption="出発時に速度を上げて遷移軌道へ入り、到着時にもう一度噴射して新しい円軌道へ乗る。燃料節約の基本形。"
+      kind="orbit"
+      title="軌道は『落ち続けながら回る』バランスで成り立つ"
+      caption="前へ進む速さと、中心の天体へ落ちる重力がつり合うと、永遠に落下しながら周回する。これが軌道のしくみ。"
     />
     <div class="formula-box" data-label="MATH">
       <span class="formula">T² = (4π² / GM) × a³</span>
@@ -238,86 +238,76 @@ import ma04 from '../assets/images/ma04-growth.jpg';
   <div class="section-divider"><span class="divider-label">— MATH LOG —</span></div>
 
   <!-- MATH 01 — SPOILER ch9 -->
-  <SpoilerGate id="math01" minChapter={9} label="第9章以降のネタバレ" hint="グレースとロッキーが素数を使って初めて通じ合う場面の内容を含みます。">
+  <SpoilerGate id="math01" minChapter={9} label="第9章以降のネタバレ" hint="グレースがロッキーの時計から 6 進数を読み解く場面の内容を含みます。">
     <div class="phase">
-      <Image class="phase-hero" src={ma01} alt="数学の記号とパターン" loading="lazy" />
+      <Image class="phase-hero" src={ma01} alt="数字とパターン——多様な記数法" loading="lazy" />
       <div class="phase-header">
         <div class="phase-number">MATH 01</div>
         <div class="phase-title-group">
-          <h2 class="phase-title">素数——最初の共通言語</h2>
-          <div class="phase-topic">素数 / 整数論 / 数学の普遍性</div>
+          <h2 class="phase-title">N 進数——エリディアンの 6 進数と人類の数え方</h2>
+          <div class="phase-topic">N 進数 / 位取り記数法 / 数学の普遍性</div>
         </div>
       </div>
       <div class="level-badge level-middle">▶ 中1〜中2レベルから／深みは無限</div>
       <div class="story-block">
         <div class="block-label">📖 ストーリー</div>
-        グレースとロッキーが初めてコミュニケーションを試みるとき、グレースは素数の列を送る。2, 3, 5, 7, 11, 13……ロッキーがその続き（17, 19）を返したとき、「知性との接触」が確認される。共通の文化もなく、共通の言語もない相手と、数だけで通じ合う場面だ。
+        グレースがロッキーから手渡された時計を観察するうち、文字盤の刻みから「これは <span class="hl-amber">6 進数</span>だ」と気づく場面がある。位取りに使う『桁』の記号が 6 つしかない——身体も文化もちがう知性が、それでも数を共有できることを示す瞬間だ。
       </div>
       <div class="science-block">
-        <div class="block-label">🔬 数学解説：素数とは何か、なぜ宇宙共通なのか</div>
+        <div class="block-label">🔬 数学解説①：N 進数とは——位取り記数法のしくみ</div>
         <div class="science-content">
-          <p><span class="hl-amber">素数</span>とは「1とその数自身以外に約数を持たない2以上の整数」だ。2, 3, 5, 7, 11, 13, 17, 19, 23……と無限に続く。</p><br>
-          <p>素数が「宇宙共通言語」として使える理由：</p>
+          <p>私たちが普段使う<span class="hl-amber">10 進数</span>は、0〜9 の 10 種類の数字を使い、「10 になると桁が上がる」しくみだ。たとえば 123 は 1×100 + 2×10 + 3 を意味する。</p><br>
+          <p>もしこれが「6 で桁上がりする」<span class="hl-amber">6 進数</span>だったら、6 進の「123」は 1×36 + 2×6 + 3 = 51（10 進）となる。N 進数とは、その「桁上がりの基準が N」になっただけのしくみだ。</p>
           <ul style="margin:10px 0 10px 20px; font-size:13px; color:rgba(232,244,253,0.75); line-height:2.2;">
-            <li>素数の概念は文化・言語・物理環境に依存しない</li>
-            <li>「規則性があるが単純な繰り返しではない」パターンは、知性によって識別される</li>
-            <li>SETI（地球外知性探査）でも素数列の送信が真剣に議論されている</li>
+            <li>10 進の 13 → 6 進では「21」（2×6 + 1）</li>
+            <li>10 進の 36 → 6 進では「100」（1×36）</li>
+            <li>10 進の 7  → 6 進では「11」（1×6 + 1）</li>
           </ul>
-          <div class="prime-grid">
-            <div class="prime-num composite">1</div>
-            <div class="prime-num">2</div>
-            <div class="prime-num">3</div>
-            <div class="prime-num composite">4</div>
-            <div class="prime-num">5</div>
-            <div class="prime-num composite">6</div>
-            <div class="prime-num">7</div>
-            <div class="prime-num composite">8</div>
-            <div class="prime-num composite">9</div>
-            <div class="prime-num composite">10</div>
-            <div class="prime-num">11</div>
-            <div class="prime-num composite">12</div>
-            <div class="prime-num">13</div>
-            <div class="prime-num composite">14</div>
-            <div class="prime-num composite">15</div>
-            <div class="prime-num composite">16</div>
-            <div class="prime-num">17</div>
-            <div class="prime-num composite">18</div>
-            <div class="prime-num">19</div>
-            <div class="prime-num composite">20</div>
-            <div class="prime-num composite">21</div>
-            <div class="prime-num composite">22</div>
-            <div class="prime-num">23</div>
-          </div>
-          <p style="font-size:12px; color:var(--dim-star); margin-top:4px;">↑ 素数（枠付き）と合成数（打ち消し線）。2だけが偶数の素数。</p>
+          <p>数字の「形」（文字）は変わっても、表しているものは同じ整数。<span class="hl-amber">記数法は『言語』、整数そのものは『中身』</span>といえる。</p>
+        </div>
+      </div>
+      <div class="science-block">
+        <div class="block-label">🔬 数学解説②：なぜエリディアンは 6 進数を使うのか——考察</div>
+        <div class="science-content">
+          <p>原作のなかではロッキーが 6 進数を使う理由は明言されない。でも、地球で 10 進数が広く使われている理由を考えると、ヒントがある——<span class="hl-amber">私たちが両手で 10 本の指を持っているから</span>。</p><br>
+          <p>ロッキーの身体描写（指 3 本・腕 5 本）から考えられる可能性は、たとえば次のようなものだ：</p>
+          <ul style="margin:10px 0 10px 20px; font-size:13px; color:rgba(232,244,253,0.75); line-height:2.2;">
+            <li><span class="hl-amber">説 A</span>：もし「2 本の腕で数える」習慣があれば、3 × 2 = 6 本指で数えることになり、ちょうど 6 進数につながる</li>
+            <li><span class="hl-amber">説 B</span>：1 本の腕の指 3 本それぞれに 2 つの関節があり、計 6 ヶ所で 0〜5 を表現していたのかもしれない</li>
+          </ul>
+          <p>地球でも、古代エジプト人は片手の親指で 4 本の指の関節を数えて 12 進数を使っていたという説がある。<span class="hl-amber">身体のかたちが、その文明の記数法を決めることがある</span>——これは想像してみる価値のある問いだ。</p>
+        </div>
+      </div>
+      <div class="science-block">
+        <div class="block-label">🔬 数学解説③：人類史に残る 10 以外の進数</div>
+        <div class="science-content">
+          <p>「10 進数だけが当たり前」ではない。地球の歴史にも、さまざまな進数が登場する。</p>
+          <ul style="margin:10px 0 10px 20px; font-size:13px; color:rgba(232,244,253,0.75); line-height:2.2;">
+            <li><span class="hl-amber">バビロニア 60 進数</span>：60 は 1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60 と多くの約数を持ち、割り算に強い。<strong>現代の時計の 60 分・60 秒、円の 360 度</strong>はこの名残</li>
+            <li><span class="hl-amber">12 進数の名残</span>：1 ダース = 12 個、英語の eleven/twelve に独立した語彙、時計の 12 時間制。「12 個セット」が日常にいまも残る</li>
+            <li><span class="hl-amber">マヤ 20 進数</span>：手の指と足の指、合わせて 20 本で数えたという説がある</li>
+            <li><span class="hl-amber">コンピュータの 2 進数・16 進数</span>：電気のオン／オフから生まれた 2 進数と、人間が読みやすくするための 16 進数</li>
+          </ul>
+          <p>私たちの時計が「12」「60」を使っているのは、地球人が数千年前のバビロニアの選択をいまも引き継いでいるからだ。<span class="hl-amber">ロッキーの時計が 6 進数なのも、エリディアン文明の歴史の引き継ぎ</span>と考えれば、自然なことだろう。</p>
         </div>
       </div>
       <div class="formula-box" data-label="MATH">
-        <span class="formula">素数の個数は無限に存在する</span>
+        <span class="formula">10 進「13」 = 6 進「21」 = 2 進「1101」</span>
         <div class="formula-note">
-          ユークリッドによる証明（背理法、紀元前300年頃）：<br><br>
-          「素数が有限個（p₁, p₂, ..., pₙ）しかないと仮定する。<br>
-          N = (p₁ × p₂ × ... × pₙ) + 1 を考えると、<br>
-          Nはどの素数でも割り切れない（余りが1になる）。<br>
-          よってNは新たな素数か、リストにない素数で割れる → 矛盾」<br><br>
-          この証明は2300年前に完成しており、今も有効。
+          どの記数法でも、表している「13 個」という整数は同じ。<br><br>
+          N 進数の一般式：<br>
+          N 進数の「a_k a_(k-1) ... a_1 a_0」は<br>
+          a_k × N^k + a_(k-1) × N^(k-1) + ... + a_1 × N + a_0<br><br>
+          コンピュータは内部でほぼすべての数を 2 進数で扱う。<br>
+          プログラマが慣れている 16 進数（0xFF など）は、2 進数を 4 桁ずつまとめて読みやすくしたもの。
         </div>
       </div>
       <div class="question-box">
         <div class="q-label">💭 考えてみよう</div>
-        <div class="q-text">「双子素数」とは差が2の素数のペア（3と5、11と13、17と19……）だ。双子素数は無限に存在するか？これは現代数学の未解決問題のひとつ。</div>
+        <div class="q-text">もし指が左右合わせて 8 本の生物がいたら、彼らはどんな記数法を使うだろうか？ また、SETI（地球外知性探査）では「素数の列（2, 3, 5, 7, 11...）を電波に乗せて宇宙に送る」というアイデアが議論されてきた。<strong>進数や言語のちがいを超えて</strong>「これは知性からの信号だ」と認識される——その理屈を考えてみよう。</div>
       </div>
-      <div class="links-block">
-        <div class="block-label">🔗 参考リンク</div>
-        <div class="link-grid">
-          <a class="link-item" href="https://www.youtube.com/watch?v=mBjBpI7UONA" target="_blank" rel="noopener noreferrer">
-            <span class="link-icon">▶</span>
-            <span class="link-text"><span class="link-title">3Blue1Brown「Prime Numbers」</span><span class="link-desc">英語 / 素数の美しさを視覚化</span></span>
-          </a>
-          <a class="link-item" href="https://www.youtube.com/watch?v=IQofiPqhJ_s" target="_blank" rel="noopener noreferrer">
-            <span class="link-icon">▶</span>
-            <span class="link-text"><span class="link-title">ヨビノリ「素数と整数論」</span><span class="link-desc">YouTube日本語 / 中高生向け</span></span>
-          </a>
-        </div>
+      <div class="important-note">
+        📌 「素数の列を送って異星人と通信する」というアイデアは現実の SETI（地球外知性探査）でも真剣に議論されてきた話題で、映画『コンタクト』などにも登場する。ただし本作におけるグレースとロッキーの実際の初コンタクトは、ノック・物理モデル・時計を介した数字共有といった具体的な手段で行われており、素数の列のやり取りは登場しない。
       </div>
     </div>
   </SpoilerGate>
@@ -336,7 +326,7 @@ import ma04 from '../assets/images/ma04-growth.jpg';
     <div class="science-block">
       <div class="block-label">📚 中2〜中3でおさえたいこと</div>
       <div class="science-content">
-        <p style="margin-bottom:10px;"><span class="hl-amber">整数・素数</span>：素因数分解、ユークリッドの互除法</p>
+        <p style="margin-bottom:10px;"><span class="hl-amber">整数・N 進数</span>：素因数分解、N 進数の変換、ユークリッドの互除法</p>
         <p style="margin-bottom:10px;"><span class="hl-amber">比例・関数</span>：一次関数、比例と反比例</p>
         <p><span class="hl-amber">図形と証明</span>：平行線の性質、三平方の定理</p>
       </div>
@@ -363,8 +353,8 @@ import ma04 from '../assets/images/ma04-growth.jpg';
 
   <footer>
     <div class="footer-note">
-      グレースとロッキーが素数で最初に通じ合ったように、<br>
-      数学は「なぜかわからないが、確かに通じる」言語だ。<br>
+      グレースがロッキーの時計から 6 進数を読み解いたように、<br>
+      数学は「表現はちがっても、確かに通じる」言語だ。<br>
       それ自体がもっとも深い謎のひとつかもしれない。
     </div>
   </footer>
@@ -382,28 +372,4 @@ import ma04 from '../assets/images/ma04-growth.jpg';
     --star-tint-b:   rgba(251, 191, 36, 0.25);
   }
 
-  .prime-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 16px 0;
-  }
-  .prime-num {
-    font-family: 'Space Mono', monospace;
-    font-size: 14px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--accent-border);
-    color: var(--accent);
-    background: var(--accent-bg);
-  }
-  .prime-num.composite {
-    color: var(--dim-star);
-    border-color: rgba(138, 168, 196, 0.15);
-    background: transparent;
-    text-decoration: line-through;
-  }
 </style>
