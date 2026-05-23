@@ -48,12 +48,30 @@ import ph07 from '../assets/images/ph07-solarsail.jpg';
     <div class="level-badge level-middle">▶ 中学2〜3年レベル</div>
     <div class="story-block">
       <div class="block-label">📖 ストーリー</div>
-      グレースは宇宙船の中で目覚める。体が宙に浮いており、自分がどこにいるのかもわからない。無重力状態の中で、彼は少しずつ状況を把握しようとする。
+      グレースは記憶を失った状態で目覚める。自分が誰で、ここがどこなのかもわからない。意外なことに、体は宙に浮いてはおらず、ベッドに押しつけられる「重さ」を感じる。宇宙にいるはずなのに重力がある——この謎を、彼は手近な道具を使った実験で解きはじめる。
+    </div>
+    <div class="science-block">
+      <div class="block-label">🔬 科学解説：グレースの最初の実験——試験管を落とす</div>
+      <div class="science-content">
+        <p>記憶も場所もわからないグレースが真っ先にやったのは、<span class="hl-green">手近な試験管を落とす</span>という実験だった。<span class="hl-blue">観察</span>＝体に重さを感じる。<span class="hl-blue">仮説</span>＝地上にいるのか、それとも乗り物が加速しているのか。<span class="hl-blue">検証</span>＝物を落として「重力の強さ」を測ればヒントになる。これは科学の進め方そのものだ。</p><br>
+        <p>方法はシンプルだ。<span class="hl-yellow">高さ91cm（机の高さ）から試験管を落とし、床に着くまでの時間を測る</span>。ただし人間の反応時間は0.2秒ほどあり、1回の測定では誤差が大きすぎる。そこでグレースは<span class="hl-blue">20回くり返して平均</span>を取り、落下時間を約0.348秒と求めた。「同じ測定をくり返して誤差を減らす」のも、科学の基本だ。</p><br>
+        <p>落下距離 d と時間 t から重力加速度 g を計算すると、答えは<span class="hl-green">約15 m/s²</span>。地球の9.8 m/s²より明らかに大きい。ここからグレースは、<span class="hl-yellow">「重力の強い天体にいる」か「15 m/s²で加速し続ける乗り物の中にいる」か</span>の2択まで状況を絞り込んだ。この2つを内側からは区別できないことを、アインシュタインの<span class="hl-blue">等価原理</span>という。</p>
+      </div>
+    </div>
+    <div class="formula-box" data-label="FORMULA">
+      <span class="formula">d = ½ × g × t²　→　g = 2d / t²</span>
+      <div class="formula-note">
+        <span>d</span>：落下距離（メートル。机の高さ＝0.91m）<br>
+        <span>t</span>：落下にかかった時間（秒。測定値は約0.348s）<br>
+        <span>g</span>：重力加速度（求めたい値）<br><br>
+        d=0.91、t=0.348 を代入すると g ≈ 2×0.91 ÷ 0.348² ≈ <span style="color:var(--aurora)">15 m/s²</span>。<br>
+        試験管の落下（自由落下）は「重力があるか・どれくらいか」を一発で確かめる方法だ。これをもっと精密に測り直すのが、<a href="/physics#phase02" style="color:var(--aurora)">PHASE 02 の振り子の実験</a>になる。
+      </div>
     </div>
     <div class="science-block">
       <div class="block-label">🔬 科学解説：なぜ宇宙では物が浮くのか</div>
       <div class="science-content">
-        <p>よく「宇宙には重力がない」と言われるが、<span class="hl-blue">これは正しくない</span>。国際宇宙ステーション（ISS）は地上400kmほどにあり、そこでも地球の重力はほぼ同じ強さで働いている。</p><br>
+        <p>ところで、グレースが感じた「重さ」の反対——「無重力」とはそもそも何だろう。よく「宇宙には重力がない」と言われるが、<span class="hl-blue">これは正しくない</span>。国際宇宙ステーション（ISS）は地上400kmほどにあり、そこでも地球の重力はほぼ同じ強さで働いている。</p><br>
         <p>では、なぜ浮くのか？答えは<span class="hl-green">「ずっと落ち続けているから」</span>だ。ISSは猛烈な速度（秒速約7.7km）で飛びながら、地球に向かって落ち続けている。その落下の弧が地球の丸さとちょうど一致するため、いつまでも落ちながら飛び続ける。この状態を「軌道運動」という。</p><br>
         <p>船の中のものも、船と同じ速度で落ち続けているので、<span class="hl-yellow">お互いに「落ちている感覚」がなくなる</span>。これが「無重力に見える」理由だ。</p>
       </div>
@@ -119,7 +137,7 @@ import ph07 from '../assets/images/ph07-solarsail.jpg';
     <div class="level-badge level-both">▶ 中2〜高1（本書最重要シーン）</div>
     <div class="story-block">
       <div class="block-label">📖 ストーリー</div>
-      グレースは、自分がいる場所でどれくらいの「重さ」を感じるのかを知る必要があった。計器がないため、手持ちの材料で振り子を作り、その周期を測ることで局所的な加速度を見積もる。宇宙船内の人工重力や加速の状態を、自分の実験だけで読み解いていく場面だ。
+      グレースは、自分がいる場所でどれくらいの「重さ」を感じるのかを知る必要があった。PHASE 01 の試験管落下で「重力はおよそ15 m/s²」とあたりはつけていたが、ここではより精密に測り直す。計器がないため、手持ちの材料で振り子を作り、その周期を測ることで局所的な加速度を見積もる。宇宙船内の人工重力や加速の状態を、自分の実験だけで読み解いていく場面だ。
     </div>
     <div class="science-block">
       <div class="block-label">🔬 科学解説：単振動と重力</div>
