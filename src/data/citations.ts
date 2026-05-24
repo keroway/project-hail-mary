@@ -32,9 +32,9 @@ export const citations: readonly Citation[] = [
     page: 'physics', phaseId: 'phase01',
     title: 'Philosophiae Naturalis Principia Mathematica (英訳版, 1729)',
     authors: 'Isaac Newton', year: 1729,
-    url: 'https://archive.org/details/newtonspmathema00newt',
+    url: 'https://en.wikisource.org/wiki/The_Mathematical_Principles_of_Natural_Philosophy_(1846)',
     type: 'textbook',
-    note: '万有引力を定式化した原典の英訳版。中身は難解だが「本物」を一度眺めてほしい。',
+    note: '万有引力を定式化した原典の英訳（Motte 訳）。中身は難解だが「本物」を一度眺めてほしい。',
   },
 
   // === physics / phase02: 振り子で重力を測る ===
@@ -140,7 +140,7 @@ export const citations: readonly Citation[] = [
     page: 'biology', phaseId: 'bio04',
     title: 'Extremophiles (NASA Astrobiology)',
     authors: 'NASA Astrobiology',
-    url: 'https://astrobiology.nasa.gov/research/astrobiology-at-nasa/extremophiles/',
+    url: 'https://astrobiology.nasa.gov/news/extremophiles/',
     type: 'official',
     note: 'NASAの宇宙生物学部門による極限環境生物の解説。どんな環境に生命が存在できるかを網羅している。',
   },
@@ -151,18 +151,18 @@ export const citations: readonly Citation[] = [
     page: 'math', phaseId: 'math02',
     title: 'Mirifici Logarithmorum Canonis Descriptio (1614)',
     authors: 'John Napier', year: 1614,
-    url: 'https://archive.org/details/mirificilogarith00napi',
+    url: 'https://archive.org/details/mirificilogarit00napi',
     type: 'textbook',
     note: '対数を発明したネイピアの原著（ラテン語）。400年前の数学革命を実感できる一冊。',
   },
 
-  // === math / math03: 軌道計算とホーマン遷移 ===
+  // === math / math03: 軌道計算——惑星間航行の数学 ===
   {
     id: 'jpl-basics-space-flight',
     page: 'math', phaseId: 'math03',
     title: 'Basics of Space Flight (JPL)',
     authors: 'NASA Jet Propulsion Laboratory',
-    url: 'https://www2.jpl.nasa.gov/basics/',
+    url: 'https://science.nasa.gov/learn/basics-of-space-flight/participants-guide/',
     type: 'official',
     note: 'JPLが公開している宇宙飛行の基礎教材。軌道の種類・ホーマン遷移の計算が解説されている（英語）。',
   },
