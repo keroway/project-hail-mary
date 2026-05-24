@@ -1,0 +1,35 @@
+# Dependabot 設定（旧 renovate.json から移行）
+# - npm（package.json）と GitHub Actions の依存を毎週末にチェック
+# - major アップデートは抑制（手動更新）、minor/patch のみ自動 PR
+# - cooldown で公開後5日未満のバージョンは見送る（旧 minimumReleaseAge 相当）
+version: 2
+updates:
+  # npm パッケージ（package.json / package-lock.json）
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+    labels:
+      - "dependencies"
+    # 公開後5日経過したバージョンのみ対象にする（破壊的な初期リリースを回避）
+    cooldown:
+      default-days: 5
+    # major は自動更新せず手動で取り込む
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+  # GitHub Actions（.github/workflows/*.yml）
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+    labels:
+      - "dependencies"
+    cooldown:
+      default-days: 5
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
