@@ -30,8 +30,10 @@ jobs:
 
       - run: npm run build
 
+      # Dependabot PR にはリポジトリ Secrets が渡らず wrangler が認証できないためスキップする
       - name: Deploy Preview
         id: deploy
+        if: github.actor != 'dependabot[bot]'
         uses: cloudflare/wrangler-action@v3
         env:
           BRANCH_NAME: ${{ github.head_ref }}
@@ -41,6 +43,7 @@ jobs:
           command: pages deploy dist --project-name=project-hail-mary --branch=$BRANCH_NAME
 
       - name: Comment Preview URL
+        if: github.actor != 'dependabot[bot]'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
