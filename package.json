@@ -1,6 +1,9 @@
 {
   "name": "project-hail-mary",
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
