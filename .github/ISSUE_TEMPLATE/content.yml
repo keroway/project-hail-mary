@@ -1,0 +1,32 @@
+name: コンテンツの修正・追加
+description: 解説内容の誤り・改善・追記の提案
+title: "[コンテンツ] "
+labels: ["content"]
+body:
+  - type: dropdown
+    id: page
+    attributes:
+      label: 対象の教科ページ
+      options:
+        - 物理（physics）
+        - 化学（chemistry）
+        - 生物（biology）
+        - 数学（math）
+        - ストーリー・トップ
+        - その他
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: 内容
+      description: 修正・追加したい内容。該当する章や箇所があれば記載してください。
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: 出典・根拠（任意）
+      description: 小説の章・科学的な根拠などがあれば記載してください。
+    validations:
+      required: false
