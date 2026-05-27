@@ -1,0 +1,30 @@
+name: 表示・動作の不具合
+description: レイアウト崩れ・リンク切れ・ネタバレロックの不具合など
+title: "[バグ] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: 不具合の内容
+      description: どのページで何が起きているか教えてください。
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: 再現手順
+      description: 手順がわかれば記載してください。
+    validations:
+      required: false
+  - type: dropdown
+    id: device
+    attributes:
+      label: 環境
+      options:
+        - PC（デスクトップ）
+        - スマートフォン
+        - タブレット
+        - 不明
+    validations:
+      required: false
