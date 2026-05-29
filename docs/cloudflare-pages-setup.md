@@ -11,7 +11,7 @@ main push → GitHub Actions → npm run build → wrangler pages deploy dist
 ## 前提条件
 
 - Cloudflare アカウント（無料プランで可）
-- GitHub リポジトリ: `keroway-family/project-hail-mary`
+- GitHub リポジトリ: `keroway/project-hail-mary`
 - ローカルで `npm run build` が成功すること
 
 ## 初回セットアップ
