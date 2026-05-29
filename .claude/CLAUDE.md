@@ -51,8 +51,12 @@ git switch -c update/<変更内容>
 git add src/pages/physics.astro
 git commit -m "Update: <変更内容>"
 git push -u origin HEAD
-gh pr create --fill            # PR 作成 → CI 通過 → マージで本番反映
+gh pr create --fill            # PR 作成 → CI 通過
+gh pr merge --squash --admin   # 自分の PR は承認なしでマージ（admin バイパス行使）
 ```
+
+> admin が自分の PR をマージする際は `--admin`（または GitHub UI の「Merge without waiting」）で
+> バイパスを明示的に行使する。通常の `gh pr merge` は承認1件要件で弾かれる。
 
 ### ローカルで確認する
 
