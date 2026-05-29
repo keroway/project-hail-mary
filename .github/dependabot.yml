@@ -15,6 +15,14 @@ updates:
     # 公開後5日経過したバージョンのみ対象にする（破壊的な初期リリースを回避）
     cooldown:
       default-days: 5
+    # minor/patch をまとめて 1 PR にしてノイズを削減する
+    groups:
+      npm-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
     # major は自動更新せず手動で取り込む
     ignore:
       - dependency-name: "*"
@@ -30,6 +38,14 @@ updates:
       - "dependencies"
     cooldown:
       default-days: 5
+    # minor/patch をまとめて 1 PR にしてノイズを削減する
+    groups:
+      actions-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]

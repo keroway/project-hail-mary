@@ -9,8 +9,9 @@
 - **フレームワーク**: Astro 5（静的出力）
 - **ビルド出力**: `dist/`
 - **本番URL**: https://hailmary.keroway.com
-- **本番ブランチ**: `main`（プッシュ → GitHub Actions → Cloudflare Pages 自動デプロイ）
+- **本番ブランチ**: `main`（PR マージ → GitHub Actions → Cloudflare Pages 自動デプロイ）
 - **デプロイ方式**: GitHub Actions（`.github/workflows/deploy.yml`）で `wrangler pages deploy` を実行
+- **リポジトリ公開設定**: public（Secret scanning / push protection / CodeQL を無料利用するため）
 
 ## リポジトリ構成
 
@@ -33,19 +34,24 @@ src/
 public/
 └── _headers                   # Cloudflare セキュリティヘッダー（変更不要）
 .github/workflows/
-└── deploy.yml                 # main push → Cloudflare Pages デプロイ
+├── ci.yml                     # PR で型チェック・ビルド・プレビューデプロイ（必須チェック）
+└── deploy.yml                 # main push（PR マージ）→ Cloudflare Pages デプロイ
 ```
 
 ## よくある作業
 
 ### コンテンツを更新する
 
-各 `src/pages/*.astro` を編集してプッシュ。Cloudflare Pages が自動ビルド・デプロイする。
+各 `src/pages/*.astro` を編集し、ブランチを切って PR を作成する。`main` はブランチ保護
+ルールセットで保護されており、**直接プッシュは不可**。CI（型チェック・ビルド）通過後に
+マージすると Cloudflare Pages が自動ビルド・デプロイする。
 
 ```bash
+git switch -c update/<変更内容>
 git add src/pages/physics.astro
 git commit -m "Update: <変更内容>"
-git push origin main
+git push -u origin HEAD
+gh pr create --fill            # PR 作成 → CI 通過 → マージで本番反映
 ```
 
 ### ローカルで確認する
@@ -79,6 +85,8 @@ npm run preview  # ビルド結果をプレビュー
 ## 注意事項
 
 - `public/_headers` は Cloudflare Pages のセキュリティヘッダー設定。変更不要。
-- `main` ブランチへの直接プッシュ可（小規模プロジェクトのため）。
+- `main` はブランチ保護ルールセット（`main protection`）で保護。**PR 経由 + CI 通過が必須**、
+  force-push / ブランチ削除は禁止、bypass なし（admin も対象）。直接プッシュは不可。
 - GitHub Secrets に `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID` が必要（設定済み）。
-- 依存更新は Dependabot（`.github/dependabot.yml`）が npm と GitHub Actions を毎週末チェックし、公開後5日経過したバージョンのみ PR を作成する（major は手動更新）。
+  Secret scanning + push protection が有効なため、トークン等を誤コミットするとブロックされる。
+- 依存更新は Dependabot（`.github/dependabot.yml`）が npm と GitHub Actions を毎週末チェックし、公開後5日経過したバージョンのみ PR を作成する（major は手動更新、minor/patch はグループ化して 1 PR にまとめる）。
