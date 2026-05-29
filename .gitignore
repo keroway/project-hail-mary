@@ -16,3 +16,6 @@ node_modules/
 
 # Claude Code local settings (machine-specific)
 .claude/settings.local.json
+
+# Claude Code agent memory (machine-generated, local-only)
+.claude/agent-memory/
