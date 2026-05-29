@@ -6,7 +6,7 @@
 中学2年生の長男が映画鑑賞前に科学的記述を理解するための補助資料。
 
 - **ホスティング**: Cloudflare Pages（静的サイト）
-- **フレームワーク**: Astro 5（静的出力）
+- **フレームワーク**: Astro 6（静的出力）
 - **ビルド出力**: `dist/`
 - **本番URL**: https://hailmary.keroway.com
 - **本番ブランチ**: `main`（PR マージ → GitHub Actions → Cloudflare Pages 自動デプロイ）
