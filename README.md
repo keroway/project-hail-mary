@@ -1,15 +1,26 @@
-# project-hail-mary
+# Project Hail Mary 科学ガイド
+
+[![Deploy](https://github.com/keroway/project-hail-mary/actions/workflows/deploy.yml/badge.svg)](https://github.com/keroway/project-hail-mary/actions/workflows/deploy.yml)
+[![CI](https://github.com/keroway/project-hail-mary/actions/workflows/ci.yml/badge.svg)](https://github.com/keroway/project-hail-mary/actions/workflows/ci.yml)
+[![Astro](https://img.shields.io/badge/Astro-6-BC52EE?logo=astro&logoColor=white)](https://astro.build/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Cloudflare Pages](https://img.shields.io/badge/Cloudflare%20Pages-F38020?logo=cloudflare&logoColor=white)](https://pages.cloudflare.com/)
+[![Node.js](https://img.shields.io/badge/Node.js-%E2%89%A522-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![License](https://img.shields.io/badge/license-All%20Rights%20Reserved-lightgrey)](#ライセンス)
 
 小説『プロジェクト・ヘイルメアリー』の科学入門ガイドサイトです。映画鑑賞前に原作の科学的記述を理解しやすくする補助資料として、中学生でも追える粒度で整理しています。
 
-本リポジトリは非公開・個人用途のため、LICENSE は配置していません。
+**公開サイト**: <https://hailmary.keroway.com>
+
+物理・化学・生物・数学の各編に分かれており、読了した章に応じてネタバレを段階的に解放する仕組み（`SpoilerGate`）を備えています。
 
 ## 技術構成
 
-- `Astro 5`
-- 静的出力 (`dist/`)
-- `@astrojs/sitemap`（ビルド時に `sitemap-index.xml` を生成）
-- Cloudflare Pages 配信
+- `Astro 6` — 静的サイトジェネレーター（`dist/` へ静的出力）
+- `TypeScript` — `astro check` による型チェック
+- `@astrojs/sitemap` — ビルド時に `sitemap-index.xml` を生成
+- `Cloudflare Pages` — 静的配信（GitHub Actions から `wrangler` で direct upload）
+- `Node.js` `>=22`
 
 ## ディレクトリ構成
 
@@ -95,3 +106,14 @@ Cloudflare Pages 側のビルド設定は不要です（ビルドは Actions 側
 - 本文更新は `src/pages/*.astro`
 - 共通UIやネタバレ制御は `src/layouts/BaseLayout.astro` と `src/components/SpoilerGate.astro`
 - 章読了状態は `localStorage` の `hailmary-chapter` を使って保持
+
+## ライセンス
+
+**All Rights Reserved（無断転載・再配布禁止）**
+
+本リポジトリは個人用途・閲覧目的で公開しています。OSS ライセンスは付与していません。
+
+- 解説本文・図版は小説『プロジェクト・ヘイルメアリー』（Andy Weir 著）に基づく二次的な解説であり、原作の著作権は権利者に帰属します。
+- ソースコードを含め、本リポジトリの内容について許諾なく複製・改変・再配布することはできません。
+
+> 本サイトは非公式のファン制作物であり、原作者・出版社・映画製作者とは関係ありません。
