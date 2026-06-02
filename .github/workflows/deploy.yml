@@ -29,4 +29,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=project-hail-mary
+          # Cloudflare Pages API は非 ASCII（日本語等）の git コミットメッセージを
+          # code:8000111 で弾くため、追跡用に commit SHA を明示指定して自動検出を回避する。
+          command: pages deploy dist --project-name=project-hail-mary --commit-hash=${{ github.sha }} --commit-message=${{ github.sha }}
