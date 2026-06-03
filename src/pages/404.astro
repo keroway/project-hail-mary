@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout
+  section="ページが見つかりません"
+  description="お探しのページは見つかりませんでした。プロジェクト・ヘイルメアリー 科学入門ガイドのトップや各教科ページからお探しください。"
+  currentPath="/404"
+>
+
+<div class="container">
+
+  <header>
+    <div class="header-eyebrow">404 / NOT FOUND</div>
+    <h1>航路を外れました</h1>
+    <p class="header-sub">お探しのページは見つかりませんでした。URL が変わったか、削除された可能性があります。</p>
+  </header>
+
+  <div class="intro">
+    <p>宇宙は広い——でも大丈夫。下のリンクから既知の航路に戻れます。グレースだって、最初は自分がどこにいるのか分からなかった。</p>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">— SUBJECTS —</span></div>
+
+  <div class="subject-grid">
+    <a href="/physics" class="subject-card" style="--card-accent: #4a9eff;">
+      <div class="subject-card-badge">PHYSICS</div>
+      <h2 class="subject-card-title">物理学編</h2>
+      <div class="subject-card-desc">重力・運動・エネルギー・相対性理論</div>
+    </a>
+    <a href="/chemistry" class="subject-card" style="--card-accent: #a78bfa;">
+      <div class="subject-card-badge">CHEMISTRY</div>
+      <h2 class="subject-card-title">化学編</h2>
+      <div class="subject-card-desc">元素・反応・光化学・気体の科学</div>
+    </a>
+    <a href="/biology" class="subject-card" style="--card-accent: #34d399;">
+      <div class="subject-card-badge">BIOLOGY</div>
+      <h2 class="subject-card-title">生物編</h2>
+      <div class="subject-card-desc">細胞・極限環境・誘発昏睡・収斂進化</div>
+    </a>
+    <a href="/math" class="subject-card" style="--card-accent: #f59e0b;">
+      <div class="subject-card-badge">MATHEMATICS</div>
+      <h2 class="subject-card-title">数学編</h2>
+      <div class="subject-card-desc">N 進数・対数・指数・軌道計算</div>
+    </a>
+  </div>
+
+  <div style="text-align: center; margin: 32px 0 80px;">
+    <a href="/" class="btn">← トップに戻る</a>
+  </div>
+
+</div>
+</BaseLayout>
+
+<style>
+  :root {
+    --accent:        #00d4aa;
+    --accent-glow:   rgba(0, 212, 170, 0.3);
+    --accent-bg:     rgba(0, 212, 170, 0.08);
+    --accent-border: rgba(0, 212, 170, 0.2);
+    --star-tint-a:   rgba(74, 158, 255, 0.4);
+    --star-tint-b:   rgba(0, 212, 170, 0.3);
+  }
+</style>
