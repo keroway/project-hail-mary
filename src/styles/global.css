@@ -282,6 +282,12 @@ body::before {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.08);
 }
+/* JS が読了章を埋めるまでの空ピル（特にモバイル常時表示）のチラつきを抑える */
+.nav-chapter:empty {
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+}
 
 .theme-rails {
   position: fixed;
