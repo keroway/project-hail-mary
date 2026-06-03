@@ -1029,7 +1029,7 @@ html[data-contrast='high'] .link-desc {
 .btn-secondary:hover {
   border-color: rgba(255, 255, 255, 0.3);
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.08);
-  color: var(--star-white);
+  color: var(--white-star);
 }
 
 /* ===== Subject cards (used on index/story) ===== */

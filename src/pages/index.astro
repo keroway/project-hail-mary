@@ -124,7 +124,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="subject-card-badge">PHYSICS</div>
       <h2 class="subject-card-title">物理学編</h2>
       <div class="subject-card-desc">重力・運動・エネルギー・相対性理論</div>
-      <div class="subject-card-count">6 セクション</div>
+      <div class="subject-card-count">7 セクション</div>
     </a>
     <a href="/chemistry" class="subject-card" style="--card-accent: #a78bfa;">
       <div class="subject-card-badge">CHEMISTRY</div>
@@ -135,14 +135,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <a href="/biology" class="subject-card" style="--card-accent: #34d399;">
       <div class="subject-card-badge">BIOLOGY</div>
       <h2 class="subject-card-title">生物編</h2>
-      <div class="subject-card-desc">細胞・光合成・昏睡・収斂進化</div>
-      <div class="subject-card-count">3 セクション</div>
+      <div class="subject-card-desc">細胞・極限環境・誘発昏睡・収斂進化</div>
+      <div class="subject-card-count">5 セクション</div>
     </a>
     <a href="/math" class="subject-card" style="--card-accent: #f59e0b;">
       <div class="subject-card-badge">MATHEMATICS</div>
       <h2 class="subject-card-title">数学編</h2>
-      <div class="subject-card-desc">N 進数・対数・軌道計算</div>
-      <div class="subject-card-count">3 セクション</div>
+      <div class="subject-card-desc">N 進数・対数・指数・軌道計算</div>
+      <div class="subject-card-count">4 セクション</div>
     </a>
   </div>
 
@@ -631,36 +631,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </style>
 
 <script>
-  const STORAGE_KEY     = 'hailmary-chapter';
+  import {
+    setChapter as persistChapter,
+    readChapter as getChapter,
+    compactLabel,
+    statusLabel,
+  } from '../scripts/chapter';
+
   const ONBOARDED_KEY   = 'hailmary-onboarded';
   const SESSION_DIALOG_KEY = 'hailmary-dialog-shown';
 
-  function getChapter(): number {
-    const raw = Number.parseInt(localStorage.getItem(STORAGE_KEY) ?? '0', 10);
-    return Number.isFinite(raw) ? Math.max(0, Math.min(30, raw)) : 0;
-  }
-
   function setChapter(v: number) {
-    const clamped = Math.max(0, Math.min(30, v));
-    localStorage.setItem(STORAGE_KEY, String(clamped));
+    // 保存と chapterChanged 発火は共有モジュールに委譲。
+    // ナビ表示・ネタバレ解放は BaseLayout が chapterChanged を購読して更新する。
+    const clamped = persistChapter(v);
     updateDialogUI(clamped);
     updateCompactBar(clamped);
-    document.dispatchEvent(new CustomEvent('chapterChanged', { detail: clamped }));
-  }
-
-  function compactLabel(chapter: number): string {
-    if (chapter === 0) return 'まだ読んでいない';
-    if (chapter >= 30) return '全章読了';
-    return `第${chapter}章まで`;
-  }
-
-  function statusLabel(chapter: number): string {
-    if (chapter === 0) return 'まだ読んでいません（ネタバレなし）';
-    if (chapter >= 30) return '全部読了（すべてのネタバレ解除）';
-    if (chapter >= 29) return `第${chapter}章まで読了（ロッキー船の危機・救出）`;
-    if (chapter >= 25) return `第${chapter}章まで読了（終盤・タウメーバ漏洩）`;
-    if (chapter >= 9)  return `第${chapter}章まで読了（ロッキー登場以降の内容解除）`;
-    return `第${chapter}章まで読了（ロッキー登場前まで）`;
   }
 
   function updateCompactBar(chapter: number) {
@@ -680,15 +666,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       const val = parseInt(btn.dataset.chapter ?? '0', 10);
       btn.classList.toggle('is-active', val === chapter);
     });
-
-    const nav = document.getElementById('nav-chapter-status');
-    if (nav) {
-      nav.innerHTML = chapter === 0
-        ? '未読'
-        : chapter >= 30
-          ? '読了'
-          : `第<span>${chapter}</span>章まで`;
-    }
+    // ナビのチップ更新は chapterChanged → BaseLayout(updateNavIndicator) に一元化
   }
 
   function isFirstVisit(): boolean {

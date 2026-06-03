@@ -15,7 +15,8 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImageURL = new URL('/og-image.svg', Astro.site);
+const ogImageURL = new URL('/og-image.png', Astro.site);
+const ogImageAlt = 'プロジェクト・ヘイルメアリー 科学入門ガイド — 物理・化学・生物・数学の科学解説サイト';
 
 /* Custom page transition: vertical slide-up + fade */
 const pageTransition = {
@@ -46,12 +47,15 @@ const pageTransition = {
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:image" content={ogImageURL} />
+  <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content={ogImageAlt} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={ogImageURL} />
+  <meta name="twitter:image:alt" content={ogImageAlt} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
   <link
@@ -76,7 +80,7 @@ const pageTransition = {
         <a href="/math" class={`nav-link${currentPath === '/math' ? ' active' : ''}`} data-nav-link aria-current={currentPath === '/math' ? 'page' : undefined}>数学</a>
         <a href="/notes" class={`nav-link${currentPath === '/notes' ? ' active' : ''}`} data-nav-link aria-current={currentPath === '/notes' ? 'page' : undefined}>余談</a>
       </div>
-      <div class="nav-status" aria-live="polite">
+      <div class="nav-status">
         <div class="nav-status-label">読了章</div>
         <div class="nav-chapter" id="nav-chapter-status"></div>
       </div>
@@ -148,7 +152,8 @@ const pageTransition = {
 
 <!-- Chapter gate script: runs on every page load / navigation -->
 <script>
-  const STORAGE_KEY = 'hailmary-chapter';
+  import { STORAGE_KEY, readChapter, updateNavIndicator } from '../scripts/chapter';
+
   const UI_PREFS_KEY = 'hailmary-ui-prefs';
   const DEFAULT_UI_PREFS = {
     fontScale: 'default',
@@ -157,24 +162,6 @@ const pageTransition = {
     motion: 'system',
     motionSource: 'system',
   };
-
-  function readChapter() {
-    const raw = Number.parseInt(localStorage.getItem(STORAGE_KEY) ?? '0', 10);
-    return Number.isFinite(raw) ? Math.max(0, Math.min(28, raw)) : 0;
-  }
-
-  function updateChapterIndicator(chapter) {
-    const el = document.getElementById('nav-chapter-status');
-    if (!el) return;
-
-    const text = chapter === 0
-      ? '未読'
-      : chapter >= 28
-        ? '全章読了'
-        : `第${chapter}章まで`;
-    el.textContent = text;
-    el.setAttribute('aria-label', `現在の読了章設定: ${text}`);
-  }
 
   function readUiPrefs() {
     try {
@@ -248,7 +235,7 @@ const pageTransition = {
 
   function applySpoilerGates() {
     const chapter = readChapter();
-    updateChapterIndicator(chapter);
+    updateNavIndicator(chapter);
 
     document.querySelectorAll<HTMLElement>('.spoiler-gate').forEach((gate) => {
       const min = Number.parseInt(gate.dataset.minChapter ?? '999', 10);
