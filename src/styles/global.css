@@ -282,6 +282,12 @@ body::before {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.08);
 }
+/* JS が読了章を埋めるまでの空ピル（特にモバイル常時表示）のチラつきを抑える */
+.nav-chapter:empty {
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+}
 
 .theme-rails {
   position: fixed;
@@ -586,6 +592,7 @@ html[data-mobile-hero='enabled'] .phase-hero.is-in-view {
 .block-label {
   font-family: 'Space Mono', monospace;
   font-size: 10px;
+  font-weight: 400; /* h3 へ昇格したため UA 既定の bold を打ち消し、従来の見た目を維持 */
   letter-spacing: 0.25em;
   text-transform: uppercase;
   margin-bottom: 8px;
@@ -1029,7 +1036,7 @@ html[data-contrast='high'] .link-desc {
 .btn-secondary:hover {
   border-color: rgba(255, 255, 255, 0.3);
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.08);
-  color: var(--star-white);
+  color: var(--white-star);
 }
 
 /* ===== Subject cards (used on index/story) ===== */
@@ -1227,7 +1234,19 @@ html:not([data-motion='reduced']) .scroll-mascot.is-active {
   .formula { font-size: calc(14px * var(--font-scale)); }
   .container { padding: 0 16px; }
   .subject-grid { grid-template-columns: 1fr 1fr; }
-  .nav-status { display: none; }
+
+  /* 読了章チップはモバイルでも残す（このサイトのコア機能の現在値表示）。「読了章」ラベルだけ省く */
+  .nav-status {
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    margin: 0;
+    padding-bottom: 8px;
+  }
+  .nav-status-label { display: none; }
 
   /* Nav: 2-row layout — home top, tabs below */
   .site-nav .nav-inner {

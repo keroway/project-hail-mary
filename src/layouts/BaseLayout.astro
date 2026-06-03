@@ -3,19 +3,60 @@ import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 
 interface Props {
-  title: string;
+  /** ページ固有のセクション名（例「物理学編」）。トップは省略し、サイト名のみを表示。 */
+  section?: string;
   description?: string;
   currentPath?: string;
+  /** 404 等、検索インデックスさせないページで true。robots noindex を出し、学習リソース型を外す。 */
+  noindex?: boolean;
 }
 
+const SITE_NAME = 'プロジェクト・ヘイルメアリー 科学入門ガイド';
+/** Twitter Card の著者帰属（@ハンドル）。空なら帰属メタを出力しない。 */
+const SITE_X_HANDLE = '@keroway21';
+const DEFAULT_DESCRIPTION =
+  '小説「プロジェクト・ヘイルメアリー」に登場する科学的描写を中学2年生向けにやさしく解説するガイドサイト。映画鑑賞前の予習や読後の復習に最適。物理・化学・生物・数学の4教科を収録。';
+
 const {
-  title,
-  description = '小説「プロジェクト・ヘイルメアリー」に登場する科学的描写を中学2年生向けにやさしく解説するガイドサイト。映画鑑賞前の予習や読後の復習に最適。物理・化学・生物・数学の4教科を収録。',
+  section,
+  description = DEFAULT_DESCRIPTION,
   currentPath = '/',
+  noindex = false,
 } = Astro.props;
 
+const pageTitle = section ? `${section} | ${SITE_NAME}` : SITE_NAME;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImageURL = new URL('/og-image.svg', Astro.site);
+const ogImageURL = new URL('/og-image.png', Astro.site);
+const ogImageAlt = 'プロジェクト・ヘイルメアリー 科学入門ガイド — 物理・化学・生物・数学の科学解説サイト';
+
+const siteHref = Astro.site?.href ?? 'https://hailmary.keroway.com/';
+const siteId = new URL('#website', siteHref).href;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': siteId,
+      name: SITE_NAME,
+      url: siteHref,
+      inLanguage: 'ja',
+      description: DEFAULT_DESCRIPTION,
+    },
+    {
+      '@type': noindex ? 'WebPage' : ['WebPage', 'LearningResource'],
+      '@id': `${canonicalURL.href}#webpage`,
+      url: canonicalURL.href,
+      name: pageTitle,
+      description,
+      inLanguage: 'ja',
+      isPartOf: { '@id': siteId },
+      isAccessibleForFree: true,
+      ...(!noindex && section
+        ? { learningResourceType: '科学解説', educationalLevel: '中学・高校', about: section }
+        : {}),
+    },
+  ],
+};
 
 /* Custom page transition: vertical slide-up + fade */
 const pageTransition = {
@@ -35,30 +76,54 @@ const pageTransition = {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
+  {noindex && <meta name="robots" content="noindex, follow" />}
   <meta name="theme-color" content="#03050f" />
   <meta name="color-scheme" content="dark" />
+  {/* 表示設定(文字サイズ/コントラスト/動き)を描画前に先行適用し、再訪ユーザーの FOUC を防ぐ */}
+  <script is:inline>
+    (function () {
+      try {
+        var p = JSON.parse(localStorage.getItem('hailmary-ui-prefs') || '{}');
+        var d = document.documentElement;
+        if (p.fontScale && p.fontScale !== 'default') d.dataset.fontScale = p.fontScale;
+        if (p.diagramScale && p.diagramScale !== 'default') d.dataset.diagramScale = p.diagramScale;
+        if (p.contrast && p.contrast !== 'default') d.dataset.contrast = p.contrast;
+        var motion;
+        if (p.motion === 'reduced' && p.motionSource === 'explicit') motion = 'reduced';
+        else if (p.motion === 'default') motion = 'default';
+        else motion = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduced' : 'default';
+        if (motion !== 'default') d.dataset.motion = motion;
+      } catch (e) {}
+    })();
+  </script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="canonical" href={canonicalURL} />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="プロジェクト・ヘイルメアリー 科学入門ガイド" />
+  <meta property="og:site_name" content={SITE_NAME} />
   <meta property="og:locale" content="ja_JP" />
   <meta property="og:url" content={canonicalURL} />
-  <meta property="og:title" content={title} />
+  <meta property="og:title" content={pageTitle} />
   <meta property="og:description" content={description} />
   <meta property="og:image" content={ogImageURL} />
+  <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content={ogImageAlt} />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content={title} />
+  {SITE_X_HANDLE && <meta name="twitter:site" content={SITE_X_HANDLE} />}
+  {SITE_X_HANDLE && <meta name="twitter:creator" content={SITE_X_HANDLE} />}
+  <meta name="twitter:title" content={pageTitle} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={ogImageURL} />
+  <meta name="twitter:image:alt" content={ogImageAlt} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
   <link
     rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;700&family=Space+Mono:wght@400;700&display=swap"
   />
-  <title>{title}</title>
+  <title>{pageTitle}</title>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />
   <ClientRouter />
 </head>
 <body data-current-path={currentPath}>
@@ -76,7 +141,7 @@ const pageTransition = {
         <a href="/math" class={`nav-link${currentPath === '/math' ? ' active' : ''}`} data-nav-link aria-current={currentPath === '/math' ? 'page' : undefined}>数学</a>
         <a href="/notes" class={`nav-link${currentPath === '/notes' ? ' active' : ''}`} data-nav-link aria-current={currentPath === '/notes' ? 'page' : undefined}>余談</a>
       </div>
-      <div class="nav-status" aria-live="polite">
+      <div class="nav-status">
         <div class="nav-status-label">読了章</div>
         <div class="nav-chapter" id="nav-chapter-status"></div>
       </div>
@@ -148,7 +213,8 @@ const pageTransition = {
 
 <!-- Chapter gate script: runs on every page load / navigation -->
 <script>
-  const STORAGE_KEY = 'hailmary-chapter';
+  import { STORAGE_KEY, readChapter, updateNavIndicator } from '../scripts/chapter';
+
   const UI_PREFS_KEY = 'hailmary-ui-prefs';
   const DEFAULT_UI_PREFS = {
     fontScale: 'default',
@@ -157,24 +223,6 @@ const pageTransition = {
     motion: 'system',
     motionSource: 'system',
   };
-
-  function readChapter() {
-    const raw = Number.parseInt(localStorage.getItem(STORAGE_KEY) ?? '0', 10);
-    return Number.isFinite(raw) ? Math.max(0, Math.min(28, raw)) : 0;
-  }
-
-  function updateChapterIndicator(chapter) {
-    const el = document.getElementById('nav-chapter-status');
-    if (!el) return;
-
-    const text = chapter === 0
-      ? '未読'
-      : chapter >= 28
-        ? '全章読了'
-        : `第${chapter}章まで`;
-    el.textContent = text;
-    el.setAttribute('aria-label', `現在の読了章設定: ${text}`);
-  }
 
   function readUiPrefs() {
     try {
@@ -224,12 +272,20 @@ const pageTransition = {
     syncAccessibilityButtons(prefs);
   }
 
-  function closeAccessibilityPanel() {
+  function getPanelOptionButtons() {
+    const panel = document.getElementById('accessibility-panel');
+    if (!panel) return [];
+    return Array.from(panel.querySelectorAll<HTMLButtonElement>('[data-ui-setting][data-ui-value]'));
+  }
+
+  function closeAccessibilityPanel(restoreFocus = false) {
     const panel = document.getElementById('accessibility-panel');
     const toggle = document.getElementById('accessibility-toggle');
     if (!panel || !toggle) return;
+    const wasOpen = !panel.hidden;
     panel.hidden = true;
     toggle.setAttribute('aria-expanded', 'false');
+    if (restoreFocus && wasOpen) toggle.focus();
   }
 
   function toggleAccessibilityPanel() {
@@ -239,6 +295,21 @@ const pageTransition = {
     const nextOpen = panel.hidden;
     panel.hidden = !nextOpen;
     toggle.setAttribute('aria-expanded', String(nextOpen));
+    // 開いたらパネル内へフォーカスを移す（WCAG 2.4.3）。Tab 循環は keydown で担保。
+    if (nextOpen) getPanelOptionButtons()[0]?.focus();
+  }
+
+  /* 外部リンク(target=_blank)に「新しいタブで開く」を sr-only で予告（WCAG 3.2.5）。
+     一次資料・参考リンクやネタバレ解放後のリンクにも冪等に適用する。 */
+  function decorateExternalLinks() {
+    document.querySelectorAll<HTMLAnchorElement>('a[target="_blank"]').forEach((a) => {
+      if (a.dataset.extDecorated) return;
+      a.dataset.extDecorated = 'true';
+      const note = document.createElement('span');
+      note.className = 'sr-only';
+      note.textContent = '（新しいタブで開く）';
+      a.appendChild(note);
+    });
   }
 
   function decodeB64(str: string): string {
@@ -248,7 +319,7 @@ const pageTransition = {
 
   function applySpoilerGates() {
     const chapter = readChapter();
-    updateChapterIndicator(chapter);
+    updateNavIndicator(chapter);
 
     document.querySelectorAll<HTMLElement>('.spoiler-gate').forEach((gate) => {
       const min = Number.parseInt(gate.dataset.minChapter ?? '999', 10);
@@ -302,6 +373,9 @@ const pageTransition = {
         }
       }
     });
+
+    // ネタバレ解放で差し込まれたリンクも含め、外部リンクに新規タブ予告を付ける
+    decorateExternalLinks();
   }
 
   if (!window.__hailMaryChapterBindings) {
@@ -358,7 +432,19 @@ const pageTransition = {
     });
 
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') {
+      if (event.key !== 'Escape') return;
+      const panel = document.getElementById('accessibility-panel');
+      if (panel && !panel.hidden) closeAccessibilityPanel(true);
+    });
+
+    /* 非モーダルなポップオーバーなので Tab はトラップしない（WAI-ARIA disclosure パターン）。
+       フォーカスがツール領域の外へ出たら閉じる。Escape ではトグルへフォーカスを戻す。 */
+    document.addEventListener('focusout', (event) => {
+      const panel = document.getElementById('accessibility-panel');
+      if (!panel || panel.hidden) return;
+      const tools = document.querySelector('.accessibility-tools');
+      const next = event.relatedTarget;
+      if (tools && next instanceof Node && !tools.contains(next)) {
         closeAccessibilityPanel();
       }
     });
