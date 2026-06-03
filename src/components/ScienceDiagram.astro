@@ -13,6 +13,10 @@ interface Props {
 }
 
 const { kind, title, caption } = Astro.props;
+// 図のキャプション(関係の説明)を SVG の説明として AT に明示関連付けする。
+// role="img" の SVG は内部の <text> を読み上げないため、aria-label(=title) に加えて
+// aria-describedby でキャプションを紐づけ、図が示す対比を非視覚利用者にも伝える。
+const captionId = caption ? `diagram-cap-${crypto.randomUUID()}` : undefined;
 ---
 
 <figure class="science-diagram">
@@ -23,7 +27,7 @@ const { kind, title, caption } = Astro.props;
 
   <div class="science-diagram-stage">
   {kind === 'orbit' && (
-    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title}>
+    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title} aria-describedby={captionId}>
       <title>{title}</title>
       <defs>
         <radialGradient id="earthGlow" cx="50%" cy="50%" r="50%">
@@ -68,7 +72,7 @@ const { kind, title, caption } = Astro.props;
   )}
 
   {kind === 'pendulum' && (
-    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title}>
+    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title} aria-describedby={captionId}>
       <title>{title}</title>
       <rect x="0" y="0" width="680" height="240" class="diagram-bg" />
       <line x1="120" y1="34" x2="320" y2="34" class="diagram-muted-line" />
@@ -105,7 +109,7 @@ const { kind, title, caption } = Astro.props;
   )}
 
   {kind === 'centrifuge' && (
-    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title}>
+    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title} aria-describedby={captionId}>
       <title>{title}</title>
       <rect x="0" y="0" width="680" height="240" class="diagram-bg" />
       <circle cx="205" cy="120" r="88" class="diagram-accent-strong" fill="none" />
@@ -136,7 +140,7 @@ const { kind, title, caption } = Astro.props;
   )}
 
   {kind === 'photosynthesis' && (
-    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title}>
+    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title} aria-describedby={captionId}>
       <title>{title}</title>
       <defs>
         <radialGradient id="sunHaloPh" cx="50%" cy="50%" r="50%">
@@ -195,7 +199,7 @@ const { kind, title, caption } = Astro.props;
   )}
 
   {kind === 'spectrum' && (
-    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title}>
+    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title} aria-describedby={captionId}>
       <title>{title}</title>
       <defs>
         <linearGradient id="spectrumBar" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -222,7 +226,7 @@ const { kind, title, caption } = Astro.props;
   )}
 
   {kind === 'hohmann' && (
-    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title}>
+    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title} aria-describedby={captionId}>
       <title>{title}</title>
       <rect x="0" y="0" width="680" height="240" class="diagram-bg" />
       <circle cx="224" cy="120" r="16" class="diagram-fill-warm-soft" />
@@ -251,7 +255,7 @@ const { kind, title, caption } = Astro.props;
   )}
 
   {kind === 'relativity' && (
-    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title}>
+    <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title} aria-describedby={captionId}>
       <title>{title}</title>
       <rect x="0" y="0" width="680" height="240" class="diagram-bg" />
       <line x1="96" y1="82" x2="584" y2="82" class="diagram-muted-line" />
@@ -286,7 +290,7 @@ const { kind, title, caption } = Astro.props;
   )}
   </div>
 
-  {caption && <p class="science-diagram-caption">{caption}</p>}
+  {caption && <p class="science-diagram-caption" id={captionId}>{caption}</p>}
   <p class="science-diagram-mobile-note" aria-hidden="true">図は左右にスクロールできます</p>
 </figure>
 
