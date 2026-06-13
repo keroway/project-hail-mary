@@ -1,11 +1,11 @@
-import { defineConfig } from 'astro/config';
-import sitemap from '@astrojs/sitemap';
+import sitemap from "@astrojs/sitemap";
+import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  site: 'https://hailmary.keroway.com',
-  output: 'static',
+  site: "https://hailmary.keroway.com",
+  output: "static",
   build: {
-    assets: '_astro',
+    assets: "_astro",
   },
   integrations: [sitemap()],
 });
