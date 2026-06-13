@@ -1,21 +1,22 @@
-name: CI — Check & Preview Deploy
+name: CI — Lint, Typecheck, Build & Preview Deploy
 
 on:
   pull_request:
     branches: [main]
 
+# Cancel superseded runs on the same ref.
 concurrency:
   group: pages-${{ github.ref }}
   cancel-in-progress: true
 
+# Read-only by default; deploy-preview overrides at job level.
+permissions:
+  contents: read
+
 jobs:
-  ci:
-    name: Type Check, Build & Preview Deploy
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      deployments: write
-      pull-requests: write
     steps:
       - uses: actions/checkout@v4
 
@@ -26,14 +27,70 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run check
+      - name: Run Biome lint
+        run: npm run lint
 
-      - run: npm run build
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-      # Dependabot PR にはリポジトリ Secrets が渡らず wrangler が認証できないためスキップする
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Run astro check
+        run: npm run check
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Skip `astro check` here — the `typecheck` job covers it.
+      - name: Build
+        run: npm run build
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 1
+
+  deploy-preview:
+    name: Preview Deploy
+    needs: [build]
+    # Dependabot PRs cannot access repository Secrets, so skip preview for them.
+    if: github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download dist artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
       - name: Deploy Preview
         id: deploy
-        if: github.actor != 'dependabot[bot]'
         uses: cloudflare/wrangler-action@v3
         env:
           BRANCH_NAME: ${{ github.head_ref }}
@@ -43,7 +100,6 @@ jobs:
           command: pages deploy dist --project-name=project-hail-mary --branch=$BRANCH_NAME
 
       - name: Comment Preview URL
-        if: github.actor != 'dependabot[bot]'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |

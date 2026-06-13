@@ -8,7 +8,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "lint": "biome ci",
+    "format": "biome format --write ."
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.3",
@@ -16,6 +18,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.9",
+    "@biomejs/biome": "2.5.0",
     "typescript": "5.9.3",
     "wrangler": "4.96.0"
   }
