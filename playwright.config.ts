@@ -1,11 +1,13 @@
 import { defineConfig, devices } from "@playwright/test";
 
+const PORT = parseInt(process.env.PORT ?? "4323", 10);
+
 export default defineConfig({
   testDir: "./tests/playwright",
   fullyParallel: true,
   reporter: "html",
   use: {
-    baseURL: "http://localhost:4323",
+    baseURL: `http://localhost:${PORT}`,
     trace: "on-first-retry",
   },
   projects: [
@@ -15,8 +17,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "npm run build && npm run preview -- --port 4323",
-    url: "http://localhost:4323",
+    command: `npm run build && npm run preview -- --port ${PORT}`,
+    url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },
