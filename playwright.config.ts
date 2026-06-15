@@ -17,7 +17,10 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: `npm run build && npm run preview -- --port ${PORT}`,
+    // In CI, dist is pre-built and downloaded as an artifact; skip rebuild.
+    command: process.env.CI
+      ? `npm run preview -- --port ${PORT}`
+      : `npm run build && npm run preview -- --port ${PORT}`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
