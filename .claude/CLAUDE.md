@@ -31,10 +31,14 @@ src/
     ├── chemistry.astro        # 化学編
     ├── biology.astro          # 生物編
     └── math.astro             # 数学編
+tests/
+└── playwright/
+    └── smoke.spec.ts          # 全ページ smoke テスト（e2e）
+playwright.config.ts           # Playwright 設定（CI では dist 再利用、ローカルはフルビルド）
 public/
 └── _headers                   # Cloudflare セキュリティヘッダー（変更不要）
 .github/workflows/
-├── ci.yml                     # PR で型チェック・ビルド・プレビューデプロイ（必須チェック）
+├── ci.yml                     # PR で型チェック・ビルド・e2e・プレビューデプロイ（必須チェック）
 └── deploy.yml                 # main push（PR マージ）→ Cloudflare Pages デプロイ
 ```
 
@@ -55,8 +59,9 @@ gh pr create --fill            # PR 作成 → CI 通過
 gh pr merge --squash --admin   # 自分の PR は承認なしでマージ（admin バイパス行使）
 ```
 
-> admin が自分の PR をマージする際は `--admin`（または GitHub UI の「Merge without waiting」）で
-> バイパスを明示的に行使する。通常の `gh pr merge` は承認1件要件で弾かれる。
+> ルールセットの bypass_actors に admin ロールが `bypass_mode: always` で設定済み。
+> ただし gh CLI では `--admin` フラグが必須（省略すると承認1件要件で弾かれる）。
+> 他者の PR は admin が approve してからマージする。
 
 ### ローカルで確認する
 
@@ -64,6 +69,7 @@ gh pr merge --squash --admin   # 自分の PR は承認なしでマージ（admi
 npm run dev      # 開発サーバー起動（http://localhost:4321）
 npm run build    # 本番ビルド（dist/ に出力）
 npm run preview  # ビルド結果をプレビュー
+npm run test:e2e # Playwright e2e smoke テスト（全8ページ、chromium のみ）
 ```
 
 ### ネタバレ閾値を変更する
@@ -91,8 +97,9 @@ npm run preview  # ビルド結果をプレビュー
 - `public/_headers` は Cloudflare Pages のセキュリティヘッダー設定。変更不要。
 - `main` はブランチ保護ルールセット（`main protection`）で保護。**PR 経由 + CI 通過が必須**、
   force-push / ブランチ削除は禁止、直接プッシュは（admin 含め）不可。
-  - レビュー承認は1件必須。ただし admin（リポジトリ管理者）は PR コンテキストの bypass を持ち、
-    自分の PR は承認なしでマージ可。admin 以外のコラボレーターの PR は admin の承認が必要。
+  - レビュー承認は1件必須。ただし admin（リポジトリ管理者）は bypass_mode: always で
+    すべてのルールをバイパス可能。自分の PR は承認なしでマージ可。
+    他者の PR は admin の承認が必要。
 - GitHub Secrets に `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID` が必要（設定済み）。
   Secret scanning + push protection が有効なため、トークン等を誤コミットするとブロックされる。
 - 依存更新は Dependabot（`.github/dependabot.yml`）が npm と GitHub Actions を毎週末チェックし、公開後5日経過したバージョンのみ PR を作成する（major は手動更新、minor/patch はグループ化して 1 PR にまとめる）。
