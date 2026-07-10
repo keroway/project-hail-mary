@@ -8,7 +8,7 @@
 - **ホスティング**: Cloudflare Pages（静的サイト）
 - **フレームワーク**: Astro 6（静的出力）
 - **ビルド出力**: `dist/`
-- **本番URL**: https://hailmary.keroway.com
+- **本番URL**: <https://hailmary.keroway.com>
 - **本番ブランチ**: `main`（PR マージ → GitHub Actions → Cloudflare Pages 自動デプロイ）
 - **デプロイ方式**: GitHub Actions（`.github/workflows/deploy.yml`）で `wrangler pages deploy` を実行
 - **リポジトリ公開設定**: public（Secret scanning / push protection / CodeQL を無料利用するため）
@@ -55,13 +55,12 @@ git switch -c update/<変更内容>
 git add src/pages/physics.astro
 git commit -m "Update: <変更内容>"
 git push -u origin HEAD
-gh pr create --fill            # PR 作成 → CI 通過
-gh pr merge --squash --admin   # 自分の PR は承認なしでマージ（admin バイパス行使）
+gh pr create --fill          # PR 作成 → 必須 CI 通過
+gh pr merge --squash         # CI 通過後に通常の権限でマージ
 ```
 
-> ルールセットの bypass_actors に admin ロールが `bypass_mode: always` で設定済み。
-> ただし gh CLI では `--admin` フラグが必須（省略すると承認1件要件で弾かれる）。
-> 他者の PR は admin が approve してからマージする。
+> ルールセットは PR 経由と必須 CI（Lint、Typecheck、Build、E2E Smoke Tests）を要求するが、
+> 個人所有リポジトリのためレビュー承認数は 0 にしている。owner を含む bypass は設定しない。
 
 ### ローカルで確認する
 
@@ -95,11 +94,9 @@ npm run test:e2e # Playwright e2e smoke テスト（全8ページ、chromium の
 ## 注意事項
 
 - `public/_headers` は Cloudflare Pages のセキュリティヘッダー設定。変更不要。
-- `main` はブランチ保護ルールセット（`main protection`）で保護。**PR 経由 + CI 通過が必須**、
-  force-push / ブランチ削除は禁止、直接プッシュは（admin 含め）不可。
-  - レビュー承認は1件必須。ただし admin（リポジトリ管理者）は bypass_mode: always で
-    すべてのルールをバイパス可能。自分の PR は承認なしでマージ可。
-    他者の PR は admin の承認が必要。
+- `main` はブランチ保護ルールセット（`main protection`）で保護。**PR 経由 + 必須 CI 通過が必須**、
+  force-push / ブランチ削除は禁止、直接プッシュは不可。
+  - レビュー承認数は 0。owner を含む bypass は設定せず、owner は CI 通過後に通常の PR マージを行う。
 - GitHub Secrets に `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID` が必要（設定済み）。
   Secret scanning + push protection が有効なため、トークン等を誤コミットするとブロックされる。
 - 依存更新は Dependabot（`.github/dependabot.yml`）が npm と GitHub Actions を毎週末チェックし、公開後5日経過したバージョンのみ PR を作成する（major は手動更新、minor/patch はグループ化して 1 PR にまとめる）。
