@@ -107,8 +107,6 @@ jobs:
   deploy-preview:
     name: Preview Deploy
     needs: [build]
-    # Dependabot PRs cannot access repository Secrets, so skip preview for them.
-    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     permissions:
       contents: read

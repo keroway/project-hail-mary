@@ -29,15 +29,15 @@ project-hail-mary/
 ├── .claude/
 │   └── CLAUDE.md                    # Claude Code 向け作業ガイド
 ├── .github/
-│   ├── workflows/
-│   │   ├── ci.yml                  # PR 時の型チェック・ビルド・プレビューデプロイ
-│   │   └── deploy.yml              # main push 時の本番デプロイ
-│   └── dependabot.yml              # 依存更新設定（npm / GitHub Actions）
+│   └── workflows/
+│       ├── ci.yml                  # PR 時の型チェック・ビルド・プレビューデプロイ
+│       └── deploy.yml              # main push 時の本番デプロイ
 ├── AGENTS.md                        # Codex 等エージェント向け（CLAUDE.md のシンボリックリンク）
 ├── docs/
 │   └── cloudflare-pages-setup.md   # Cloudflare Pages 初回セットアップ手順
 ├── public/
 │   └── _headers                    # Cloudflare セキュリティヘッダー
+├── renovate.json                    # 依存更新設定（npm / GitHub Actions）
 ├── src/
 │   ├── components/
 │   │   ├── SpoilerGate.astro       # 読了章ベースのネタバレ制御
@@ -78,8 +78,6 @@ npm run dev
 3. `npm run build`
 4. `cloudflare/wrangler-action@v3` による Cloudflare Pages へのプレビューデプロイ（プレビュー URL を PR にコメント）
 
-> Dependabot の PR にはリポジトリ Secrets が渡らないため、プレビューデプロイ手順はスキップされます（型チェック・ビルドは実行されます）。
-
 ## デプロイ
 
 `main` ブランチへ push すると GitHub Actions (`.github/workflows/deploy.yml`) が自動実行されます。
@@ -94,12 +92,13 @@ Cloudflare Pages 側のビルド設定は不要です（ビルドは Actions 側
 
 ## 依存更新
 
-`.github/dependabot.yml` により Dependabot が依存を管理します。
+`renovate.json` により Renovate が依存を管理します。
 
 - 対象: npm（`package.json`）と GitHub Actions（`.github/workflows/*.yml`）
-- スケジュール: 毎週土曜にチェック
-- `minor` / `patch` のみ自動 PR を作成（`major` は手動で取り込む）
-- 公開後 5 日未満のバージョンは cooldown で見送る
+- スケジュール: 毎週末にチェック
+- `minor` / `patch` はエコシステムごとにグルーピングして自動 PR を作成
+- `major` は Dependency Dashboard で承認するまで PR を作成しない
+- 公開後 5 日未満のバージョンは `minimumReleaseAge` で見送る
 
 ## コンテンツ更新
 
