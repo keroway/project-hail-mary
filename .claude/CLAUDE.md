@@ -99,4 +99,4 @@ npm run test:e2e # Playwright e2e smoke テスト（全8ページ、chromium の
   - レビュー承認数は 0。owner を含む bypass は設定せず、owner は CI 通過後に通常の PR マージを行う。
 - GitHub Secrets に `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID` が必要（設定済み）。
   Secret scanning + push protection が有効なため、トークン等を誤コミットするとブロックされる。
-- 依存更新は Dependabot（`.github/dependabot.yml`）が npm と GitHub Actions を毎週末チェックし、公開後5日経過したバージョンのみ PR を作成する（major は手動更新、minor/patch はグループ化して 1 PR にまとめる）。
+- 依存更新は Renovate（`renovate.json`）が npm と GitHub Actions を毎週末チェックし、公開後5日経過したバージョンのみ PR を作成する（major は Dependency Dashboard で承認するまで PR を作成しない、minor/patch はエコシステムごとにグループ化して 1 PR にまとめる）。
