@@ -107,6 +107,12 @@ jobs:
   deploy-preview:
     name: Preview Deploy
     needs: [build]
+    # Dependabot / fork からの PR には Actions secrets が渡らないため
+    # （CLOUDFLARE_API_TOKEN が空になり wrangler が起動できない）スキップする。
+    # Preview Deploy は必須チェックではないのでマージはブロックされない。
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository
+      && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -121,15 +127,25 @@ jobs:
           name: dist
           path: dist
 
+      # wrangler-action は shell を介さず exec するため command 内の $VAR は
+      # 展開されない（従来 --branch=$BRANCH_NAME が literal 扱いされ、全 PR が
+      # branch-name.<project>.pages.dev という同一エイリアスを共有していた）。
+      # ブランチ名は untrusted 入力なので、command に埋める前に許可文字だけに絞る。
+      - name: Sanitize branch name
+        id: branch
+        env:
+          RAW_BRANCH: ${{ github.head_ref }}
+        run: |
+          name=$(printf '%s' "$RAW_BRANCH" | tr -c 'A-Za-z0-9._/-' '-')
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+
       - name: Deploy Preview
         id: deploy
         uses: cloudflare/wrangler-action@v3
-        env:
-          BRANCH_NAME: ${{ github.head_ref }}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=project-hail-mary --branch=$BRANCH_NAME
+          command: pages deploy dist --project-name=project-hail-mary --branch=${{ steps.branch.outputs.name }}
 
       - name: Comment Preview URL
         uses: marocchino/sticky-pull-request-comment@v2
