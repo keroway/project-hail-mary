@@ -20,6 +20,9 @@ node_modules/
 # Claude Code agent memory (machine-generated, local-only)
 .claude/agent-memory/
 
+# pi CLI local relay state (machine-generated, local-only)
+.pi/
+
 # Playwright test artifacts
 playwright-report/
 test-results/
