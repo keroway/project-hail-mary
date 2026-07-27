@@ -11,7 +11,8 @@
     "check": "astro check",
     "lint": "biome ci",
     "format": "biome format --write .",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "postinstall": "lefthook install"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.3",
@@ -21,6 +22,7 @@
     "@astrojs/check": "0.9.9",
     "@biomejs/biome": "2.5.3",
     "@playwright/test": "1.61.1",
+    "lefthook": "2.1.10",
     "typescript": "5.9.3",
     "wrangler": "4.114.0"
   }
