@@ -1,0 +1,6 @@
+# typos (https://github.com/crate-ci/typos) の誤検知除外。
+# src/data/citations.ts の書名はラテン語原題（ニュートン『自然哲学の数学的諸原理』、
+# ネイピア『対数の驚異的な規範の記述』）で、英語のスペルミスではない。
+[default.extend-words]
+Philosophiae = "Philosophiae"
+Descriptio = "Descriptio"
