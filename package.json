@@ -2,7 +2,7 @@
   "name": "project-hail-mary",
   "type": "module",
   "engines": {
-    "node": ">=22.12"
+    "node": ">=24"
   },
   "scripts": {
     "dev": "astro dev",
