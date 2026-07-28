@@ -61,28 +61,28 @@ project-hail-mary/
 ## ローカル開発
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 - 開発サーバー: `http://localhost:4321`
-- 本番ビルド: `npm run build`
-- ビルド確認: `npm run preview`
+- 本番ビルド: `pnpm run build`
+- ビルド確認: `pnpm run preview`
 
 ## CI / PR チェック
 
 `main` 向けの Pull Request を作成すると `.github/workflows/ci.yml` が実行されます。
 
-1. `npm ci`
-2. `npm run check`（`astro check` による型チェック）
-3. `npm run build`
+1. `pnpm install --frozen-lockfile`
+2. `pnpm run check`（`astro check` による型チェック）
+3. `pnpm run build`
 4. `cloudflare/wrangler-action@v3` による Cloudflare Pages へのプレビューデプロイ（プレビュー URL を PR にコメント）
 
 ## デプロイ
 
 `main` ブランチへ push すると GitHub Actions (`.github/workflows/deploy.yml`) が自動実行されます。
 
-1. `npm ci` → `npm run build` でビルド
+1. `pnpm install --frozen-lockfile` → `pnpm run build` でビルド
 2. `cloudflare/wrangler-action@v3` が `dist/` を Cloudflare Pages に direct upload
 
 Cloudflare Pages 側のビルド設定は不要です（ビルドは Actions 側で行います）。  

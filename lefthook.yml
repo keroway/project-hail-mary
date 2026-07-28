@@ -2,8 +2,7 @@
 # https://lefthook.dev/configuration/
 # Template: keroway/.github/templates/lefthook.yml
 #
-# npm 管理のため `pnpm exec` は `npx` に置き換え。
-# pre-push は Playwright e2e（`npm run test:e2e`）を含めず `npm run build` のみ。
+# pre-push は Playwright e2e（`pnpm run test:e2e`）を含めず `pnpm run build` のみ。
 # e2e はブラウザインストールが必要で重く、PR の必須 CI（E2E Smoke Tests）で
 # 既にカバーされているため、pre-push ではビルド可否のみを軽量に検証する。
 
@@ -12,14 +11,14 @@ pre-commit:
   jobs:
     - name: biome check (staged files)
       glob: "*.{ts,js,mjs,astro,json}"
-      run: npx biome check --write --no-errors-on-unmatched {staged_files}
+      run: pnpm exec biome check --write --no-errors-on-unmatched {staged_files}
       stage_fixed: true
 
     - name: typecheck
       glob: "*.astro"
-      run: npx astro check
+      run: pnpm exec astro check
 
 pre-push:
   jobs:
     - name: build
-      run: npm run build
+      run: pnpm run build

@@ -5,8 +5,8 @@
 <!-- 例: Closes #123 -->
 
 ## 確認項目
-- [ ] `npm run check` が通る
-- [ ] `npm run build` が成功する
+- [ ] `pnpm run check` が通る
+- [ ] `pnpm run build` が成功する
 - [ ] プレビュー URL で表示を確認した
 - [ ] （コンテンツ変更時）中学2年生に伝わる表現か確認した
 - [ ] （ネタバレ関連の変更時）SpoilerGate の `minChapter` が適切か確認した
