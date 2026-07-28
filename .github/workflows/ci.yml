@@ -139,6 +139,11 @@ jobs:
         with:
           persist-credentials: false
 
+      # wrangler-action がバンドル同梱の Wrangler の代わりにプロジェクトの package
+      # manager を検出して呼び出そうとするため、dist を使うだけのジョブでも pnpm を
+      # PATH 上に用意しておく必要がある。
+      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+
       - name: Download dist artifact
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
