@@ -65,10 +65,10 @@ gh pr merge --squash         # CI 通過後に通常の権限でマージ
 ### ローカルで確認する
 
 ```bash
-npm run dev      # 開発サーバー起動（http://localhost:4321）
-npm run build    # 本番ビルド（dist/ に出力）
-npm run preview  # ビルド結果をプレビュー
-npm run test:e2e # Playwright e2e smoke テスト（全8ページ、chromium のみ）
+pnpm run dev      # 開発サーバー起動（http://localhost:4321）
+pnpm run build    # 本番ビルド（dist/ に出力）
+pnpm run preview  # ビルド結果をプレビュー
+pnpm run test:e2e # Playwright e2e smoke テスト（全8ページ、chromium のみ）
 ```
 
 ### ネタバレ閾値を変更する

@@ -1,24 +1,22 @@
 # keroway 標準 justfile。中身は既存の package.json scripts への薄い委譲のみ。
-# このリポジトリは npm（ワークスペース標準は pnpm。移行コストが高いため justfile で
-# インタフェースだけ揃える）。
 
 default:
     @just --list
 
 build:
-    npm run build
+    pnpm run build
 
 test:
-    npm run test:e2e
+    pnpm run test:e2e
 
 lint:
-    npm run lint
+    pnpm run lint
 
 format:
-    npm run format
+    pnpm run format
 
 # lint / typecheck (astro check) / e2e test をまとめて実行（コミット前の全通し確認）
 check:
-    npm run lint
-    npm run check
-    npm run test:e2e
+    pnpm run lint
+    pnpm run check
+    pnpm run test:e2e

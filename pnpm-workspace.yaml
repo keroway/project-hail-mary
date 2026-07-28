@@ -1,0 +1,9 @@
+# pnpm 11 はデフォルトで依存の build スクリプト実行を遮断する (strictDepBuilds)。
+# 実行を許可するものだけ allowBuilds で明示する。
+allowBuilds:
+  # Astro / Vite が内部で使うバンドラ。install スクリプトでプラットフォーム別バイナリを解決する。
+  esbuild: true
+  # git pre-commit フックを .git/hooks/ にインストールする (postinstall の prepare スクリプト)。
+  lefthook: true
+  # wrangler が内部で使う Cloudflare Workers ランタイム。プラットフォーム別バイナリを取得する。
+  workerd: true
