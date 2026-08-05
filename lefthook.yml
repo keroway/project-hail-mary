@@ -5,6 +5,11 @@
 # pre-push は Playwright e2e（`pnpm run test:e2e`）を含めず `pnpm run build` のみ。
 # e2e はブラウザインストールが必要で重く、PR の必須 CI（E2E Smoke Tests）で
 # 既にカバーされているため、pre-push ではビルド可否のみを軽量に検証する。
+#
+# build の glob は .github/workflows/ci.yml の `changes` job の code フィルタと
+# 揃えている。README.md / CLAUDE.md など該当しないパスのみの push では
+# 一致ファイルがなくジョブ自体がスキップされる（PR 側は E2E 等の必須チェックで
+# 別途担保されるため、ローカルでは軽量化を優先）。
 
 pre-commit:
   parallel: true
@@ -21,4 +26,5 @@ pre-commit:
 pre-push:
   jobs:
     - name: build
+      glob: "{src/**,public/**,astro.config.*,package.json,pnpm-lock.yaml,tsconfig.json,biome.json,biome.jsonc,playwright.config.*,.github/workflows/**}"
       run: pnpm run build

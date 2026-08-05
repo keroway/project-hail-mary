@@ -9,7 +9,43 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # main へのマージがドキュメントのみ（README.md, CLAUDE.md, .claude/**, *.md 等）の変更かどうかを
+  # 判定する。コードとみなすパスの基準は ci.yml の `changes` job と揃えている。
+  changes:
+    name: Detect changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      code: ${{ steps.filter.outputs.code }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Filter changed paths
+        id: filter
+        uses: dorny/paths-filter@7b450fff21473bca461d4b92ce414b9d0420d706 # v4.0.2
+        with:
+          base: ${{ github.event.before }}
+          filters: |
+            code:
+              - 'src/**'
+              - 'public/**'
+              - 'astro.config.*'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'tsconfig.json'
+              - 'biome.json'
+              - 'biome.jsonc'
+              - 'playwright.config.*'
+              - '.github/workflows/**'
+
   deploy:
+    name: Deploy
+    needs: [changes]
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read

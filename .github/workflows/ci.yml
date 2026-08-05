@@ -14,8 +14,41 @@ permissions:
   contents: read
 
 jobs:
+  # コード（src/**, astro.config.*, package.json 等）に影響する変更かどうかを判定する。
+  # README.md / CLAUDE.md など「コードとみなすパス」に含まれないファイルのみの変更では
+  # 下流の Lint / Typecheck / Build / E2E / Preview Deploy を job 単位の `if:` でスキップする。
+  # ワークフロー自体は pull_request で必ず起動させ、スキップした job も success/skipped で
+  # 完了させることで、ブランチ保護の必須チェックが pending のまま止まらないようにする。
+  changes:
+    name: Detect changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      code: ${{ steps.filter.outputs.code }}
+    steps:
+      - name: Filter changed paths
+        id: filter
+        uses: dorny/paths-filter@7b450fff21473bca461d4b92ce414b9d0420d706 # v4.0.2
+        with:
+          filters: |
+            code:
+              - 'src/**'
+              - 'public/**'
+              - 'astro.config.*'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'tsconfig.json'
+              - 'biome.json'
+              - 'biome.jsonc'
+              - 'playwright.config.*'
+              - '.github/workflows/**'
+
   lint:
     name: Lint
+    needs: [changes]
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
@@ -36,6 +69,8 @@ jobs:
 
   typecheck:
     name: Typecheck
+    needs: [changes]
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
@@ -56,6 +91,8 @@ jobs:
 
   build:
     name: Build
+    needs: [changes]
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
@@ -84,7 +121,8 @@ jobs:
 
   e2e:
     name: E2E Smoke Tests
-    needs: [build]
+    needs: [changes, build]
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
@@ -122,12 +160,14 @@ jobs:
 
   deploy-preview:
     name: Preview Deploy
-    needs: [build]
+    needs: [changes, build]
     # Dependabot / fork からの PR には Actions secrets が渡らないため
     # （CLOUDFLARE_API_TOKEN が空になり wrangler が起動できない）スキップする。
-    # Preview Deploy は必須チェックではないのでマージはブロックされない。
+    # ドキュメントのみの変更（needs.changes.outputs.code == 'false'）でも build と同様に
+    # スキップする。Preview Deploy は必須チェックではないのでマージはブロックされない。
     if: >-
-      github.event.pull_request.head.repo.full_name == github.repository
+      needs.changes.outputs.code == 'true'
+      && github.event.pull_request.head.repo.full_name == github.repository
       && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     permissions:
