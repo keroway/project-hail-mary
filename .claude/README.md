@@ -11,13 +11,15 @@
 ├── agents/
 │   ├── hail-mary-fact-checker.md  # 小説/映画の記述に対するファクトチェック担当
 │   └── science-article-writer.md  # 中高生向け科学記事の執筆・リライト担当
+├── hooks/
+│   └── post-stop-check.sh         # Stop hook 本体（lint / typecheck を検証）
 ├── CLAUDE.md                      # プロジェクトの最上位指示ファイル（root ではなくここに置く）
-├── settings.json                  # 共有設定（有効プラグイン等、コミット対象）
+├── settings.json                  # 共有設定（有効プラグイン・Stop hook 登録等、コミット対象）
 ├── settings.local.json            # 個人設定（.gitignore で除外）
 └── agent-memory/                  # サブエージェントの観察ログ（.gitignore で除外、machine-generated）
 ```
 
-`hooks/`、`commands/`、`rules/` は現状存在しない。追加したらこの README に役割を記録する。
+`commands/`、`rules/` は現状存在しない。追加したらこの README に役割を記録する。
 
 ## CLAUDE.md をルートではなく `.claude/` に置く理由
 
@@ -47,10 +49,13 @@
 
 ## Hooks
 
-現状、PostToolUse / Stop 等の hook は未登録（`hooks/` ディレクトリなし）。CI
-(`.github/workflows/ci.yml`) の lint / typecheck / build / e2e ジョブが検証を担っている。
-Stop hook 導入の判断は [keroway/project-hail-mary#146](https://github.com/keroway/project-hail-mary/issues/146)
+`.claude/settings.json` に Stop hook を登録済み。ターン終了時に
+`.claude/hooks/post-stop-check.sh` が `pnpm run lint` / `pnpm run check`（astro check）を
+実行する（`test:e2e` は実行時間の都合で対象外、CI 側で担保）。導入の判断根拠は
+[keroway/project-hail-mary#146](https://github.com/keroway/project-hail-mary/issues/146)
 （[keroway/agent-assets#51](https://github.com/keroway/agent-assets/issues/51) 配下）を参照。
+PostToolUse 等その他の hook は未登録。CI (`.github/workflows/ci.yml`) の
+lint / typecheck / build / e2e ジョブが最終検証を担っている。
 
 ## Agents の役割分担
 
