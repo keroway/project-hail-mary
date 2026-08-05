@@ -2,7 +2,7 @@
 
 [![Deploy](https://github.com/keroway/project-hail-mary/actions/workflows/deploy.yml/badge.svg)](https://github.com/keroway/project-hail-mary/actions/workflows/deploy.yml)
 [![CI](https://github.com/keroway/project-hail-mary/actions/workflows/ci.yml/badge.svg)](https://github.com/keroway/project-hail-mary/actions/workflows/ci.yml)
-[![Astro](https://img.shields.io/badge/Astro-6-BC52EE?logo=astro&logoColor=white)](https://astro.build/)
+[![Astro](https://img.shields.io/badge/Astro-7-BC52EE?logo=astro&logoColor=white)](https://astro.build/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Cloudflare Pages](https://img.shields.io/badge/Cloudflare%20Pages-F38020?logo=cloudflare&logoColor=white)](https://pages.cloudflare.com/)
 [![Node.js](https://img.shields.io/badge/Node.js-%E2%89%A526-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
@@ -16,7 +16,7 @@
 
 ## 技術構成
 
-- `Astro 6` — 静的サイトジェネレーター（`dist/` へ静的出力）
+- `Astro 7` — 静的サイトジェネレーター（`dist/` へ静的出力）
 - `TypeScript` — `astro check` による型チェック
 - `@astrojs/sitemap` — ビルド時に `sitemap-index.xml` を生成
 - `Cloudflare Pages` — 静的配信（GitHub Actions から `wrangler` で direct upload）
