@@ -50,8 +50,11 @@
 ## Hooks
 
 `.claude/settings.json` に Stop hook を登録済み。ターン終了時に
-`.claude/hooks/post-stop-check.sh` が `pnpm run lint` / `pnpm run check`（astro check）を
-実行する（`test:e2e` は実行時間の都合で対象外、CI 側で担保）。導入の判断根拠は
+`.claude/hooks/post-stop-check.sh` が、そのターンで `src/`・`tests/`・`public/`・
+`package.json`・`astro.config.mjs`・`tsconfig.json`・`biome.json*` のいずれかに変更が
+あった場合のみ `pnpm run lint` / `pnpm run check`（astro check）を実行する。対象ファイルに
+変更がなければ何も実行せず終了する（`test:e2e` は実行時間の都合で対象外、CI 側で担保）。
+導入の判断根拠は
 [keroway/project-hail-mary#146](https://github.com/keroway/project-hail-mary/issues/146)
 （[keroway/agent-assets#51](https://github.com/keroway/agent-assets/issues/51) 配下）を参照。
 PostToolUse 等その他の hook は未登録。CI (`.github/workflows/ci.yml`) の
