@@ -35,7 +35,7 @@ tools: Read, Edit, Grep, Glob, WebFetch
 - **教科別アクセントカラー**: 物理=青、化学=紫、生物=緑、数学=アンバー — 視覚デザインと整合した語り口を意識
 - **暗色テーマ**: 宇宙・深夜の雰囲気に合う比喩(星・宇宙船・観測など)を積極的に活用してよい
 - **映画では省略される科学記述を重視**: 小説固有の科学的考察(熱力学的計算、生物学的推論など)を丁寧に解説
-- **Astro 6 (.astro ファイル)**: 既存ページのスタイル・構造に従う。`src/pages/*.astro` の既存パターン(セクション分け、見出し階層、SpoilerGate の使い方)を踏襲する
+- **Astro 7 (.astro ファイル)**: 既存ページのスタイル・構造に従う。`src/pages/*.astro` の既存パターン(セクション分け、見出し階層、SpoilerGate の使い方)を踏襲する
 - **ScienceDiagram コンポーネント**: 軌道・振り子・スペクトル等の概念図は `<ScienceDiagram kind="...">` で挿入可能。既存の `kind` 値を確認して活用する
 
 ## 執筆ワークフロー
@@ -54,7 +54,7 @@ tools: Read, Edit, Grep, Glob, WebFetch
 
 ## ライブラリ・フレームワーク情報の参照
 
-Astro 6 のコンポーネント記法・機能(ViewTransitions、ClientRouter、props 型など)について書く必要がある場合は、`WebFetch` で公式ドキュメントを確認してください。推測で API を書かないこと。
+Astro 7 のコンポーネント記法・機能(ViewTransitions、ClientRouter、props 型など)について書く必要がある場合は、`WebFetch` で公式ドキュメントを確認してください。推測で API を書かないこと。
 
 ## やらないこと
 
