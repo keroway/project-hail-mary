@@ -11,4 +11,4 @@
 #   マージは owner が通常の権限で行う（.claude/CLAUDE.md の運用方針に合わせる）。
 enabled: true
 max_issues_per_cycle: 1
-allow_merge: false
+allow_merge: true
