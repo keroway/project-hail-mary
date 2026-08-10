@@ -21,17 +21,7 @@
 
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
-
-// smoke.spec.ts と同じ対象。増減させるときは両方を合わせる。
-const PAGES = [
-  { path: "/" },
-  { path: "/story" },
-  { path: "/physics" },
-  { path: "/chemistry" },
-  { path: "/biology" },
-  { path: "/math" },
-  { path: "/notes" },
-];
+import { PAGES } from "./pages";
 
 const WCAG_TAGS = ["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"];
 

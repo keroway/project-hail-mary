@@ -1,14 +1,5 @@
 import { expect, test } from "@playwright/test";
-
-const PAGES = [
-  { path: "/" },
-  { path: "/story" },
-  { path: "/physics" },
-  { path: "/chemistry" },
-  { path: "/biology" },
-  { path: "/math" },
-  { path: "/notes" },
-];
+import { PAGES } from "./pages";
 
 for (const { path } of PAGES) {
   test(`${path} ページが正常に表示される`, async ({ page }) => {
