@@ -43,6 +43,9 @@ jobs:
               - 'biome.json'
               - 'biome.jsonc'
               - 'playwright.config.*'
+              # tests/** が無いと、テストだけを変更した PR で E2E も typecheck も
+              # skip され、壊れた spec がそのままマージされうる（PR #164 で実際に skip された）。
+              - 'tests/**'
               - '.github/workflows/**'
 
   lint:
