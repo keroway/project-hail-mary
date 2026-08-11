@@ -317,7 +317,8 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
     border-color: rgba(255, 107, 107, 0.2);
   }
   .act-header--spoiler .act-range {
-    color: var(--red-dwarf);
-    opacity: 0.7;
+    /* opacity で暗くすると実効色が背景依存になり 10px の本文で
+       4.5:1 を割る（#162）。派生トークンで色として持たせる。 */
+    color: var(--red-dwarf-dim);
   }
 </style>

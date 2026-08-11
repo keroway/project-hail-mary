@@ -6,17 +6,39 @@
  * 同じワークスペースの keroway/astro-blog では、同じ検査で静的検査に映らない
  * color-contrast (serious) 違反が実際に見つかっている (astro-blog#647)。
  *
- * 除外ルール:
- *   - color-contrast: 検査を入れた時点で **7 ページ中 6 ページ・計 53 ノード**の
- *     serious 違反が既に存在した (issue #162)。「検査を入れること」と
- *     「出た違反を直すこと」は別スコープ (issue #161 の STOP 条件) のため、
- *     ここでは一時的に除外する。
- *     **外す条件: #162 が解決したら、この行を削除して再実行する。**
- *
+ * 除外ルール: **無し。** color-contrast の一時除外は #162 で撤廃した。
  * 理由の無い除外は「検査しているように見えて何も見ていない」状態を作る。
  * astro-blog は color-contrast を除外したまま緑を維持していた期間があり、
  * 除外を撤廃して初めて機能した (astro-blog#647)。除外を追加するときは
  * 必ず理由と「いつ外せるか」を書くこと。
+ *
+ * ## なぜ検査前にアニメーションを止めるのか (#162)
+ *
+ * `.scroll-reveal` は opacity を 0 → 1 へ 0.7 秒かけて遷移させ、さらに
+ * `:nth-child` で最大 0.4 秒ずらして開始する。`main` が可視になった直後に
+ * 解析すると、**まだ透けている途中の文字**を axe が測ってしまう。
+ * 半透明の文字は背景と混ざった色として読まれるため、確定状態では十分な
+ * コントラストがある要素まで違反として報告される。
+ *
+ * 実測 (2026-08-11, 7 ページ):
+ *
+ * | 解析タイミング | color-contrast 違反ノード |
+ * |---|---|
+ * | `main` 可視直後 (遷移の途中) | **65** |
+ * | 遷移を止めて確定状態 | **2** |
+ *
+ * つまり 65 件のうち 63 件は**測定タイミングの産物**で、デザインの欠陥では
+ * なかった。これを真に受けて 63 箇所の配色を変えていたら、必要のない
+ * 改変でデザインを壊した上、本物の 2 件は埋もれていた。
+ *
+ * WCAG 1.4.3 が求めるのは**確定した表示状態**のコントラストであり、
+ * フェードイン中の途中経過ではない。そこで解析前に遷移とアニメーションを
+ * 止め、`.scroll-reveal` を最終状態へ固定する。
+ *
+ * **これは「違反を隠す」処理ではない。** 静的に指定された `opacity`
+ * (例: 撤廃前の `.act-header--spoiler .act-range { opacity: 0.7 }`) は
+ * 確定状態でもそのまま残るため、引き続き検出される。実際にこの処理を
+ * 入れた状態で本物の違反 2 件が残り、それが #162 の修正対象になった。
  */
 
 import AxeBuilder from "@axe-core/playwright";
@@ -25,8 +47,14 @@ import { PAGES } from "./pages";
 
 const WCAG_TAGS = ["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"];
 
-// 上のコメントの「除外ルール」節に理由と撤廃条件を書くこと。空にするのが目標。
-const EXCLUDED_RULES = ["color-contrast"];
+/**
+ * 遷移・アニメーションを止め、スクロール連動の表示を最終状態へ固定する。
+ * 上の「なぜ検査前にアニメーションを止めるのか」を参照。
+ */
+const SETTLE_STYLE = [
+  "*, *::before, *::after { transition: none !important; animation: none !important; }",
+  ".scroll-reveal { opacity: 1 !important; transform: none !important; }",
+].join("\n");
 
 for (const { path } of PAGES) {
   test(`${path} ページに WCAG 2.2 AA の違反が無い`, async ({ page }) => {
@@ -34,17 +62,38 @@ for (const { path } of PAGES) {
     // main が描画されるまで待つ。描画途中で解析すると偽陰性になりうる。
     await expect(page.locator("main")).toBeVisible();
 
+    await page.addStyleTag({ content: SETTLE_STYLE });
+    // スタイル適用が反映されてから解析する。
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const el = document.querySelector(".scroll-reveal");
+          return el ? getComputedStyle(el).opacity : "1";
+        })
+      )
+      .toBe("1");
+
     const { violations } = await new AxeBuilder({ page })
       .withTags(WCAG_TAGS)
-      .disableRules(EXCLUDED_RULES)
       .analyze();
 
     // 失敗時に「どのルールがどの要素で落ちたか」が出るようにしてから比較する。
     // 件数だけを assert すると、落ちた理由を CI ログから追えない。
+    // color-contrast は前景色・背景色・比率まで出す（配色の話は数値が無いと直せない）。
     const summary = violations.map((v) => ({
       id: v.id,
       impact: v.impact,
-      nodes: v.nodes.map((n) => n.target.join(" ")),
+      nodes: v.nodes.map((n) => {
+        const target = n.target.join(" ");
+        const data = (n.any?.[0]?.data ?? {}) as {
+          fgColor?: string;
+          bgColor?: string;
+          contrastRatio?: number;
+        };
+        return data.contrastRatio === undefined
+          ? target
+          : `${target} (fg=${data.fgColor} bg=${data.bgColor} ratio=${data.contrastRatio})`;
+      }),
     }));
 
     expect(summary).toEqual([]);
