@@ -7,6 +7,11 @@
   --dim-star:   #8ba8c4;
   --warm-star:  #ffd166;
   --red-dwarf:  #ff6b6b;
+  /* 小さい文字向けの派生トークン。--red-dwarf に opacity を掛けて
+     暗くする書き方は、実効色が背景に依存し WCAG 4.5:1 を割る
+     （#ff6b6b × opacity 0.7 は --void 上で 3.93:1、issue #162）。
+     「暗い赤」を色として直接持たせ、opacity は使わない。 */
+  --red-dwarf-dim: #d15c5f;
   --aurora:     #00d4aa;
 
   /* Subject accent — overridden per page */
