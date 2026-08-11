@@ -23,6 +23,9 @@ node_modules/
 # pi CLI local relay state (machine-generated, local-only)
 .pi/
 
+# Codex CLI Stop hook config (hooks.json embeds absolute paths, local-only)
+.codex/
+
 # Playwright test artifacts
 playwright-report/
 test-results/
