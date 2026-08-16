@@ -1,5 +1,5 @@
 ---
-import { getCitationsFor, type PageId } from '../data/citations';
+import { getCitationsFor, type PageId } from "../data/citations";
 
 interface Props {
   page: PageId;
@@ -10,11 +10,11 @@ const { page, phaseId } = Astro.props;
 const items = getCitationsFor(page, phaseId);
 
 const typeIcon: Record<string, string> = {
-  paper:    '📄',
-  spec:     '📐',
-  textbook: '📘',
-  database: '🗂️',
-  official: '🏛️',
+  paper: "📄",
+  spec: "📐",
+  textbook: "📘",
+  database: "🗂️",
+  official: "🏛️",
 };
 ---
 {items.length > 0 && (
