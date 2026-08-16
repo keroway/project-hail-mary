@@ -30,7 +30,7 @@ project-hail-mary/
 │   └── CLAUDE.md                    # Claude Code 向け作業ガイド
 ├── .github/
 │   └── workflows/
-│       ├── ci.yml                  # PR 時の型チェック・ビルド・プレビューデプロイ
+│       ├── ci.yml                  # PR 時の Lint・型チェック・ビルド・E2E・プレビューデプロイ
 │       └── deploy.yml              # main push 時の本番デプロイ
 ├── AGENTS.md                        # Codex 等エージェント向け（CLAUDE.md のシンボリックリンク）
 ├── docs/
@@ -39,9 +39,14 @@ project-hail-mary/
 │   └── _headers                    # Cloudflare セキュリティヘッダー
 ├── renovate.json                    # 依存更新設定（npm / GitHub Actions）
 ├── src/
+│   ├── assets/
+│   │   └── images/                 # 各編の挿絵（ph/ch/bi/ma 接頭辞）
 │   ├── components/
+│   │   ├── CitationList.astro      # 一次資料の出典リスト表示
 │   │   ├── SpoilerGate.astro       # 読了章ベースのネタバレ制御
 │   │   └── ScienceDiagram.astro    # SVGベース科学概念図コンポーネント
+│   ├── data/
+│   │   └── citations.ts            # CitationList が参照する出典データ
 │   ├── layouts/
 │   │   └── BaseLayout.astro        # 共通レイアウトと章状態スクリプト
 │   ├── pages/
@@ -50,9 +55,15 @@ project-hail-mary/
 │   │   ├── physics.astro
 │   │   ├── chemistry.astro
 │   │   ├── biology.astro
-│   │   └── math.astro
+│   │   ├── math.astro
+│   │   ├── notes.astro             # 補足ノート
+│   │   └── 404.astro
+│   ├── scripts/
+│   │   └── chapter.ts              # 読了章の状態管理
 │   └── styles/
 │       └── global.css              # 共通スタイル
+├── tests/
+│   └── playwright/                 # E2E smoke テスト（axe-core a11y 検査含む）
 ├── astro.config.mjs                 # Astro 設定（@astrojs/sitemap 統合）
 ├── package.json
 └── README.md
@@ -71,12 +82,15 @@ pnpm run dev
 
 ## CI / PR チェック
 
-`main` 向けの Pull Request を作成すると `.github/workflows/ci.yml` が実行されます。
+`main` 向けの Pull Request を作成すると `.github/workflows/ci.yml` が実行されます（`src/**` 等コードに影響する変更のみ、以下のジョブが走ります）。
 
-1. `pnpm install --frozen-lockfile`
-2. `pnpm run check`（`astro check` による型チェック）
-3. `pnpm run build`
-4. `cloudflare/wrangler-action@v3` による Cloudflare Pages へのプレビューデプロイ（プレビュー URL を PR にコメント）
+1. **Lint** — `pnpm run lint`（Biome）と `typos` によるタイポ検査
+2. **Typecheck** — `pnpm run check`（`astro check` による型チェック）
+3. **Build** — `pnpm run build`
+4. **E2E Smoke Tests** — `pnpm run test:e2e`（Playwright、全ページ smoke + axe-core によるアクセシビリティ検査）
+5. **Preview Deploy** — `cloudflare/wrangler-action@v3` による Cloudflare Pages へのプレビューデプロイ（プレビュー URL を PR にコメント。必須チェックではない）
+
+Lint・Typecheck・Build・E2E Smoke Tests がブランチ保護の必須チェックです。
 
 ## デプロイ
 
