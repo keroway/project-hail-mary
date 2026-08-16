@@ -169,6 +169,30 @@ export const citations: readonly Citation[] = [
     note: "NASAの宇宙生物学部門による極限環境生物の解説。どんな環境に生命が存在できるかを網羅している。",
   },
 
+  // === biology / bio02: 医学的誘発昏睡——グレースが眠った理由 ===
+  {
+    id: "nasa-stash-torpor-spaceflight",
+    page: "biology",
+    phaseId: "bio02",
+    title:
+      "A Revolutionary Approach to Interplanetary Space Travel: Studying Torpor in Animals for Space-health in Humans (STASH)",
+    authors: "NASA",
+    url: "https://www.nasa.gov/general/studying-torpor-in-animals-for-space-health-in-humans/",
+    type: "official",
+    note: "NASAが進める、動物の冬眠（トーポー）メカニズムを長期宇宙飛行に応用する研究の解説。人工冬眠が単なるSF設定ではないことがわかる。",
+  },
+  {
+    id: "westover-burst-suppression-medical-coma",
+    page: "biology",
+    phaseId: "bio02",
+    title: "Robust control of burst suppression for medical coma",
+    authors: "M. B. Westover, S.-E. Kim, S. Ching, P. L. Purdon, E. N. Brown",
+    year: 2015,
+    url: "https://doi.org/10.1088/1741-2560/12/4/046004",
+    type: "paper",
+    note: "薬物による医学的誘発昏睡を、脳波の burst suppression（活動抑制）指標で制御する手法を扱う論文。麻酔薬がどのように脳活動を管理下に置くかがわかる。",
+  },
+
   // === math / math02: 対数スケール——宇宙的な数を扱う道具 ===
   {
     id: "napier-logarithms-1614",
