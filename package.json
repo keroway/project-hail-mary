@@ -12,6 +12,7 @@
     "check": "astro check",
     "lint": "biome ci",
     "format": "biome format --write .",
+    "test:unit": "vitest run",
     "test:e2e": "playwright test",
     "postinstall": "lefthook install"
   },
@@ -27,6 +28,7 @@
     "@playwright/test": "1.61.1",
     "lefthook": "2.1.10",
     "typescript": "5.9.3",
+    "vitest": "4.1.10",
     "wrangler": "4.114.0"
   }
 }

@@ -73,6 +73,9 @@ jobs:
       - name: Run typos
         uses: crate-ci/typos@8a48f81b6c64dcfea44b3633223084c4be58ac5f # v1.49.0
 
+      - name: Run unit tests
+        run: pnpm run test:unit
+
   typecheck:
     name: Typecheck
     needs: [changes]
