@@ -1,6 +1,6 @@
 ---
-import { ClientRouter } from 'astro:transitions';
-import '../styles/global.css';
+import { ClientRouter } from "astro:transitions";
+import "../styles/global.css";
 
 interface Props {
   /** ページ固有のセクション名（例「物理学編」）。トップは省略し、サイト名のみを表示。 */
@@ -11,48 +11,53 @@ interface Props {
   noindex?: boolean;
 }
 
-const SITE_NAME = 'プロジェクト・ヘイルメアリー 科学入門ガイド';
+const SITE_NAME = "プロジェクト・ヘイルメアリー 科学入門ガイド";
 /** Twitter Card の著者帰属（@ハンドル）。空なら帰属メタを出力しない。 */
-const SITE_X_HANDLE = '@keroway21';
+const SITE_X_HANDLE = "@keroway21";
 const DEFAULT_DESCRIPTION =
-  '小説「プロジェクト・ヘイルメアリー」に登場する科学的描写を中学2年生向けにやさしく解説するガイドサイト。映画鑑賞前の予習や読後の復習に最適。物理・化学・生物・数学の4教科を収録。';
+  "小説「プロジェクト・ヘイルメアリー」に登場する科学的描写を中学2年生向けにやさしく解説するガイドサイト。映画鑑賞前の予習や読後の復習に最適。物理・化学・生物・数学の4教科を収録。";
 
 const {
   section,
   description = DEFAULT_DESCRIPTION,
-  currentPath = '/',
+  currentPath = "/",
   noindex = false,
 } = Astro.props;
 
 const pageTitle = section ? `${section} | ${SITE_NAME}` : SITE_NAME;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImageURL = new URL('/og-image.png', Astro.site);
-const ogImageAlt = 'プロジェクト・ヘイルメアリー 科学入門ガイド — 物理・化学・生物・数学の科学解説サイト';
+const ogImageURL = new URL("/og-image.png", Astro.site);
+const ogImageAlt =
+  "プロジェクト・ヘイルメアリー 科学入門ガイド — 物理・化学・生物・数学の科学解説サイト";
 
-const siteHref = Astro.site?.href ?? 'https://hailmary.keroway.com/';
-const siteId = new URL('#website', siteHref).href;
+const siteHref = Astro.site?.href ?? "https://hailmary.keroway.com/";
+const siteId = new URL("#website", siteHref).href;
 const jsonLd = {
-  '@context': 'https://schema.org',
-  '@graph': [
+  "@context": "https://schema.org",
+  "@graph": [
     {
-      '@type': 'WebSite',
-      '@id': siteId,
+      "@type": "WebSite",
+      "@id": siteId,
       name: SITE_NAME,
       url: siteHref,
-      inLanguage: 'ja',
+      inLanguage: "ja",
       description: DEFAULT_DESCRIPTION,
     },
     {
-      '@type': noindex ? 'WebPage' : ['WebPage', 'LearningResource'],
-      '@id': `${canonicalURL.href}#webpage`,
+      "@type": noindex ? "WebPage" : ["WebPage", "LearningResource"],
+      "@id": `${canonicalURL.href}#webpage`,
       url: canonicalURL.href,
       name: pageTitle,
       description,
-      inLanguage: 'ja',
-      isPartOf: { '@id': siteId },
+      inLanguage: "ja",
+      isPartOf: { "@id": siteId },
       isAccessibleForFree: true,
       ...(!noindex && section
-        ? { learningResourceType: '科学解説', educationalLevel: '中学・高校', about: section }
+        ? {
+            learningResourceType: "科学解説",
+            educationalLevel: "中学・高校",
+            about: section,
+          }
         : {}),
     },
   ],
@@ -61,12 +66,32 @@ const jsonLd = {
 /* Custom page transition: vertical slide-up + fade */
 const pageTransition = {
   forwards: {
-    old: { name: 'pageSlideOut', duration: '0.25s', easing: 'ease-in', fillMode: 'both' },
-    new: { name: 'pageSlideIn', duration: '0.35s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'both' },
+    old: {
+      name: "pageSlideOut",
+      duration: "0.25s",
+      easing: "ease-in",
+      fillMode: "both",
+    },
+    new: {
+      name: "pageSlideIn",
+      duration: "0.35s",
+      easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+      fillMode: "both",
+    },
   },
   backwards: {
-    old: { name: 'pageSlideOutReverse', duration: '0.25s', easing: 'ease-in', fillMode: 'both' },
-    new: { name: 'pageSlideInReverse', duration: '0.35s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'both' },
+    old: {
+      name: "pageSlideOutReverse",
+      duration: "0.25s",
+      easing: "ease-in",
+      fillMode: "both",
+    },
+    new: {
+      name: "pageSlideInReverse",
+      duration: "0.35s",
+      easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+      fillMode: "both",
+    },
   },
 };
 ---

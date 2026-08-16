@@ -6,6 +6,7 @@
       "**/*.js",
       "**/*.mjs",
       "**/*.json",
+      "**/*.astro",
       "!dist",
       "!node_modules",
       "!.astro",
@@ -16,6 +17,24 @@
       "!test-results"
     ]
   },
+  // Biome は .astro のフロントマター(--- --- 内の TS)のみを解析し、
+  // テンプレート側での参照(コンポーネント import・props・ローカル変数)を
+  // 見ないため、テンプレートでしか使わない import/変数を誤って未使用と
+  // 判定する。フォーマット・import 整列・他の lint ルールは正しく機能する
+  // ため、この2ルールだけを .astro に限って無効化する(#169)。
+  "overrides": [
+    {
+      "includes": ["**/*.astro"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedImports": "off",
+            "noUnusedVariables": "off"
+          }
+        }
+      }
+    }
+  ],
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
