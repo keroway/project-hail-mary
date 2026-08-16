@@ -5,14 +5,14 @@
 このサイトは GitHub Actions + `cloudflare/wrangler-action@v3` で Cloudflare Pages に **direct upload** するデプロイ方式を採用している。Cloudflare Pages の Git Integration（Connect to Git）は使わない。
 
 ```
-main push → GitHub Actions → npm run build → wrangler pages deploy dist
+main push → GitHub Actions → pnpm run build → wrangler pages deploy dist
 ```
 
 ## 前提条件
 
 - Cloudflare アカウント（無料プランで可）
 - GitHub リポジトリ: `keroway/project-hail-mary`
-- ローカルで `npm run build` が成功すること
+- ローカルで `pnpm run build` が成功すること
 
 ## 初回セットアップ
 
@@ -59,7 +59,9 @@ npx wrangler pages project create project-hail-mary
   with:
     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-    command: pages deploy dist --project-name=project-hail-mary
+    # Cloudflare Pages API は非 ASCII（日本語等）の git コミットメッセージを
+    # code:8000111 で弾くため、追跡用に commit SHA を明示指定して自動検出を回避する。
+    command: pages deploy dist --project-name=project-hail-mary --commit-hash=${{ github.sha }} --commit-message=${{ github.sha }}
 ```
 
 | ブランチ | デプロイ先 |
@@ -83,10 +85,10 @@ npx wrangler pages project create project-hail-mary
 ## トラブルシューティング
 
 **ページが表示されない**
-→ `npm run build` がローカルで通るか確認する。`dist/index.html` が生成されていることを確認する。
+→ `pnpm run build` がローカルで通るか確認する。`dist/index.html` が生成されていることを確認する。
 
 **Actions の wrangler ステップが失敗する**
-→ GitHub Secrets (`CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`) が正しく設定されているか確認する。API Token の権限が「Cloudflare Pages — Edit」相当か確認する。Pages プロジェクト名が `project-hail-mary` と一致しているか確認する。
+→ GitHub Secrets (`CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`) が正しく設定されているか確認する。API Token の権限が「Cloudflare Pages — Edit」相当か確認する。Pages プロジェクト名が `project-hail-mary` と一致しているか確認する。日本語コミットメッセージが原因で `code:8000111` エラーが出る場合は、`--commit-hash` / `--commit-message` フラグが正しく設定されているか確認する。
 
 **`_headers` が効いていない**
 → ファイルパスが `public/_headers` であることを確認する。Astro ビルド時に `dist/_headers` へコピーされ、Cloudflare Pages 側で自動認識される。
