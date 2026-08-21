@@ -21,7 +21,12 @@ src/
 │   └── BaseLayout.astro      # 共通レイアウト（ナビ・ViewTransitions・ネタバレスクリプト）
 ├── components/
 │   ├── SpoilerGate.astro     # ネタバレロックコンポーネント
-│   └── ScienceDiagram.astro  # SVGベース科学概念図（軌道・振り子・スペクトル等をkindプロップで切替）
+│   ├── ScienceDiagram.astro  # SVGベース科学概念図（軌道・振り子・スペクトル等をkindプロップで切替）
+│   └── CitationList.astro    # 一次資料の出典リスト表示（citations.ts を参照）
+├── data/
+│   └── citations.ts          # CitationList が参照する出典データ
+├── scripts/
+│   └── chapter.ts            # 読了章ドメインの単一の真実（index.astro / BaseLayout.astro が import）
 ├── styles/
 │   └── global.css            # 共通CSS（変数・コンポーネントスタイル）
 └── pages/
@@ -30,16 +35,24 @@ src/
     ├── physics.astro          # 物理編
     ├── chemistry.astro        # 化学編
     ├── biology.astro          # 生物編
-    └── math.astro             # 数学編
+    ├── math.astro             # 数学編
+    ├── notes.astro            # 余談・コラム編
+    └── 404.astro
 tests/
-└── playwright/
-    └── smoke.spec.ts          # 全ページ smoke テスト（e2e）
+├── playwright/                 # E2E テスト（axe-core a11y 検査含む）
+│   └── smoke.spec.ts          # 全ページ smoke テスト
+└── unit/                       # Vitest ユニットテスト
+    ├── chapter.test.ts
+    └── citations.test.ts
 playwright.config.ts           # Playwright 設定（CI では dist 再利用、ローカルはフルビルド）
 public/
 └── _headers                   # Cloudflare セキュリティヘッダー（変更不要）
 .github/workflows/
 ├── ci.yml                     # PR で型チェック・ビルド・e2e・プレビューデプロイ（必須チェック）
-└── deploy.yml                 # main push（PR マージ）→ Cloudflare Pages デプロイ
+├── deploy.yml                 # main push（PR マージ）→ Cloudflare Pages デプロイ
+├── gitleaks.yml                # secret scan
+├── osv-scan.yml                # 依存関係の脆弱性スキャン
+└── workflow-lint.yml           # GitHub Actions ワークフローの lint
 ```
 
 ## よくある作業
@@ -68,7 +81,7 @@ gh pr merge --squash         # CI 通過後に通常の権限でマージ
 pnpm run dev      # 開発サーバー起動（http://localhost:4321）
 pnpm run build    # 本番ビルド（dist/ に出力）
 pnpm run preview  # ビルド結果をプレビュー
-pnpm run test:e2e # Playwright e2e smoke テスト（全8ページ、chromium のみ）
+pnpm run test:e2e # Playwright e2e smoke テスト（全7ページ、chromium のみ）
 ```
 
 ### ネタバレ閾値を変更する
