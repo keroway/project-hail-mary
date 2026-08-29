@@ -1,11 +1,29 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   clampChapter,
   compactLabel,
   MAX_CHAPTER,
   navLabel,
+  readChapter,
+  STORAGE_KEY,
+  setChapter,
   statusLabel,
 } from "../../src/scripts/chapter";
+
+function stubThrowingStorage() {
+  vi.stubGlobal("localStorage", {
+    getItem: () => {
+      throw new DOMException("blocked", "SecurityError");
+    },
+    setItem: () => {
+      throw new DOMException("blocked", "SecurityError");
+    },
+  });
+}
+
+function stubDocument() {
+  vi.stubGlobal("document", { dispatchEvent: vi.fn() });
+}
 
 describe("clampChapter", () => {
   it("負の値は0に丸める", () => {
@@ -88,5 +106,42 @@ describe("statusLabel", () => {
   it("1章以上9章未満はロッキー登場前の文言", () => {
     expect(statusLabel(1)).toBe("第1章まで読了（ロッキー登場前まで）");
     expect(statusLabel(8)).toBe("第8章まで読了（ロッキー登場前まで）");
+  });
+});
+
+describe("readChapter/setChapter", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("localStorageが例外を投げても0（未読）にフォールバックする", () => {
+    stubThrowingStorage();
+    expect(readChapter()).toBe(0);
+  });
+
+  it("localStorage.setItemが例外を投げてもクランプ後の値を返しchapterChangedを発火する", () => {
+    stubThrowingStorage();
+    stubDocument();
+    expect(setChapter(9)).toBe(9);
+    expect(document.dispatchEvent).toHaveBeenCalledTimes(1);
+    const event = vi.mocked(document.dispatchEvent).mock
+      .calls[0][0] as CustomEvent<number>;
+    expect(event.type).toBe("chapterChanged");
+    expect(event.detail).toBe(9);
+  });
+
+  it("正常時はlocalStorageに保存された値を読み書きする", () => {
+    const store = new Map<string, string>();
+    vi.stubGlobal("localStorage", {
+      getItem: (key: string) => store.get(key) ?? null,
+      setItem: (key: string, value: string) => {
+        store.set(key, value);
+      },
+    });
+    stubDocument();
+
+    expect(setChapter(12)).toBe(12);
+    expect(store.get(STORAGE_KEY)).toBe("12");
+    expect(readChapter()).toBe(12);
   });
 });

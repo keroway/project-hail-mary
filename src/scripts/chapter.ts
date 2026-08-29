@@ -16,20 +16,33 @@ export function clampChapter(raw: number): number {
   return Math.max(0, Math.min(MAX_CHAPTER, Math.trunc(raw)));
 }
 
-/** localStorage から現在の読了章を読む（クランプ済み）。 */
+/**
+ * localStorage から現在の読了章を読む（クランプ済み）。
+ * プライベートブラウジング等で localStorage が例外を投げる環境では未読扱いにフォールバックする。
+ */
 export function readChapter(): number {
-  const raw = Number.parseInt(localStorage.getItem(STORAGE_KEY) ?? "0", 10);
-  return clampChapter(raw);
+  try {
+    const raw = Number.parseInt(localStorage.getItem(STORAGE_KEY) ?? "0", 10);
+    return clampChapter(raw);
+  } catch {
+    return 0;
+  }
 }
 
 /**
  * 読了章を保存し chapterChanged を発火する。
  * DOM の更新（ダイアログ・ナビ・ネタバレ）は購読側に委ねる。
+ * localStorage への書き込みが例外を投げても、クランプ済みの値は返し chapterChanged は発火する
+ * （呼び出し元の UI 更新を止めないため）。
  * @returns クランプ後の確定値
  */
 export function setChapter(v: number): number {
   const clamped = clampChapter(v);
-  localStorage.setItem(STORAGE_KEY, String(clamped));
+  try {
+    localStorage.setItem(STORAGE_KEY, String(clamped));
+  } catch {
+    // ストレージが無効化された環境では永続化を諦め、当該セッション内の表示のみ更新する
+  }
   document.dispatchEvent(
     new CustomEvent("chapterChanged", { detail: clamped })
   );
