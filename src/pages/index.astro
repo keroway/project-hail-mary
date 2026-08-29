@@ -669,7 +669,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 
   function isFirstVisit(): boolean {
-    return !localStorage.getItem(ONBOARDED_KEY);
+    try {
+      return !localStorage.getItem(ONBOARDED_KEY);
+    } catch {
+      return false;
+    }
   }
 
   function openDialog() {
@@ -692,7 +696,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   function dismissOnboarding() {
     const guide = document.getElementById('onboarding-guide');
     if (guide) guide.setAttribute('hidden', '');
-    localStorage.setItem(ONBOARDED_KEY, 'true');
+    try {
+      localStorage.setItem(ONBOARDED_KEY, 'true');
+    } catch {
+      // ストレージが無効化された環境では永続化を諦め、当該セッション内の表示のみ更新する
+    }
   }
 
   function initPage() {
