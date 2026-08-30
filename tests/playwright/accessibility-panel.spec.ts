@@ -196,6 +196,77 @@ test.describe("表示設定パネル: 開閉・トグル操作・localStorage �
     await expect(page.locator("html")).not.toHaveAttribute("data-motion");
   });
 
+  test.describe("head の FOUC防止スクリプト単体の先行適用（末尾スクリプトをブロックして検証、#198）", () => {
+    async function blockTailModuleScript(
+      page: import("@playwright/test").Page
+    ) {
+      await page.route(
+        "**/_astro/BaseLayout.astro_astro_type_script_index_0_lang*.js",
+        (route) => route.abort()
+      );
+    }
+
+    test("localStorageの設定値がhead側スクリプト単体でdata-*属性へ先行適用される", async ({
+      page,
+    }) => {
+      await page.addInitScript(
+        ({ key, value }) => {
+          window.localStorage.setItem(key, value);
+        },
+        {
+          key: STORAGE_KEY,
+          value: JSON.stringify({
+            fontScale: "xlarge",
+            diagramScale: "large",
+            contrast: "high",
+            motion: "reduced",
+            motionSource: "explicit",
+          }),
+        }
+      );
+      await blockTailModuleScript(page);
+
+      await page.goto("/physics");
+
+      const html = page.locator("html");
+      await expect(html).toHaveAttribute("data-font-scale", "xlarge");
+      await expect(html).toHaveAttribute("data-diagram-scale", "large");
+      await expect(html).toHaveAttribute("data-contrast", "high");
+      await expect(html).toHaveAttribute("data-motion", "reduced");
+    });
+
+    test("破損したlocalStorageデータでもhead側スクリプト単体で例外を投げずdata-*属性を付与しない", async ({
+      page,
+    }) => {
+      await page.addInitScript((key) => {
+        window.localStorage.setItem(key, "{not valid json");
+      }, STORAGE_KEY);
+      await blockTailModuleScript(page);
+
+      await page.goto("/physics");
+
+      const html = page.locator("html");
+      await expect(html).not.toHaveAttribute("data-font-scale");
+      await expect(html).not.toHaveAttribute("data-diagram-scale");
+      await expect(html).not.toHaveAttribute("data-contrast");
+      await expect(html).not.toHaveAttribute("data-motion");
+    });
+
+    test("motionが未設定の場合、head側スクリプト単体でも prefers-reduced-motion に従って先行適用される", async ({
+      page,
+    }) => {
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await blockTailModuleScript(page);
+
+      await page.goto("/physics");
+
+      await expect(page.locator("html")).toHaveAttribute(
+        "data-motion",
+        "reduced"
+      );
+    });
+  });
+
   test("ページ遷移後もパネルの構造とツールバーが保持される（transition:persist）", async ({
     page,
   }) => {
