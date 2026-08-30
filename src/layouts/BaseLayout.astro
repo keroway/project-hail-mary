@@ -104,7 +104,13 @@ const pageTransition = {
   {noindex && <meta name="robots" content="noindex, follow" />}
   <meta name="theme-color" content="#03050f" />
   <meta name="color-scheme" content="dark" />
-  {/* 表示設定(文字サイズ/コントラスト/動き)を描画前に先行適用し、再訪ユーザーの FOUC を防ぐ */}
+  {/*
+    表示設定(文字サイズ/コントラスト/動き)を描画前に先行適用し、再訪ユーザーの FOUC を防ぐ。
+    is:inline のため末尾 <script> 内の DEFAULT_UI_PREFS / readUiPrefs() を import できず、
+    判定ロジックをここに複製している。表示設定の項目を追加・変更する場合は、
+    この判定条件を末尾 <script> の DEFAULT_UI_PREFS / getEffectiveMotion() と揃えて
+    両方を更新すること(#194)。
+  */}
   <script is:inline>
     (function () {
       try {
@@ -118,7 +124,10 @@ const pageTransition = {
         else if (p.motion === 'default') motion = 'default';
         else motion = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduced' : 'default';
         if (motion !== 'default') d.dataset.motion = motion;
-      } catch (e) {}
+      } catch (e) {
+        // ストレージが無効化・破損している環境では先行適用を諦め、
+        // 末尾 <script> の applyUiPrefs() によるデフォルト適用に委ねる
+      }
     })();
   </script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -241,6 +250,8 @@ const pageTransition = {
   import { STORAGE_KEY, readChapter, updateNavIndicator } from '../scripts/chapter';
 
   const UI_PREFS_KEY = 'hailmary-ui-prefs';
+  // 項目を追加・変更する場合は head 内の FOUC防止 is:inline スクリプトの
+  // 判定ロジックも合わせて更新すること(#194)
   const DEFAULT_UI_PREFS = {
     fontScale: 'default',
     diagramScale: 'default',
