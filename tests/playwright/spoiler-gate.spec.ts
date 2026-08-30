@@ -73,5 +73,13 @@ test.describe("SpoilerGate: 読了章に応じたネタバレロックの開閉"
     );
     await expect(unlockedItem).not.toHaveClass(/is-locked/);
     await expect(unlockedItem).not.toHaveAttribute("aria-disabled", "true");
+
+    // decodeB64() によりプレースホルダーが実際のタイトル/メタに差し替わる
+    await expect(unlockedItem.locator(".tl-title")).toHaveText(
+      "ロッキーとの会話 — 音波と周波数"
+    );
+    await expect(unlockedItem.locator(".tl-meta")).toHaveText(
+      "波 / 周波数 / 音の情報伝達"
+    );
   });
 });
