@@ -31,7 +31,10 @@ project-hail-mary/
 ├── .github/
 │   └── workflows/
 │       ├── ci.yml                  # PR 時の Lint・型チェック・ビルド・E2E・プレビューデプロイ
-│       └── deploy.yml              # main push 時の本番デプロイ
+│       ├── deploy.yml              # main push 時の本番デプロイ
+│       ├── gitleaks.yml            # secret scan
+│       ├── osv-scan.yml            # 依存関係の脆弱性スキャン
+│       └── workflow-lint.yml       # GitHub Actions ワークフローの lint
 ├── AGENTS.md                        # Codex 等エージェント向け（CLAUDE.md のシンボリックリンク）
 ├── docs/
 │   └── cloudflare-pages-setup.md   # Cloudflare Pages 初回セットアップ手順
@@ -63,7 +66,8 @@ project-hail-mary/
 │   └── styles/
 │       └── global.css              # 共通スタイル
 ├── tests/
-│   └── playwright/                 # E2E smoke テスト（axe-core a11y 検査含む）
+│   ├── playwright/                 # E2E smoke テスト（axe-core a11y 検査含む）
+│   └── unit/                       # Vitest ユニットテスト（chapter.ts / citations.ts）
 ├── astro.config.mjs                 # Astro 設定（@astrojs/sitemap 統合）
 ├── package.json
 └── README.md
@@ -84,7 +88,7 @@ pnpm run dev
 
 `main` 向けの Pull Request を作成すると `.github/workflows/ci.yml` が実行されます（`src/**` 等コードに影響する変更のみ、以下のジョブが走ります）。
 
-1. **Lint** — `pnpm run lint`（Biome）と `typos` によるタイポ検査
+1. **Lint** — `pnpm run lint`（Biome）・`typos` によるタイポ検査・`pnpm run test:unit`（Vitest ユニットテスト）
 2. **Typecheck** — `pnpm run check`（`astro check` による型チェック）
 3. **Build** — `pnpm run build`
 4. **E2E Smoke Tests** — `pnpm run test:e2e`（Playwright、全ページ smoke + axe-core によるアクセシビリティ検査）
