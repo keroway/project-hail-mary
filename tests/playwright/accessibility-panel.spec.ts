@@ -129,6 +129,30 @@ test.describe("表示設定パネル: 開閉・トグル操作・localStorage �
     ).toHaveAttribute("aria-pressed", "true");
   });
 
+  test("localStorageへの書き込みが失敗しても当該セッション内の表示設定は反映される", async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      const proto = Object.getPrototypeOf(window.localStorage);
+      proto.setItem = () => {
+        throw new DOMException("QuotaExceededError");
+      };
+    });
+    await page.goto("/physics");
+
+    await page.locator("#accessibility-toggle").click();
+    const xlargeButton = page.locator(
+      '[data-ui-setting="fontScale"][data-ui-value="xlarge"]'
+    );
+    await xlargeButton.click();
+
+    await expect(page.locator("html")).toHaveAttribute(
+      "data-font-scale",
+      "xlarge"
+    );
+    await expect(xlargeButton).toHaveAttribute("aria-pressed", "true");
+  });
+
   test("動きを「少なめ」へ明示的に切り替えるとmotionSourceがexplicitとして保存される", async ({
     page,
   }) => {

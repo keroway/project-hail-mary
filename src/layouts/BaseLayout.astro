@@ -259,7 +259,11 @@ const pageTransition = {
   }
 
   function writeUiPrefs(nextPrefs) {
-    localStorage.setItem(UI_PREFS_KEY, JSON.stringify(nextPrefs));
+    try {
+      localStorage.setItem(UI_PREFS_KEY, JSON.stringify(nextPrefs));
+    } catch {
+      // ストレージが無効化された環境では永続化を諦め、当該セッション内の表示のみ更新する
+    }
   }
 
   function getEffectiveMotion(prefs = readUiPrefs()) {
@@ -288,8 +292,7 @@ const pageTransition = {
     });
   }
 
-  function applyUiPrefs() {
-    const prefs = readUiPrefs();
+  function applyUiPrefs(prefs = readUiPrefs()) {
     setDatasetValue('fontScale', prefs.fontScale);
     setDatasetValue('diagramScale', prefs.diagramScale);
     setDatasetValue('contrast', prefs.contrast);
@@ -447,7 +450,7 @@ const pageTransition = {
           prefs.motionSource = 'explicit';
         }
         writeUiPrefs(prefs);
-        applyUiPrefs();
+        applyUiPrefs(prefs);
         return;
       }
 
