@@ -4,6 +4,10 @@ name: osv-scan
 on:
   push:
     branches: [main]
+  pull_request:
+    paths:
+      - "package.json"
+      - "pnpm-lock.yaml"
   schedule:
     - cron: "0 6 * * 1"
   workflow_dispatch:
