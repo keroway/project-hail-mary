@@ -46,6 +46,14 @@ import { expect, test } from "@playwright/test";
 import { PAGES } from "./pages";
 
 const WCAG_TAGS = ["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"];
+const STORAGE_KEY = "hailmary-chapter";
+
+/**
+ * 第25章で全SpoilerGateが解放される（chapter.ts の MAX_CHAPTER=30）。
+ * ここを設定しないと <template> 内の本文がDOMに展開されず、axeの検査対象から
+ * 漏れたまま緑を維持してしまう (#204)。
+ */
+const FULL_UNLOCK_CHAPTER = 30;
 
 /**
  * 遷移・アニメーションを止め、スクロール連動の表示を最終状態へ固定する。
@@ -56,46 +64,70 @@ const SETTLE_STYLE = [
   ".scroll-reveal { opacity: 1 !important; transform: none !important; }",
 ].join("\n");
 
+async function expectNoA11yViolations(
+  page: import("@playwright/test").Page,
+  path: string,
+  chapter: number
+) {
+  await page.addInitScript(
+    ({ key, value }) => {
+      window.localStorage.setItem(key, String(value));
+    },
+    { key: STORAGE_KEY, value: chapter }
+  );
+  await page.goto(path);
+  // main が描画されるまで待つ。描画途中で解析すると偽陰性になりうる。
+  await expect(page.locator("main")).toBeVisible();
+
+  await page.addStyleTag({ content: SETTLE_STYLE });
+  // スタイル適用が反映されてから解析する。
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const el = document.querySelector(".scroll-reveal");
+        return el ? getComputedStyle(el).opacity : "1";
+      })
+    )
+    .toBe("1");
+
+  const { violations } = await new AxeBuilder({ page })
+    .withTags(WCAG_TAGS)
+    .analyze();
+
+  // 失敗時に「どのルールがどの要素で落ちたか」が出るようにしてから比較する。
+  // 件数だけを assert すると、落ちた理由を CI ログから追えない。
+  // color-contrast は前景色・背景色・比率まで出す（配色の話は数値が無いと直せない）。
+  const summary = violations.map((v) => ({
+    id: v.id,
+    impact: v.impact,
+    nodes: v.nodes.map((n) => {
+      const target = n.target.join(" ");
+      const data = (n.any?.[0]?.data ?? {}) as {
+        fgColor?: string;
+        bgColor?: string;
+        contrastRatio?: number;
+      };
+      return data.contrastRatio === undefined
+        ? target
+        : `${target} (fg=${data.fgColor} bg=${data.bgColor} ratio=${data.contrastRatio})`;
+    }),
+  }));
+
+  expect(summary).toEqual([]);
+}
+
 for (const { path } of PAGES) {
-  test(`${path} ページに WCAG 2.2 AA の違反が無い`, async ({ page }) => {
-    await page.goto(path);
-    // main が描画されるまで待つ。描画途中で解析すると偽陰性になりうる。
-    await expect(page.locator("main")).toBeVisible();
+  test(`${path} ページに WCAG 2.2 AA の違反が無い（未読了・ロック状態）`, async ({
+    page,
+  }) => {
+    await expectNoA11yViolations(page, path, 0);
+  });
 
-    await page.addStyleTag({ content: SETTLE_STYLE });
-    // スタイル適用が反映されてから解析する。
-    await expect
-      .poll(() =>
-        page.evaluate(() => {
-          const el = document.querySelector(".scroll-reveal");
-          return el ? getComputedStyle(el).opacity : "1";
-        })
-      )
-      .toBe("1");
-
-    const { violations } = await new AxeBuilder({ page })
-      .withTags(WCAG_TAGS)
-      .analyze();
-
-    // 失敗時に「どのルールがどの要素で落ちたか」が出るようにしてから比較する。
-    // 件数だけを assert すると、落ちた理由を CI ログから追えない。
-    // color-contrast は前景色・背景色・比率まで出す（配色の話は数値が無いと直せない）。
-    const summary = violations.map((v) => ({
-      id: v.id,
-      impact: v.impact,
-      nodes: v.nodes.map((n) => {
-        const target = n.target.join(" ");
-        const data = (n.any?.[0]?.data ?? {}) as {
-          fgColor?: string;
-          bgColor?: string;
-          contrastRatio?: number;
-        };
-        return data.contrastRatio === undefined
-          ? target
-          : `${target} (fg=${data.fgColor} bg=${data.bgColor} ratio=${data.contrastRatio})`;
-      }),
-    }));
-
-    expect(summary).toEqual([]);
+  // ロック画面のUIだけでなく、SpoilerGateの <template> 内に置かれた解説本文
+  // （実際の閲覧者の大半が目にするコンテンツ）も検査対象に含める (#204)。
+  test(`${path} ページに WCAG 2.2 AA の違反が無い（ネタバレ全解放後）`, async ({
+    page,
+  }) => {
+    await expectNoA11yViolations(page, path, FULL_UNLOCK_CHAPTER);
   });
 }
