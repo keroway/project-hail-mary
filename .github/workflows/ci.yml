@@ -47,6 +47,8 @@ jobs:
               # tests/** が無いと、テストだけを変更した PR で E2E も typecheck も
               # skip され、壊れた spec がそのままマージされうる（PR #164 で実際に skip された）。
               - 'tests/**'
+              - 'vitest.config.*'
+              - '_typos.toml'
               - '.github/workflows/**'
 
   lint:
