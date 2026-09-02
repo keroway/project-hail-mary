@@ -52,7 +52,11 @@ npx wrangler pages project create project-hail-mary
 
 ## デプロイの仕組み
 
-`.github/workflows/deploy.yml` の内容:
+デプロイは 2 つの workflow に分かれている。
+
+### 本番デプロイ（`.github/workflows/deploy.yml`）
+
+`main` への push（＝ PR のマージ）だけをトリガーとする。
 
 ```yaml
 - uses: cloudflare/wrangler-action@v3
@@ -64,12 +68,22 @@ npx wrangler pages project create project-hail-mary
     command: pages deploy dist --project-name=project-hail-mary --commit-hash=${{ github.sha }} --commit-message=${{ github.sha }}
 ```
 
-| ブランチ | デプロイ先 |
-|---|---|
-| `main` | 本番（`https://hailmary.keroway.com`） |
-| その他 | Cloudflare Pages のプレビュー URL（wrangler-action が自動生成） |
+### PR プレビューデプロイ（`.github/workflows/ci.yml` の `deploy-preview` job）
 
-`main` へのプッシュまたはマージで自動的に本番デプロイが走る。
+`main` 向け PR（`pull_request: branches: [main]`）で起動する CI workflow の一部として実行される。以下をすべて満たす場合のみ動く（必須チェックではないため、スキップされてもマージはブロックされない）:
+
+- `src/**` や `package.json` など「コードとみなすパス」（`changes` job 定義）に変更があること（`docs/**` のみの変更ではスキップされる）
+- PR の head が fork ではなく同一リポジトリ（`keroway/project-hail-mary`）からであること（fork には Secrets が渡らないため）
+- PR の作成者が `dependabot[bot]` ではないこと
+
+条件を満たすとプレビュー URL を wrangler-action が自動生成し、結果を PR コメントへ投稿する。
+
+| トリガー | ブランチ / イベント | デプロイ先 |
+|---|---|---|
+| `deploy.yml` | `main` への push（PR マージ） | 本番（`https://hailmary.keroway.com`） |
+| `ci.yml` の `deploy-preview` | `main` 向け PR（同一リポジトリ・非 Dependabot・コード変更あり） | Cloudflare Pages のプレビュー URL（wrangler-action が自動生成） |
+
+`main` 以外へのブランチ push 自体は、どちらの workflow のトリガーにもならない。
 
 ## セキュリティヘッダーの確認
 
