@@ -15,8 +15,9 @@ lint:
 format:
     pnpm run format
 
-# lint / typecheck (astro check) / e2e test をまとめて実行（コミット前の全通し確認）
+# lint / typecheck (astro check) / unit test / e2e test をまとめて実行（コミット前の全通し確認）
 check:
     pnpm run lint
     pnpm run check
+    pnpm run test:unit
     pnpm run test:e2e
