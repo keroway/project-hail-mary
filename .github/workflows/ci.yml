@@ -50,6 +50,9 @@ jobs:
               - 'vitest.config.*'
               - '_typos.toml'
               - '.github/workflows/**'
+              - 'justfile'
+              - 'lefthook.yml'
+              - 'mise.toml'
 
   lint:
     name: Lint
