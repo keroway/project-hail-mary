@@ -23,9 +23,9 @@ allowBuilds:
 # package.json が全依存 exact pin のため、依存元の更新を待つと動かせない事情もある。
 # upstream が修正版を取り込んだら該当行を削除する。
 overrides:
-  # GHSA-7p8r-x3mc-p8w7 (fast-uri <3.1.5) — backslash authority introducer による host confusion。
+  # GHSA-5jgf-p345-68v8 ほか計4件 (fast-uri <3.1.6) — 3.1.5 でも未解消だったため 3.1.6 に引き上げ (#219)。
   # ajv > yaml-language-server > @astrojs/language-server > @astrojs/check 経由 (型チェック時のみ)。
-  "fast-uri@<3.1.5": ">=3.1.5 <4"
+  "fast-uri@<3.1.6": ">=3.1.6 <4"
   # GHSA-5p4m-2wfm-xmqj (js-yaml <4.3.1) — !!omap 解決の二次計算量 DoS。
   # @astrojs/internal-helpers > astro 経由 (SSG のビルド時に自リポジトリのコンテンツを読むだけ)。
   "js-yaml@>=4.0.0 <4.3.1": ">=4.3.1 <5"
