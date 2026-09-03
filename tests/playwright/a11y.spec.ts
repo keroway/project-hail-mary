@@ -131,3 +131,46 @@ for (const { path } of PAGES) {
     await expectNoA11yViolations(page, path, FULL_UNLOCK_CHAPTER);
   });
 }
+
+// カスタム404ページはsmoke.spec.tsで表示確認のみ行われ、axe検査の対象外だった (#217)。
+// SpoilerGateが無いため状態は1つでよい。404であることも合わせてassertし、
+// カスタム404の実体を検査していることを明示する。
+test("/this-page-does-not-exist-xyz ページ（カスタム404）に WCAG 2.2 AA の違反が無い", async ({
+  page,
+}) => {
+  const response = await page.goto("/this-page-does-not-exist-xyz");
+  expect(response?.status()).toBe(404);
+  await expect(page.locator("main")).toBeVisible();
+
+  await page.addStyleTag({ content: SETTLE_STYLE });
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const el = document.querySelector(".scroll-reveal");
+        return el ? getComputedStyle(el).opacity : "1";
+      })
+    )
+    .toBe("1");
+
+  const { violations } = await new AxeBuilder({ page })
+    .withTags(WCAG_TAGS)
+    .analyze();
+
+  const summary = violations.map((v) => ({
+    id: v.id,
+    impact: v.impact,
+    nodes: v.nodes.map((n) => {
+      const target = n.target.join(" ");
+      const data = (n.any?.[0]?.data ?? {}) as {
+        fgColor?: string;
+        bgColor?: string;
+        contrastRatio?: number;
+      };
+      return data.contrastRatio === undefined
+        ? target
+        : `${target} (fg=${data.fgColor} bg=${data.bgColor} ratio=${data.contrastRatio})`;
+    }),
+  }));
+
+  expect(summary).toEqual([]);
+});
