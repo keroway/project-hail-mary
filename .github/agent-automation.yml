@@ -8,7 +8,7 @@
 # - allow_merge: true かつ呼び出し側が明示的にマージを要求した場合のみ、
 #   CI green・レビュー解決・ブランチ保護要件を満たした PR を squash merge してよい。
 #   false の間は、issue-sprint は PR を作成した時点で止まり、
-#   マージは owner が通常の権限で行う（.claude/CLAUDE.md の運用方針に合わせる）。
+#   マージは owner が通常の権限で行う（CLAUDE.md の運用方針に合わせる）。
 enabled: true
 max_issues_per_cycle: 1
 allow_merge: true
