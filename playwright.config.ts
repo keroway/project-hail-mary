@@ -19,8 +19,8 @@ export default defineConfig({
   webServer: {
     // In CI, dist is pre-built and downloaded as an artifact; skip rebuild.
     command: process.env.CI
-      ? `npm run preview -- --port ${PORT}`
-      : `npm run build && npm run preview -- --port ${PORT}`,
+      ? `./node_modules/.bin/astro preview --port ${PORT}`
+      : `./node_modules/.bin/astro build && ./node_modules/.bin/astro preview --port ${PORT}`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
