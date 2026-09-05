@@ -1,5 +1,6 @@
 ---
 import CitationList from "../components/CitationList.astro";
+import SpoilerGate from "../components/SpoilerGate.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 <BaseLayout
@@ -17,15 +18,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <div class="header-meta">
       <span class="meta-tag">TARGET: 中学2年〜高校生</span>
       <span class="meta-tag">SUBJECT: 単位・科学史</span>
-      <span class="meta-tag">ネタバレなし</span>
+      <span class="meta-tag">⚠ ネタバレあり</span>
     </div>
   </header>
 
   <div class="intro">
-    <p>宇宙では、どんな単位を使えばいい？この問いはグレースにとって深刻だ。彼が記憶喪失から目覚めたとき、自分の思考パターンが手がかりになった。メートルでもなく、フィートで考えていた——その一点が、彼の<strong>国籍を推測するヒント</strong>になった。単位とは単なる「計測のルール」ではなく、その社会の歴史と文化を映す鏡だ。</p>
+    <p>宇宙では、どんな単位を使えばいい？この問いはグレースにとって深刻だ。彼が記憶喪失から目覚めたとき、自分の思考パターンが手がかりになった。メートルでもなく、フィートで考えていた——その一点が、彼の<strong>国籍を推測するヒント</strong>になる（詳しくは NOTE 01 で——第9章以降のネタバレを含む）。単位とは単なる「計測のルール」ではなく、その社会の歴史と文化を映す鏡だ。</p>
   </div>
 
-  <!-- NOTE 01 -->
+  <!-- NOTE 01 — SPOILER ch9 -->
+  <SpoilerGate id="note01" minChapter={9} label="第9章以降のネタバレ" hint="ロッキー（異星人）がグレースの国籍を推測する場面の内容を含みます。">
   <div class="phase" id="note01">
     <div class="phase-header">
       <div class="phase-number">NOTE 01</div>
@@ -34,6 +36,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <div class="phase-topic">単位系 / 科学史 / 文化的慣習</div>
       </div>
     </div>
+    <div class="spoiler-warn">⚠ SPOILER: ロッキーの描写を含む</div>
     <div class="level-badge level-middle">▶ 中学2〜3年レベル</div>
     <div class="story-block">
       <h3 class="block-label">📖 ストーリー</h3>
@@ -85,6 +88,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </div>
     </div>
   </div>
+  </SpoilerGate>
 
   <div class="section-divider"><span class="divider-label">— SCIENCE LOG —</span></div>
 
@@ -218,7 +222,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <div class="footer-note">
       「1メートル」も「1秒」も、もとは人間が決めた便宜的なルールだった。<br>
       しかし今や光速やセシウム原子という<strong>宇宙普遍の定数</strong>に刻まれている。<br>
-      宇宙人のロッキーと交流するグレースが直面した「単位の壁」は、<br>
+      グレースが宇宙で直面した「単位の壁」は、<br>
       人類が2世紀かけて乗り越えてきた問いと同じものだ。
     </div>
   </footer>
