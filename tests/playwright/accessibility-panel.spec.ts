@@ -86,6 +86,29 @@ test.describe("表示設定パネル: 開閉・トグル操作・localStorage �
     await expect(defaultButton).toHaveAttribute("aria-pressed", "false");
   });
 
+  test("図の文字サイズを「大きめ」に切り替えると data-diagram-scale が反映され、aria-pressed が更新される", async ({
+    page,
+  }) => {
+    await page.goto("/physics");
+
+    await page.locator("#accessibility-toggle").click();
+    const largeButton = page.locator(
+      '[data-ui-setting="diagramScale"][data-ui-value="large"]'
+    );
+    await largeButton.click();
+
+    await expect(page.locator("html")).toHaveAttribute(
+      "data-diagram-scale",
+      "large"
+    );
+    await expect(largeButton).toHaveAttribute("aria-pressed", "true");
+
+    const defaultButton = page.locator(
+      '[data-ui-setting="diagramScale"][data-ui-value="default"]'
+    );
+    await expect(defaultButton).toHaveAttribute("aria-pressed", "false");
+  });
+
   test("設定はlocalStorageに保存され、リロード後も復元される", async ({
     page,
   }) => {
