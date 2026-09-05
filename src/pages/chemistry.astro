@@ -5,6 +5,7 @@ import ch02 from "../assets/images/ch02-spectrum.jpg";
 import ch03 from "../assets/images/ch03-air.jpg";
 import CitationList from "../components/CitationList.astro";
 import ScienceDiagram from "../components/ScienceDiagram.astro";
+import SpoilerGate from "../components/SpoilerGate.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 <BaseLayout
@@ -164,7 +165,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   <div class="section-divider"><span class="divider-label">— CHEM LOG —</span></div>
 
-  <!-- CHEM 03 -->
+  <!-- CHEM 03 — SPOILER ch9 -->
+  <SpoilerGate id="chem03" minChapter={9} label="第9章以降のネタバレ" hint="ロッキー（異星人）の船内環境（アンモニア大気）の描写を含みます。">
   <div class="phase" id="chem03">
     <Image class="phase-hero" src={ch03} alt="宇宙船内部の空気管理" loading="lazy" />
     <div class="phase-header">
@@ -174,6 +176,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <div class="phase-topic">気体の法則 / 酸素・二酸化炭素 / 生命維持システム</div>
       </div>
     </div>
+    <div class="spoiler-warn">⚠ SPOILER: ロッキーの描写を含む</div>
     <div class="level-badge level-middle">▶ 中3〜高1レベル</div>
     <div class="story-block">
       <h3 class="block-label">📖 ストーリー</h3>
@@ -236,6 +239,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </div>
     <CitationList page="chemistry" phaseId="chem03" />
   </div>
+  </SpoilerGate>
 
   <div class="section-divider"><span class="divider-label">— APPENDIX —</span></div>
 
@@ -276,7 +280,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   <footer>
     <div class="footer-note">
       化学は「物質の言語」だ。元素記号と化学式を読めるようになると、<br>
-      世界が全く違って見えてくる。アストロファージもロッキーも、<br>
+      世界が全く違って見えてくる。作中に登場するどんな物質も、<br>
       結局は原子の組み合わせから生まれている。
     </div>
   </footer>
