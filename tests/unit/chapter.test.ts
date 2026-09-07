@@ -129,6 +129,13 @@ describe("readChapter/setChapter", () => {
     expect(event.detail).toBe(9);
   });
 
+  it("setItemが例外を投げた後もreadChapterは同一チャプター状態としてsetChapterの返り値を返す", () => {
+    stubThrowingStorage();
+    stubDocument();
+    const applied = setChapter(9);
+    expect(readChapter()).toBe(applied);
+  });
+
   it("正常時はlocalStorageに保存された値を読み書きする", () => {
     const store = new Map<string, string>();
     vi.stubGlobal("localStorage", {
