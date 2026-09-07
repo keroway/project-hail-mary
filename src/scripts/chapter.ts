@@ -67,7 +67,6 @@ export function navLabel(chapter: number): string {
 export function statusLabel(chapter: number): string {
   if (chapter <= 0) return "まだ読んでいません（ネタバレなし）";
   if (chapter >= MAX_CHAPTER) return "全部読了（すべてのネタバレ解除）";
-  if (chapter >= 29) return `第${chapter}章まで読了（ロッキー船の危機・救出）`;
   if (chapter >= 25) return `第${chapter}章まで読了（終盤・タウメーバ漏洩）`;
   if (chapter >= 9)
     return `第${chapter}章まで読了（ロッキー登場以降の内容解除）`;

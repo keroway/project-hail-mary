@@ -87,13 +87,12 @@ describe("statusLabel", () => {
     expect(statusLabel(MAX_CHAPTER)).toBe("全部読了（すべてのネタバレ解除）");
   });
 
-  it("29章以上はロッキー船の危機・救出の文言", () => {
-    expect(statusLabel(29)).toBe("第29章まで読了（ロッキー船の危機・救出）");
-  });
-
-  it("25章以上29章未満は終盤・タウメーバ漏洩の文言", () => {
+  it("25章以上MAX_CHAPTER未満は終盤・タウメーバ漏洩の文言", () => {
     expect(statusLabel(25)).toBe("第25章まで読了（終盤・タウメーバ漏洩）");
-    expect(statusLabel(28)).toBe("第28章まで読了（終盤・タウメーバ漏洩）");
+    expect(statusLabel(29)).toBe("第29章まで読了（終盤・タウメーバ漏洩）");
+    expect(statusLabel(MAX_CHAPTER - 1)).toBe(
+      `第${MAX_CHAPTER - 1}章まで読了（終盤・タウメーバ漏洩）`
+    );
   });
 
   it("9章以上25章未満はロッキー登場以降の文言", () => {
