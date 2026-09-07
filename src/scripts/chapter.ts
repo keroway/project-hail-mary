@@ -17,10 +17,20 @@ export function clampChapter(raw: number): number {
 }
 
 /**
+ * setChapter の localStorage 書き込みが失敗した際に、当該ページ・クライアント遷移内で
+ * 読み書き双方が同じ値を見られるようにするための上書き値。
+ * getItem 自体は例外を投げず空文字/nullを返す環境があり、書込み失敗を読取り側だけでは
+ * 検知できないため、setChapter 側で明示的に管理する。
+ */
+let unpersistedChapter: number | null = null;
+
+/**
  * localStorage から現在の読了章を読む（クランプ済み）。
+ * 直前の setChapter が永続化に失敗している場合はその値を優先する。
  * プライベートブラウジング等で localStorage が例外を投げる環境では未読扱いにフォールバックする。
  */
 export function readChapter(): number {
+  if (unpersistedChapter !== null) return unpersistedChapter;
   try {
     const raw = Number.parseInt(localStorage.getItem(STORAGE_KEY) ?? "0", 10);
     return clampChapter(raw);
@@ -33,15 +43,18 @@ export function readChapter(): number {
  * 読了章を保存し chapterChanged を発火する。
  * DOM の更新（ダイアログ・ナビ・ネタバレ）は購読側に委ねる。
  * localStorage への書き込みが例外を投げても、クランプ済みの値は返し chapterChanged は発火する
- * （呼び出し元の UI 更新を止めないため）。
+ * （呼び出し元の UI 更新を止めないため）。書き込みが失敗した場合は readChapter がこの値を
+ * 返すようにし、設定 UI・ナビ・ネタバレゲートの間で章状態がずれないようにする。
  * @returns クランプ後の確定値
  */
 export function setChapter(v: number): number {
   const clamped = clampChapter(v);
   try {
     localStorage.setItem(STORAGE_KEY, String(clamped));
+    unpersistedChapter = null;
   } catch {
     // ストレージが無効化された環境では永続化を諦め、当該セッション内の表示のみ更新する
+    unpersistedChapter = clamped;
   }
   document.dispatchEvent(
     new CustomEvent("chapterChanged", { detail: clamped })
