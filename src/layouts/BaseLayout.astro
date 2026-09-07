@@ -618,9 +618,14 @@ const pageTransition = {
 
   /* ===== Floating mascot scroll effect ===== */
   let mascotRafId: number | null = null;
+  let mascotScrollHandler: (() => void) | null = null;
 
   function initScrollMascot() {
     if (mascotRafId) { cancelAnimationFrame(mascotRafId); mascotRafId = null; }
+    if (mascotScrollHandler) {
+      window.removeEventListener('scroll', mascotScrollHandler);
+      mascotScrollHandler = null;
+    }
 
     const mascot = document.querySelector<HTMLElement>('.scroll-mascot');
     if (!mascot) return;
@@ -651,6 +656,7 @@ const pageTransition = {
       });
     };
 
+    mascotScrollHandler = onScroll;
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
   }
