@@ -34,3 +34,21 @@ describe.each(["ci.yml", "deploy.yml"])("%s の code filter", (workflowFile) => 
     expect(patterns).toContain(file);
   });
 });
+
+// lefthook.yml の pre-push build glob は ci.yml の code filter と揃える運用
+// （lefthook.yml 冒頭のコメント参照）。#248 で乖離が発生したため、両者の
+// パターン集合が一致することを機械的に検証する。
+function extractLefthookPrePushBuildGlob(): string[] {
+  const source = readFileSync(join(__dirname, "../../lefthook.yml"), "utf8");
+  const match = source.match(/pre-push:[\s\S]*?glob:\s*"\{([^}]*)\}"/);
+  if (!match) {
+    throw new Error("lefthook.yml: pre-push build job の glob が見つからない");
+  }
+  return match[1].split(",");
+}
+
+it("lefthook.yml の pre-push build glob は ci.yml の code filter と一致する", () => {
+  const ciPatterns = extractCodeFilterPatterns("ci.yml");
+  const lefthookPatterns = extractLefthookPrePushBuildGlob();
+  expect(new Set(lefthookPatterns)).toEqual(new Set(ciPatterns));
+});
