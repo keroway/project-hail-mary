@@ -39,11 +39,18 @@ src/
     ├── notes.astro            # 余談・コラム編
     └── 404.astro
 tests/
-├── playwright/                 # E2E テスト（axe-core a11y 検査含む）
-│   └── smoke.spec.ts          # 全ページ smoke テスト
-└── unit/                       # Vitest ユニットテスト
+├── playwright/                  # E2E テスト（axe-core a11y 検査含む）
+│   ├── pages.ts                # smoke / a11y 共通の検査対象ページ一覧（唯一の定義）
+│   ├── smoke.spec.ts           # 全ページ smoke テスト
+│   ├── a11y.spec.ts            # axe-core による WCAG 2.2 AA 検査
+│   ├── accessibility-panel.spec.ts  # 表示設定パネルの開閉・トグル・永続化
+│   └── spoiler-gate.spec.ts    # ネタバレゲートの解放・再ロック挙動
+└── unit/                        # Vitest ユニットテスト
     ├── chapter.test.ts
-    └── citations.test.ts
+    ├── citations.test.ts
+    ├── spoiler-gate.test.ts    # SpoilerGate 外へのネタバレ露出検知
+    ├── scroll-mascot.test.ts   # initScrollMascot の再初期化時リスナー解除
+    └── ci-workflow-filters.test.ts  # ci.yml/deploy.yml の変更検知フィルタ検証
 playwright.config.ts           # Playwright 設定（CI では dist 再利用、ローカルはフルビルド）
 public/
 └── _headers                   # Cloudflare セキュリティヘッダー（変更不要）
