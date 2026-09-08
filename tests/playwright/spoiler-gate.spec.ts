@@ -82,4 +82,30 @@ test.describe("SpoilerGate: 読了章に応じたネタバレロックの開閉"
       "波 / 周波数 / 音の情報伝達"
     );
   });
+
+  test("第9章解放後に読了章を0へ戻すと復号済みタイトル・メタ情報もプレースホルダーへ戻る（#243）", async ({
+    page,
+  }) => {
+    await setChapter(page, 9);
+    await page.goto("/story");
+
+    const item = page.locator('.timeline-item[href="/physics#phase05"]');
+    await expect(item).not.toHaveClass(/is-locked/);
+    await expect(item.locator(".tl-title")).toHaveText(
+      "ロッキーとの会話 — 音波と周波数"
+    );
+
+    await page.evaluate((key) => {
+      window.localStorage.setItem(key, "0");
+      window.dispatchEvent(new StorageEvent("storage", { key }));
+    }, STORAGE_KEY);
+
+    const lockedItem = page.locator(
+      '.timeline-item[data-original-href="/physics#phase05"]'
+    );
+    await expect(lockedItem).toHaveClass(/is-locked/);
+    await expect(lockedItem).toHaveAttribute("aria-disabled", "true");
+    await expect(lockedItem.locator(".tl-title")).toHaveText("???");
+    await expect(lockedItem.locator(".tl-meta")).toHaveText("第9章以降に解放");
+  });
 });
