@@ -26,5 +26,5 @@ pre-commit:
 pre-push:
   jobs:
     - name: build
-      glob: "{src/**,public/**,astro.config.*,package.json,pnpm-lock.yaml,tsconfig.json,biome.json,biome.jsonc,playwright.config.*,.github/workflows/**}"
+      glob: "{src/**,public/**,astro.config.*,package.json,pnpm-lock.yaml,pnpm-workspace.yaml,tsconfig.json,biome.json,biome.jsonc,playwright.config.*,tests/**,vitest.config.*,_typos.toml,.github/workflows/**,justfile,lefthook.yml,mise.toml}"
       run: pnpm run build
