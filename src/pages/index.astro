@@ -515,8 +515,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   .cs-preset-note {
     font-size: 9px;
     letter-spacing: 0.05em;
+    /* opacity で暗くすると実効色が背景依存になり 4.5:1 を割る（#162 と同種）。
+       このボタン背景では var(--red-dwarf-dim) でも僅かに不足するため、
+       他の警告表示と同じ var(--red-dwarf) をそのまま使う。 */
     color: var(--red-dwarf);
-    opacity: 0.8;
   }
 
   .cs-custom { margin-bottom: 20px; }
