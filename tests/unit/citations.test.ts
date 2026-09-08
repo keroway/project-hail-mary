@@ -38,14 +38,12 @@ describe("CitationList呼び出しとcitations.tsの対応関係", () => {
     expect(calls.length).toBeGreaterThan(0);
   });
 
-  it.each(
-    calls
-  )('$file の <CitationList page="$page" phaseId="$phaseId" /> はcitations.tsに対応データを持つ', ({
-    page,
-    phaseId,
-  }) => {
-    expect(getCitationsFor(page, phaseId).length).toBeGreaterThan(0);
-  });
+  it.each(calls)(
+    '$file の <CitationList page="$page" phaseId="$phaseId" /> はcitations.tsに対応データを持つ',
+    ({ page, phaseId }) => {
+      expect(getCitationsFor(page, phaseId).length).toBeGreaterThan(0);
+    }
+  );
 
   it("citations.ts側の全エントリは、いずれかのページのCitationList呼び出しから参照されている（孤立データの検知）", () => {
     const referenced = new Set(

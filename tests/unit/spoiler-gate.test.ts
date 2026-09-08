@@ -18,11 +18,12 @@ function stripSpoilerGateBlocks(source: string): string {
 }
 
 describe("SpoilerGate外へのロッキー関連ネタバレ露出検知", () => {
-  it.each(
-    TARGET_PAGES
-  )("%s はSpoilerGateの外側に「ロッキー」を含まない", (file) => {
-    const source = readFileSync(join(PAGES_DIR, file), "utf-8");
-    const outsideGate = stripSpoilerGateBlocks(source);
-    expect(outsideGate).not.toContain("ロッキー");
-  });
+  it.each(TARGET_PAGES)(
+    "%s はSpoilerGateの外側に「ロッキー」を含まない",
+    (file) => {
+      const source = readFileSync(join(PAGES_DIR, file), "utf-8");
+      const outsideGate = stripSpoilerGateBlocks(source);
+      expect(outsideGate).not.toContain("ロッキー");
+    }
+  );
 });
