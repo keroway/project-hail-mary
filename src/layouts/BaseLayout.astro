@@ -412,31 +412,43 @@ const pageTransition = {
         item.dataset.originalHref = originalHref;
       }
 
+      const titleEl = item.querySelector<HTMLElement>('.tl-title');
+      if (titleEl && !item.dataset.placeholderTitle) {
+        item.dataset.placeholderTitle = titleEl.textContent ?? '';
+      }
+      const metaEl = item.querySelector<HTMLElement>('.tl-meta');
+      if (metaEl && !item.dataset.placeholderMeta) {
+        item.dataset.placeholderMeta = metaEl.textContent ?? '';
+      }
+
       item.classList.toggle('is-locked', isLocked);
 
       if (isLocked) {
         item.setAttribute('aria-disabled', 'true');
         item.setAttribute('tabindex', '-1');
         item.removeAttribute('href');
+
+        if (titleEl && titleEl.dataset.decoded) {
+          titleEl.textContent = item.dataset.placeholderTitle ?? '';
+          delete titleEl.dataset.decoded;
+        }
+        if (metaEl && metaEl.dataset.decoded) {
+          metaEl.textContent = item.dataset.placeholderMeta ?? '';
+          delete metaEl.dataset.decoded;
+        }
       } else {
         item.removeAttribute('aria-disabled');
         item.removeAttribute('tabindex');
         if (item.dataset.originalHref) {
           item.setAttribute('href', item.dataset.originalHref);
         }
-        if (item.dataset.encodedTitle) {
-          const titleEl = item.querySelector<HTMLElement>('.tl-title');
-          if (titleEl && !titleEl.dataset.decoded) {
-            titleEl.textContent = decodeB64(item.dataset.encodedTitle);
-            titleEl.dataset.decoded = 'true';
-          }
+        if (item.dataset.encodedTitle && titleEl && !titleEl.dataset.decoded) {
+          titleEl.textContent = decodeB64(item.dataset.encodedTitle);
+          titleEl.dataset.decoded = 'true';
         }
-        if (item.dataset.encodedMeta) {
-          const metaEl = item.querySelector<HTMLElement>('.tl-meta');
-          if (metaEl && !metaEl.dataset.decoded) {
-            metaEl.textContent = decodeB64(item.dataset.encodedMeta);
-            metaEl.dataset.decoded = 'true';
-          }
+        if (item.dataset.encodedMeta && metaEl && !metaEl.dataset.decoded) {
+          metaEl.textContent = decodeB64(item.dataset.encodedMeta);
+          metaEl.dataset.decoded = 'true';
         }
       }
     });
