@@ -26,8 +26,9 @@
 
 ```text
 project-hail-mary/
+├── CLAUDE.md                        # Claude Code 向け作業ガイド
 ├── .claude/
-│   └── CLAUDE.md                    # Claude Code 向け作業ガイド
+│   └── README.md                    # .claude/ 配下（agents/ hooks/ 等）の説明
 ├── .github/
 │   └── workflows/
 │       ├── ci.yml                  # PR 時の Lint・型チェック・ビルド・E2E・プレビューデプロイ
@@ -66,8 +67,18 @@ project-hail-mary/
 │   └── styles/
 │       └── global.css              # 共通スタイル
 ├── tests/
-│   ├── playwright/                 # E2E smoke テスト（axe-core a11y 検査含む）
-│   └── unit/                       # Vitest ユニットテスト（chapter.ts / citations.ts）
+│   ├── playwright/                 # E2E テスト
+│   │   ├── pages.ts                 # smoke / a11y 共通の検査対象ページ一覧
+│   │   ├── smoke.spec.ts            # 全ページ smoke テスト
+│   │   ├── a11y.spec.ts             # axe-core による WCAG 2.2 AA 検査
+│   │   ├── accessibility-panel.spec.ts  # 表示設定パネルの開閉・トグル・永続化
+│   │   └── spoiler-gate.spec.ts     # ネタバレゲートの解放・再ロック挙動
+│   └── unit/                       # Vitest ユニットテスト
+│       ├── chapter.test.ts
+│       ├── citations.test.ts
+│       ├── spoiler-gate.test.ts     # SpoilerGate 外へのネタバレ露出検知
+│       ├── scroll-mascot.test.ts    # initScrollMascot の再初期化時リスナー解除
+│       └── ci-workflow-filters.test.ts  # ci.yml/deploy.yml の変更検知フィルタ検証
 ├── astro.config.mjs                 # Astro 設定（@astrojs/sitemap 統合）
 ├── package.json
 └── README.md
