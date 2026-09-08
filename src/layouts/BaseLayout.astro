@@ -269,7 +269,11 @@ const pageTransition = {
     motionSource: 'system',
   };
 
-  function readUiPrefs(): UiPrefs {
+  // localStorage への永続化が失敗する環境でも、同一タブ内の連続した設定変更が
+  // 直前の変更を巻き戻さないよう、最後に確定した値をメモリ上に保持する(#242)
+  let cachedPrefs: UiPrefs | null = null;
+
+  function readUiPrefsFromStorage(): UiPrefs {
     try {
       const raw = JSON.parse(localStorage.getItem(UI_PREFS_KEY) ?? '{}');
       return { ...DEFAULT_UI_PREFS, ...raw };
@@ -278,12 +282,27 @@ const pageTransition = {
     }
   }
 
+  function readUiPrefs(): UiPrefs {
+    if (!cachedPrefs) {
+      cachedPrefs = readUiPrefsFromStorage();
+    }
+    return cachedPrefs;
+  }
+
   function writeUiPrefs(nextPrefs: UiPrefs) {
+    cachedPrefs = nextPrefs;
     try {
       localStorage.setItem(UI_PREFS_KEY, JSON.stringify(nextPrefs));
     } catch {
-      // ストレージが無効化された環境では永続化を諦め、当該セッション内の表示のみ更新する
+      // ストレージが無効化された環境では永続化を諦め、このタブ内はメモリ上の値で継続する
     }
+  }
+
+  // 他タブでの実際の書き込み(storage イベント)に追従する際は、
+  // メモリキャッシュではなく localStorage の実値で同期し直す
+  function syncUiPrefsFromStorage() {
+    cachedPrefs = readUiPrefsFromStorage();
+    applyUiPrefs(cachedPrefs);
   }
 
   function getEffectiveMotion(prefs = readUiPrefs()) {
@@ -433,7 +452,7 @@ const pageTransition = {
         applySpoilerGates();
       }
       if (event.key === UI_PREFS_KEY || event.key === null) {
-        applyUiPrefs();
+        syncUiPrefsFromStorage();
       }
     });
     document.addEventListener('chapterChanged', applySpoilerGates);

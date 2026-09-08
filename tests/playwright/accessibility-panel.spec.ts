@@ -176,6 +176,36 @@ test.describe("表示設定パネル: 開閉・トグル操作・localStorage �
     await expect(xlargeButton).toHaveAttribute("aria-pressed", "true");
   });
 
+  test("localStorageへの書き込みが失敗しても、後続の設定変更で先に選んだ値が消えない(#242)", async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      const proto = Object.getPrototypeOf(window.localStorage);
+      proto.setItem = () => {
+        throw new DOMException("QuotaExceededError");
+      };
+    });
+    await page.goto("/physics");
+
+    await page.locator("#accessibility-toggle").click();
+    await page
+      .locator('[data-ui-setting="fontScale"][data-ui-value="xlarge"]')
+      .click();
+    await expect(page.locator("html")).toHaveAttribute(
+      "data-font-scale",
+      "xlarge"
+    );
+
+    await page
+      .locator('[data-ui-setting="contrast"][data-ui-value="high"]')
+      .click();
+    await expect(page.locator("html")).toHaveAttribute("data-contrast", "high");
+    await expect(page.locator("html")).toHaveAttribute(
+      "data-font-scale",
+      "xlarge"
+    );
+  });
+
   test("動きを「少なめ」へ明示的に切り替えるとmotionSourceがexplicitとして保存される", async ({
     page,
   }) => {
