@@ -26,9 +26,10 @@ overrides:
   # GHSA-5jgf-p345-68v8 ほか計4件 (fast-uri <3.1.6) — 3.1.5 でも未解消だったため 3.1.6 に引き上げ (#219)。
   # ajv > yaml-language-server > @astrojs/language-server > @astrojs/check 経由 (型チェック時のみ)。
   "fast-uri@<3.1.6": ">=3.1.6 <4"
-  # GHSA-5p4m-2wfm-xmqj (js-yaml <4.3.1) — !!omap 解決の二次計算量 DoS。
+  # GHSA-5p4m-2wfm-xmqj / GHSA-2883-xcg3-v3hh (js-yaml <4.3.2) — !!omap 解決の二次計算量 DoS。
   # @astrojs/internal-helpers > astro 経由 (SSG のビルド時に自リポジトリのコンテンツを読むだけ)。
-  "js-yaml@>=4.0.0 <4.3.1": ">=4.3.1 <5"
+  # 4.3.1 引き上げ (#219) 後も別 advisory (GHSA-2883-xcg3-v3hh) が新規検出されたため 4.3.2 まで拡大 (#252)。
+  "js-yaml@>=4.0.0 <4.3.2": ">=4.3.2 <5"
   # GHSA-2v37-7h3g-55p8 (nanoid <3.3.17) — customAlphabet / customRandom に size=0 を渡すと
   # 無限ループする。postcss (ソースマップ用 ID 生成、size は固定) > vite > astro 経由。
   # advisory の影響範囲が 2026-08-08 に 3.3.16 まで拡大されたため追加。
@@ -36,3 +37,10 @@ overrides:
   # GHSA-4cwx-7wf7-3272 ほか計 5 件 (undici <7.29.0)。
   # wrangler のローカル実行ランタイム miniflare 経由 (デプロイ成果物には含まれない)。
   "undici@<7.29.0": ">=7.29.0 <8"
+  # GHSA-rgj7-g3m4-5g8c (sharp <0.35.4) — 直接依存は既に 0.35.4 だが、
+  # wrangler > miniflare が sharp@0.35.2 を厳密固定しているため引き上げる (#252)。
+  "sharp@<0.35.4": ">=0.35.4"
+  # GHSA-4vpr-x523-8j87 / GHSA-w27v-7q3p-w38r (svgo <4.1.0)。astro > svgo 経由
+  # (画像最適化時の SVG 処理)。astro の依存範囲 (^4.0.1) 自体は 4.1.0 も許可するが、
+  # pnpm update だけでは transitive 依存が引き上がらなかったため override で固定する (#252)。
+  "svgo@<4.1.0": ">=4.1.0"
