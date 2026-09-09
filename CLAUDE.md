@@ -48,6 +48,7 @@ tests/
 └── unit/                        # Vitest ユニットテスト
     ├── chapter.test.ts
     ├── citations.test.ts
+    ├── index-chapter-max.test.ts # index.astro の章数上限 MAX_CHAPTER 検証
     ├── spoiler-gate.test.ts    # SpoilerGate 外へのネタバレ露出検知
     ├── scroll-mascot.test.ts   # initScrollMascot の再初期化時リスナー解除
     └── ci-workflow-filters.test.ts  # ci.yml/deploy.yml の変更検知フィルタ検証
