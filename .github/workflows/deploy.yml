@@ -10,7 +10,8 @@ concurrency:
 
 jobs:
   # main へのマージがドキュメントのみ（README.md, CLAUDE.md, .claude/**, *.md 等）の変更かどうかを
-  # 判定する。コードとみなすパスの基準は ci.yml の `changes` job と揃えている。
+  # 判定する。コードとみなすパスの基準は ci.yml の `changes` job と揃えている
+  # （tests/unit/ci-workflow-filters.test.ts で両ファイルのパターン集合一致を検証）。
   changes:
     name: Detect changes
     runs-on: ubuntu-latest
@@ -42,7 +43,13 @@ jobs:
               - 'biome.json'
               - 'biome.jsonc'
               - 'playwright.config.*'
+              - 'tests/**'
+              - 'vitest.config.*'
+              - '_typos.toml'
               - '.github/workflows/**'
+              - 'justfile'
+              - 'lefthook.yml'
+              - 'mise.toml'
 
   deploy:
     name: Deploy
