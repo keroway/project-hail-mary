@@ -52,3 +52,13 @@ it("lefthook.yml の pre-push build glob は ci.yml の code filter と一致す
   const lefthookPatterns = extractLefthookPrePushBuildGlob();
   expect(new Set(lefthookPatterns)).toEqual(new Set(ciPatterns));
 });
+
+// deploy.yml のコメントは「ci.yml の changes job と揃えている」と明記しているが、
+// これまで ci.yml 側だけにパスを追加して deploy.yml への反映を忘れる漏れが
+// 複数回発生していた（#210, #216 → #255 で発覚）。パターン集合全体の一致を
+// 機械的に検証し、同種の乖離を再発防止する。
+it("deploy.yml の code filter は ci.yml の code filter と完全に一致する", () => {
+  const ciPatterns = extractCodeFilterPatterns("ci.yml");
+  const deployPatterns = extractCodeFilterPatterns("deploy.yml");
+  expect(new Set(deployPatterns)).toEqual(new Set(ciPatterns));
+});
