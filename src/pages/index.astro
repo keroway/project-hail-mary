@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { MAX_CHAPTER } from "../scripts/chapter";
 ---
 <BaseLayout
   description="小説「プロジェクト・ヘイルメアリー」に登場する科学的描写を中学2年生向けにやさしく解説するガイドサイト。映画鑑賞前の予習や読後の復習に最適。物理・化学・生物・数学の4教科を収録。"
@@ -71,7 +72,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <button class="cs-preset" data-chapter="8" type="button">第8章まで</button>
         <button class="cs-preset" data-chapter="9" type="button">第9章まで<span class="cs-preset-note">ロッキー登場</span></button>
         <button class="cs-preset" data-chapter="25" type="button">第25章まで<span class="cs-preset-note">終盤突入</span></button>
-        <button class="cs-preset" data-chapter="30" type="button">全部読んだ</button>
+        <button class="cs-preset" data-chapter={MAX_CHAPTER} type="button">全部読んだ</button>
       </div>
 
       <div class="cs-custom">
@@ -81,7 +82,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             type="range"
             id="chapter-range"
             min="0"
-            max="30"
+            max={MAX_CHAPTER}
             value="0"
             class="cs-range"
             aria-describedby="cs-status-text"
@@ -93,13 +94,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
               type="number"
               id="chapter-number"
               min="0"
-              max="30"
+              max={MAX_CHAPTER}
               value="0"
               class="cs-number"
               inputmode="numeric"
               aria-describedby="cs-status-text"
             />
-            <span class="cs-number-unit">/ 30章</span>
+            <span class="cs-number-unit">/ {MAX_CHAPTER}章</span>
           </div>
         </div>
       </div>
