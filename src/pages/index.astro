@@ -757,13 +757,18 @@ import { MAX_CHAPTER } from "../scripts/chapter";
 
     // First-visit logic
     if (isFirstVisit()) {
-      if (!sessionStorage.getItem(SESSION_DIALOG_KEY)) {
-        // Very first time: auto-open dialog once per session
-        sessionStorage.setItem(SESSION_DIALOG_KEY, 'true');
+      try {
+        if (!sessionStorage.getItem(SESSION_DIALOG_KEY)) {
+          // Very first time: auto-open dialog once per session
+          sessionStorage.setItem(SESSION_DIALOG_KEY, 'true');
+          requestAnimationFrame(() => requestAnimationFrame(() => dialog.showModal()));
+        } else {
+          // Navigated back to index within the same session: show guide directly
+          showOnboarding();
+        }
+      } catch {
+        // ストレージが無効化された環境では永続化を諦め、毎回ダイアログを自動オープンする
         requestAnimationFrame(() => requestAnimationFrame(() => dialog.showModal()));
-      } else {
-        // Navigated back to index within the same session: show guide directly
-        showOnboarding();
       }
     }
   }
