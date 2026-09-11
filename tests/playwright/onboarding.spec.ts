@@ -18,11 +18,12 @@ test.describe("初回訪問オンボーディング", () => {
     page,
   }) => {
     await page.addInitScript(() => {
-      const proto = Object.getPrototypeOf(window.sessionStorage);
-      proto.getItem = () => {
+      // Storage.prototype はlocalStorageとsessionStorageで共有されるため、
+      // プロトタイプではなくインスタンス自身に上書きしてsessionStorageのみ失敗させる。
+      window.sessionStorage.getItem = () => {
         throw new DOMException("SecurityError");
       };
-      proto.setItem = () => {
+      window.sessionStorage.setItem = () => {
         throw new DOMException("SecurityError");
       };
     });
