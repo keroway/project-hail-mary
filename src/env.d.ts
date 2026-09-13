@@ -3,4 +3,5 @@
 interface Window {
   __hailMaryChapterBindings: boolean | undefined;
   __hailMaryUiBindings: boolean | undefined;
+  __hailMaryIndexChapterBindings: boolean | undefined;
 }

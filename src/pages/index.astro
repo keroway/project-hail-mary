@@ -638,6 +638,7 @@ import { MAX_CHAPTER } from "../scripts/chapter";
     readChapter as getChapter,
     compactLabel,
     statusLabel,
+    STORAGE_KEY,
   } from '../scripts/chapter';
 
   const ONBOARDED_KEY   = 'hailmary-onboarded';
@@ -771,6 +772,19 @@ import { MAX_CHAPTER } from "../scripts/chapter";
         requestAnimationFrame(() => requestAnimationFrame(() => dialog.showModal()));
       }
     }
+  }
+
+  if (!window.__hailMaryIndexChapterBindings) {
+    window.__hailMaryIndexChapterBindings = true;
+    // 別タブでの読了章変更(storage イベント)にトップの読了章バー・設定欄を追従させる。
+    // chapterChanged は同一タブ内の CustomEvent のため他タブの変更は拾えない。
+    window.addEventListener('storage', (event) => {
+      if (event.key === STORAGE_KEY || event.key === null) {
+        const chapter = getChapter();
+        updateCompactBar(chapter);
+        updateDialogUI(chapter);
+      }
+    });
   }
 
   initPage();

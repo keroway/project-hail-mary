@@ -108,4 +108,27 @@ test.describe("SpoilerGate: 読了章に応じたネタバレロックの開閉"
     await expect(lockedItem.locator(".tl-title")).toHaveText("???");
     await expect(lockedItem.locator(".tl-meta")).toHaveText("第9章以降に解放");
   });
+
+  test("別タブ相当のstorageイベントでトップの読了章バー・設定欄・ナビが同期する（#266）", async ({
+    page,
+  }) => {
+    await setChapter(page, 9);
+    await page.goto("/");
+
+    await expect(page.locator("#cc-text")).toHaveText("第9章まで");
+    await expect(page.locator("#nav-chapter-status")).toHaveText("第9章まで");
+
+    await page.evaluate((key) => {
+      window.localStorage.setItem(key, "0");
+      window.dispatchEvent(new StorageEvent("storage", { key }));
+    }, STORAGE_KEY);
+
+    await expect(page.locator("#cc-text")).toHaveText("まだ読んでいない");
+    await expect(page.locator("#nav-chapter-status")).toHaveText("未読");
+    await expect(page.locator("#chapter-range")).toHaveValue("0");
+    await expect(page.locator("#chapter-number")).toHaveValue("0");
+    await expect(page.locator("#cs-status-text")).toHaveText(
+      "まだ読んでいません（ネタバレなし）"
+    );
+  });
 });
