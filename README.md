@@ -38,7 +38,8 @@ project-hail-mary/
 │       └── workflow-lint.yml       # GitHub Actions ワークフローの lint
 ├── AGENTS.md                        # Codex 等エージェント向け（CLAUDE.md のシンボリックリンク）
 ├── docs/
-│   └── cloudflare-pages-setup.md   # Cloudflare Pages 初回セットアップ手順
+│   ├── cloudflare-pages-setup.md          # Cloudflare Pages 初回セットアップ手順
+│   └── reusable-workflow-sha-pinning.md   # 再利用ワークフローのSHA固定運用
 ├── public/
 │   └── _headers                    # Cloudflare セキュリティヘッダー
 ├── renovate.json                    # 依存更新設定（npm / GitHub Actions）
