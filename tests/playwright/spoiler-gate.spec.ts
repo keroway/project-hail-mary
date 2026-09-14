@@ -83,6 +83,44 @@ test.describe("SpoilerGate: 読了章に応じたネタバレロックの開閉"
     );
   });
 
+  test("未読了（章0）ではstoryページのACT3見出しが「???」でロッキーを露出しない（#272）", async ({
+    page,
+  }) => {
+    await setChapter(page, 0);
+    await page.goto("/story");
+
+    const act3Title = page.locator("#act3 .act-title");
+    await expect(act3Title).toHaveText("???");
+    await expect(act3Title).not.toContainText("ロッキー");
+  });
+
+  test("第9章まで読了するとstoryページのACT3見出しが解放される（#272）", async ({
+    page,
+  }) => {
+    await setChapter(page, 9);
+    await page.goto("/story");
+
+    const act3Title = page.locator("#act3 .act-title");
+    await expect(act3Title).toHaveText("ロッキーとの出会い");
+  });
+
+  test("第9章解放後に読了章を0へ戻すとstoryページのACT3見出しもプレースホルダーへ戻る（#272）", async ({
+    page,
+  }) => {
+    await setChapter(page, 9);
+    await page.goto("/story");
+
+    const act3Title = page.locator("#act3 .act-title");
+    await expect(act3Title).toHaveText("ロッキーとの出会い");
+
+    await page.evaluate((key) => {
+      window.localStorage.setItem(key, "0");
+      window.dispatchEvent(new StorageEvent("storage", { key }));
+    }, STORAGE_KEY);
+
+    await expect(act3Title).toHaveText("???");
+  });
+
   test("第9章解放後に読了章を0へ戻すと復号済みタイトル・メタ情報もプレースホルダーへ戻る（#243）", async ({
     page,
   }) => {

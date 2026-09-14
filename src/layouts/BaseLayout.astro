@@ -453,6 +453,27 @@ const pageTransition = {
       }
     });
 
+    document.querySelectorAll<HTMLElement>('.act-header[data-min-chapter]').forEach((header) => {
+      const min = Number.parseInt(header.dataset.minChapter ?? '999', 10);
+      const isLocked = chapter < min;
+      const titleEl = header.querySelector<HTMLElement>('.act-title');
+      if (!titleEl) return;
+
+      if (!header.dataset.placeholderTitle) {
+        header.dataset.placeholderTitle = titleEl.textContent ?? '';
+      }
+
+      if (isLocked) {
+        if (titleEl.dataset.decoded) {
+          titleEl.textContent = header.dataset.placeholderTitle ?? '';
+          delete titleEl.dataset.decoded;
+        }
+      } else if (header.dataset.encodedTitle && !titleEl.dataset.decoded) {
+        titleEl.textContent = decodeB64(header.dataset.encodedTitle);
+        titleEl.dataset.decoded = 'true';
+      }
+    });
+
     // ネタバレ解放で差し込まれたリンクも含め、外部リンクに新規タブ予告を付ける
     decorateExternalLinks();
   }
