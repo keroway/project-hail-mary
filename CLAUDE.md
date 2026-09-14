@@ -44,6 +44,7 @@ tests/
 │   ├── smoke.spec.ts           # 全ページ smoke テスト
 │   ├── a11y.spec.ts            # axe-core による WCAG 2.2 AA 検査
 │   ├── accessibility-panel.spec.ts  # 表示設定パネルの開閉・トグル・永続化
+│   ├── onboarding.spec.ts      # 初回訪問オンボーディング（章設定ダイアログ自動表示・sessionStorage例外時のフォールバック）
 │   └── spoiler-gate.spec.ts    # ネタバレゲートの解放・再ロック挙動
 └── unit/                        # Vitest ユニットテスト
     ├── chapter.test.ts
