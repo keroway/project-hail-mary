@@ -147,6 +147,122 @@ test.describe("SpoilerGate: 読了章に応じたネタバレロックの開閉"
     await expect(lockedItem.locator(".tl-meta")).toHaveText("第9章以降に解放");
   });
 
+  test("未読了（章0）ではstoryページのACT4見出しが「???」で終盤の決断を露出しない（#274）", async ({
+    page,
+  }) => {
+    await setChapter(page, 0);
+    await page.goto("/story");
+
+    const act4Title = page.locator("#act4 .act-title");
+    await expect(act4Title).toHaveText("???");
+    await expect(act4Title).not.toContainText("終盤の決断");
+  });
+
+  test("第9章まで読了してもstoryページのACT4見出しはロックされたまま（#274）", async ({
+    page,
+  }) => {
+    await setChapter(page, 9);
+    await page.goto("/story");
+
+    const act4Title = page.locator("#act4 .act-title");
+    await expect(act4Title).toHaveText("???");
+  });
+
+  test("第25章まで読了するとstoryページのACT4見出しが解放される（#274）", async ({
+    page,
+  }) => {
+    await setChapter(page, 25);
+    await page.goto("/story");
+
+    const act4Title = page.locator("#act4 .act-title");
+    await expect(act4Title).toHaveText("終盤の決断");
+  });
+
+  test("第25章解放後に読了章を0へ戻すとstoryページのACT4見出しもプレースホルダーへ戻る（#274）", async ({
+    page,
+  }) => {
+    await setChapter(page, 25);
+    await page.goto("/story");
+
+    const act4Title = page.locator("#act4 .act-title");
+    await expect(act4Title).toHaveText("終盤の決断");
+
+    await page.evaluate((key) => {
+      window.localStorage.setItem(key, "0");
+      window.dispatchEvent(new StorageEvent("storage", { key }));
+    }, STORAGE_KEY);
+
+    await expect(act4Title).toHaveText("???");
+  });
+
+  test("未読了（章0）ではstoryページのminChapter=25タイムラインリンクが無効化されている（#274）", async ({
+    page,
+  }) => {
+    await setChapter(page, 0);
+    await page.goto("/story");
+
+    const lockedPhysics = page.locator(
+      '.timeline-item[data-original-href="/physics#phase06"], .timeline-item[href="/physics#phase06"]'
+    );
+    await expect(lockedPhysics).toHaveClass(/is-locked/);
+    await expect(lockedPhysics).toHaveAttribute("aria-disabled", "true");
+
+    const lockedBiology = page.locator(
+      '.timeline-item[data-original-href="/biology#bio05"], .timeline-item[href="/biology#bio05"]'
+    );
+    await expect(lockedBiology).toHaveClass(/is-locked/);
+    await expect(lockedBiology).toHaveAttribute("aria-disabled", "true");
+  });
+
+  test("第25章まで読了するとstoryページのminChapter=25タイムラインリンクが有効化される（#274）", async ({
+    page,
+  }) => {
+    await setChapter(page, 25);
+    await page.goto("/story");
+
+    const unlockedPhysics = page.locator(
+      '.timeline-item[href="/physics#phase06"]'
+    );
+    await expect(unlockedPhysics).not.toHaveClass(/is-locked/);
+    await expect(unlockedPhysics).not.toHaveAttribute("aria-disabled", "true");
+    await expect(unlockedPhysics.locator(".tl-title")).toHaveText(
+      "宇宙旅行と相対性理論"
+    );
+
+    const unlockedBiology = page.locator(
+      '.timeline-item[href="/biology#bio05"]'
+    );
+    await expect(unlockedBiology).not.toHaveClass(/is-locked/);
+    await expect(unlockedBiology).not.toHaveAttribute("aria-disabled", "true");
+    await expect(unlockedBiology.locator(".tl-title")).toHaveText(
+      "タウメーバの進化獲得——グレースが仕掛けた「進化実験」"
+    );
+  });
+
+  test("第25章解放後に読了章を0へ戻すとACT4タイムラインリンクの復号済みタイトルもプレースホルダーへ戻る（#274）", async ({
+    page,
+  }) => {
+    await setChapter(page, 25);
+    await page.goto("/story");
+
+    const item = page.locator('.timeline-item[href="/physics#phase06"]');
+    await expect(item).not.toHaveClass(/is-locked/);
+    await expect(item.locator(".tl-title")).toHaveText("宇宙旅行と相対性理論");
+
+    await page.evaluate((key) => {
+      window.localStorage.setItem(key, "0");
+      window.dispatchEvent(new StorageEvent("storage", { key }));
+    }, STORAGE_KEY);
+
+    const lockedItem = page.locator(
+      '.timeline-item[data-original-href="/physics#phase06"]'
+    );
+    await expect(lockedItem).toHaveClass(/is-locked/);
+    await expect(lockedItem).toHaveAttribute("aria-disabled", "true");
+    await expect(lockedItem.locator(".tl-title")).toHaveText("???");
+    await expect(lockedItem.locator(".tl-meta")).toHaveText("第25章以降に解放");
+  });
+
   test("別タブ相当のstorageイベントでトップの読了章バー・設定欄・ナビが同期する（#266）", async ({
     page,
   }) => {
