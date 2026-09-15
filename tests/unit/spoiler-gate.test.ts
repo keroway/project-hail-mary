@@ -11,8 +11,14 @@ const PAGES_DIR = join(__dirname, "../../src/pages");
 // 「⚠ ネタバレあり」表示や、SpoilerGateとは別の章連動ロック機構（chapter.ts /
 // data-encoded-title）を前提に「ロッキー」の言及を含む箇所があり、この検知対象
 // ではない。ここでは #225 で修正した「ネタバレなし前提のページ」に加え、
-// math.astro（#264 でフッターの露出を修正済み）を対象にする。
-const TARGET_PAGES = ["chemistry.astro", "notes.astro", "math.astro"];
+// math.astro（#264 でフッターの露出を修正済み）と physics.astro（SpoilerGate
+// 機構のみを使い、ゲート外に固有名詞の意図的言及が無いページ）を対象にする。
+const TARGET_PAGES = [
+  "chemistry.astro",
+  "notes.astro",
+  "math.astro",
+  "physics.astro",
+];
 
 function stripSpoilerGateBlocks(source: string): string {
   return source.replace(/<SpoilerGate[^>]*>[\s\S]*?<\/SpoilerGate>/g, "");
