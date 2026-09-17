@@ -37,3 +37,27 @@ describe("SpoilerGate外へのロッキー関連ネタバレ露出検知", () =>
     }
   );
 });
+
+// SpoilerGate の hint/label はロック中も overlay に常時表示されるため、
+// 開始タグの属性値自体にネタバレ用語を書けない（#280 の回帰防止）。
+const SPOILER_TERMS = ["ロッキー", "タウメーバ"];
+
+function extractSpoilerGateOpenTags(source: string): string[] {
+  return source.match(/<SpoilerGate\b[^>]*>/g) ?? [];
+}
+
+describe("SpoilerGate開始タグ（hint/label属性）へのネタバレ用語混入検知", () => {
+  it.each(TARGET_PAGES)(
+    "%s のSpoilerGate開始タグはhint/label属性にネタバレ用語を含まない",
+    (file) => {
+      const source = readFileSync(join(PAGES_DIR, file), "utf-8");
+      const openTags = extractSpoilerGateOpenTags(source);
+      expect(openTags.length).toBeGreaterThan(0);
+      for (const tag of openTags) {
+        for (const term of SPOILER_TERMS) {
+          expect(tag).not.toContain(term);
+        }
+      }
+    }
+  );
+});
