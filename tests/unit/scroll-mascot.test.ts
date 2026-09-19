@@ -21,6 +21,116 @@ function extractInitScrollMascot(): string {
   return source.slice(start, end);
 }
 
+// 表示設定パネルで「動き」を切り替えても initScrollMascot が再実行されず、
+// scroll リスナー登録・解除と data-motion の実効値がずれたままになっていた（#286）。
+// この回帰防止テストは実ソースからパネルのクリックハンドラーと initScrollMascot
+// を抜き出し、motion オプションのクリックのたびにリスナー数が追従することを検証する。
+function extractUiClickHandlerAndMascot(): string {
+  const source = readFileSync(
+    join(__dirname, "../../src/layouts/BaseLayout.astro"),
+    "utf-8"
+  );
+  const clickStart = source.indexOf(
+    "  const UI_PREFS_KEY = 'hailmary-ui-prefs';"
+  );
+  const clickEnd = source.indexOf("  function updateActiveNav() {");
+  const mascotStart = source.indexOf("  let mascotRafId:");
+  const mascotEnd = source.indexOf("  const prefersReducedMotion =");
+  if (
+    clickStart === -1 ||
+    clickEnd === -1 ||
+    mascotStart === -1 ||
+    mascotEnd === -1
+  ) {
+    throw new Error("抽出対象マーカーが見つかりません");
+  }
+  return (
+    source.slice(clickStart, clickEnd) + source.slice(mascotStart, mascotEnd)
+  );
+}
+
+describe("表示設定パネルの motion クリックと initScrollMascot", () => {
+  it("motion オプションのクリックごとに scroll リスナーが追従する", () => {
+    const code = extractUiClickHandlerAndMascot();
+    const listeners = new Set<() => void>();
+    const clickHandlers: Array<(event: unknown) => void> = [];
+    const store = new Map<string, string>();
+    const mascotClasses = new Set<string>();
+
+    class Element {}
+
+    function makeOptionTarget(value: string) {
+      const target = new Element() as InstanceType<typeof Element> & {
+        closest: (selector: string) => unknown;
+      };
+      target.closest = (selector: string) =>
+        selector === "[data-ui-setting][data-ui-value]"
+          ? {
+              getAttribute: (name: string) =>
+                name === "data-ui-setting"
+                  ? "motion"
+                  : name === "data-ui-value"
+                    ? value
+                    : null,
+            }
+          : null;
+      return target;
+    }
+
+    const context = vm.createContext({
+      Element,
+      HTMLElement: class {},
+      localStorage: {
+        getItem: (key: string) => store.get(key) ?? null,
+        setItem: (key: string, value: string) => void store.set(key, value),
+      },
+      window: {
+        matchMedia: () => ({ matches: false }),
+        addEventListener: (type: string, fn: () => void) => {
+          if (type === "scroll") listeners.add(fn);
+        },
+        removeEventListener: (type: string, fn: () => void) => {
+          if (type === "scroll") listeners.delete(fn);
+        },
+      },
+      document: {
+        documentElement: { dataset: {}, scrollHeight: 2400 },
+        querySelector: () => ({
+          classList: {
+            add: () => mascotClasses.add("is-active"),
+            remove: () => mascotClasses.delete("is-active"),
+          },
+          style: { setProperty: () => {} },
+        }),
+        querySelectorAll: () => [],
+        addEventListener: (type: string, fn: (event: unknown) => void) => {
+          if (type === "click") clickHandlers.push(fn);
+        },
+      },
+      requestAnimationFrame: (fn: () => void) => {
+        fn();
+        return 1;
+      },
+      cancelAnimationFrame: () => {},
+    });
+
+    vm.runInContext(stripTypeScriptTypes(code), context);
+    vm.runInContext("initScrollMascot()", context);
+    expect(listeners.size).toBe(1);
+
+    const click = (value: string) => {
+      const target = makeOptionTarget(value);
+      for (const handler of clickHandlers) handler({ target });
+    };
+
+    click("reduced");
+    expect(listeners.size).toBe(0);
+
+    click("default");
+    expect(listeners.size).toBe(1);
+  });
+});
+
 describe("initScrollMascot の再初期化", () => {
   it("複数回呼び出しても scroll リスナーが1つに保たれる", () => {
     const code = extractInitScrollMascot();
