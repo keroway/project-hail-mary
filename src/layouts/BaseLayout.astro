@@ -303,6 +303,7 @@ const pageTransition = {
   function syncUiPrefsFromStorage() {
     cachedPrefs = readUiPrefsFromStorage();
     applyUiPrefs(cachedPrefs);
+    initScrollReveal();
     initScrollMascot();
   }
 
@@ -525,7 +526,10 @@ const pageTransition = {
         }
         writeUiPrefs(prefs);
         applyUiPrefs(prefs);
-        if (setting === 'motion') initScrollMascot();
+        if (setting === 'motion') {
+          initScrollReveal();
+          initScrollMascot();
+        }
         return;
       }
 

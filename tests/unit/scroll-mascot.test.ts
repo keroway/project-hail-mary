@@ -30,23 +30,16 @@ function extractUiClickHandlerAndMascot(): string {
     join(__dirname, "../../src/layouts/BaseLayout.astro"),
     "utf-8"
   );
+  // click ハンドラーは initScrollReveal も呼ぶため(#289)、
+  // 間にある updateActiveNav / initScrollReveal も含めて一括抽出する。
   const clickStart = source.indexOf(
     "  const UI_PREFS_KEY = 'hailmary-ui-prefs';"
   );
-  const clickEnd = source.indexOf("  function updateActiveNav() {");
-  const mascotStart = source.indexOf("  let mascotRafId:");
   const mascotEnd = source.indexOf("  const prefersReducedMotion =");
-  if (
-    clickStart === -1 ||
-    clickEnd === -1 ||
-    mascotStart === -1 ||
-    mascotEnd === -1
-  ) {
+  if (clickStart === -1 || mascotEnd === -1) {
     throw new Error("抽出対象マーカーが見つかりません");
   }
-  return (
-    source.slice(clickStart, clickEnd) + source.slice(mascotStart, mascotEnd)
-  );
+  return source.slice(clickStart, mascotEnd);
 }
 
 describe("表示設定パネルの motion クリックと initScrollMascot", () => {
@@ -80,6 +73,12 @@ describe("表示設定パネルの motion クリックと initScrollMascot", () 
     const context = vm.createContext({
       Element,
       HTMLElement: class {},
+      IntersectionObserver: class {
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      },
+      navigator: { maxTouchPoints: 0 },
       localStorage: {
         getItem: (key: string) => store.get(key) ?? null,
         setItem: (key: string, value: string) => void store.set(key, value),
