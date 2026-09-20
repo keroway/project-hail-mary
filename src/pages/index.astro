@@ -639,6 +639,7 @@ import { MAX_CHAPTER } from "../scripts/chapter";
     compactLabel,
     statusLabel,
     STORAGE_KEY,
+    syncChapterFromStorage,
   } from '../scripts/chapter';
 
   const ONBOARDED_KEY   = 'hailmary-onboarded';
@@ -780,6 +781,7 @@ import { MAX_CHAPTER } from "../scripts/chapter";
     // chapterChanged は同一タブ内の CustomEvent のため他タブの変更は拾えない。
     window.addEventListener('storage', (event) => {
       if (event.key === STORAGE_KEY || event.key === null) {
+        syncChapterFromStorage();
         const chapter = getChapter();
         updateCompactBar(chapter);
         updateDialogUI(chapter);
