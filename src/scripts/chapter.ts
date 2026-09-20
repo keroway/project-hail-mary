@@ -62,6 +62,15 @@ export function setChapter(v: number): number {
   return clamped;
 }
 
+/**
+ * 他タブでの読了章の永続化変更（storage イベント、キー削除・clear も含む）を
+ * 受けたときに呼ぶ。保存失敗による自タブ内の上書き値を破棄し、以降の readChapter が
+ * localStorage の実値へ同期し直すようにする。
+ */
+export function syncChapterFromStorage(): void {
+  unpersistedChapter = null;
+}
+
 /** ナビ右側のコンパクト表示（index トップの読了章バーと共通文言）。 */
 export function compactLabel(chapter: number): string {
   if (chapter <= 0) return "まだ読んでいない";

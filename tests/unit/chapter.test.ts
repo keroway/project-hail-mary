@@ -8,6 +8,7 @@ import {
   STORAGE_KEY,
   setChapter,
   statusLabel,
+  syncChapterFromStorage,
 } from "../../src/scripts/chapter";
 
 function stubThrowingStorage() {
@@ -149,5 +150,28 @@ describe("readChapter/setChapter", () => {
     expect(setChapter(12)).toBe(12);
     expect(store.get(STORAGE_KEY)).toBe("12");
     expect(readChapter()).toBe(12);
+  });
+
+  it("保存失敗後、別タブでの永続化変更を受けたらsyncChapterFromStorageで上書き値を破棄し実値へ戻る", () => {
+    // 1. 保存失敗（このタブ内は unpersistedChapter=25 が優先される）
+    stubThrowingStorage();
+    stubDocument();
+    expect(setChapter(25)).toBe(25);
+    expect(readChapter()).toBe(25);
+
+    // 2. 別タブが未読(0)を保存し、storage イベントを受ける想定で
+    //    localStorage の実値が 0 になった状態に切り替える
+    const store = new Map<string, string>([[STORAGE_KEY, "0"]]);
+    vi.stubGlobal("localStorage", {
+      getItem: (key: string) => store.get(key) ?? null,
+      setItem: (key: string, value: string) => {
+        store.set(key, value);
+      },
+    });
+
+    // 3. storage イベントハンドラーが呼ぶ同期処理
+    syncChapterFromStorage();
+
+    expect(readChapter()).toBe(0);
   });
 });

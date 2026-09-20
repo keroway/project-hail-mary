@@ -247,7 +247,7 @@ const pageTransition = {
 
 <!-- Chapter gate script: runs on every page load / navigation -->
 <script>
-  import { STORAGE_KEY, readChapter, updateNavIndicator } from '../scripts/chapter';
+  import { STORAGE_KEY, readChapter, updateNavIndicator, syncChapterFromStorage } from '../scripts/chapter';
 
   const UI_PREFS_KEY = 'hailmary-ui-prefs';
 
@@ -484,6 +484,7 @@ const pageTransition = {
     window.__hailMaryChapterBindings = true;
     window.addEventListener('storage', (event) => {
       if (event.key === STORAGE_KEY || event.key === null) {
+        syncChapterFromStorage();
         applySpoilerGates();
       }
       if (event.key === UI_PREFS_KEY || event.key === null) {
