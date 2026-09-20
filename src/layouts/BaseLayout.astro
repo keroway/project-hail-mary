@@ -486,12 +486,16 @@ const pageTransition = {
       if (event.key === STORAGE_KEY || event.key === null) {
         syncChapterFromStorage();
         applySpoilerGates();
+        initScrollReveal();
       }
       if (event.key === UI_PREFS_KEY || event.key === null) {
         syncUiPrefsFromStorage();
       }
     });
-    document.addEventListener('chapterChanged', applySpoilerGates);
+    document.addEventListener('chapterChanged', () => {
+      applySpoilerGates();
+      initScrollReveal();
+    });
   }
 
   if (!window.__hailMaryUiBindings) {

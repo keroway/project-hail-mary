@@ -157,3 +157,153 @@ describe("別タブでの motion 同期(storage イベント)と画像用 Observ
     expect(activeHeroObserverCount()).toBe(0);
   });
 });
+
+// 別タブで読了章を変更し SpoilerGate が初めて解放されると、新しく展開された
+// .phase-hero がモバイル画像用 Observer に登録されなかった（#294）。
+// storage イベントと chapterChanged イベントの両方の経路で、章解放時に
+// initScrollReveal も呼ばれるようになったことを検証する。
+function createChapterUnlockContext() {
+  let chapter = 0;
+  let loaded = false;
+  const heroImage = { classList: { add() {}, remove() {}, toggle() {} } };
+  const storageHandlers: Array<(event: { key: string | null }) => void> = [];
+  const chapterChangedHandlers: Array<() => void> = [];
+  const observers: Array<{
+    active: boolean;
+    options: ObserverOptions;
+    targets: unknown[];
+  }> = [];
+
+  class IntersectionObserverMock {
+    options: ObserverOptions;
+    active = true;
+    targets: unknown[] = [];
+    constructor(_callback: unknown, options: ObserverOptions) {
+      this.options = options;
+      observers.push(this);
+    }
+    observe(el: unknown) {
+      this.targets.push(el);
+    }
+    unobserve() {}
+    disconnect() {
+      this.active = false;
+    }
+  }
+
+  const contentDiv = {
+    dataset: {} as Record<string, string>,
+    appendChild() {
+      loaded = true;
+    },
+  };
+  const gate = {
+    dataset: { minChapter: "9" },
+    classList: { toggle() {} },
+    querySelector: (selector: string) =>
+      selector === ".spoiler-gate-content"
+        ? contentDiv
+        : { content: { cloneNode: () => ({}) } },
+  };
+
+  const context = vm.createContext({
+    IntersectionObserver: IntersectionObserverMock,
+    navigator: { maxTouchPoints: 1 },
+    localStorage: { getItem: () => null, setItem: () => {} },
+    readChapter: () => chapter,
+    updateNavIndicator: () => {},
+    syncChapterFromStorage: () => {},
+    STORAGE_KEY: "hailmary-chapter",
+    window: {
+      matchMedia: (query: string) => ({ matches: query.includes("820px") }),
+      addEventListener: (
+        type: string,
+        fn: (event: { key: string | null }) => void
+      ) => {
+        if (type === "storage") storageHandlers.push(fn);
+      },
+      removeEventListener: () => {},
+    },
+    document: {
+      documentElement: { dataset: {} },
+      querySelector: () => null,
+      querySelectorAll: (selector: string) => {
+        if (selector === ".spoiler-gate") return [gate];
+        if (selector === ".phase-hero") return loaded ? [heroImage] : [];
+        return [];
+      },
+      addEventListener: (type: string, fn: () => void) => {
+        if (type === "chapterChanged") chapterChangedHandlers.push(fn);
+      },
+    },
+    requestAnimationFrame: (fn: () => void) => {
+      fn();
+      return 1;
+    },
+    cancelAnimationFrame: () => {},
+  });
+
+  vm.runInContext(
+    stripTypeScriptTypes(extractUiPrefsAndScrollReveal()),
+    context
+  );
+
+  function activeHeroObserverCount() {
+    return observers
+      .filter((o) => o.active && o.options.threshold === 0)
+      .flatMap((o) => o.targets).length;
+  }
+
+  function unlockViaStorage(min: number) {
+    chapter = min;
+    for (const handler of storageHandlers) handler({ key: "hailmary-chapter" });
+  }
+
+  function unlockViaChapterChanged(min: number) {
+    chapter = min;
+    for (const handler of chapterChangedHandlers) handler();
+  }
+
+  return {
+    context,
+    activeHeroObserverCount,
+    unlockViaStorage,
+    unlockViaChapterChanged,
+  };
+}
+
+describe("別タブの章変更で解放された画像とスクロール監視(#294)", () => {
+  it("storage イベント経由の章解放で新規展開した画像が監視に登録される", () => {
+    const { context, activeHeroObserverCount, unlockViaStorage } =
+      createChapterUnlockContext();
+
+    vm.runInContext("applySpoilerGates(); initScrollReveal();", context);
+    expect(activeHeroObserverCount()).toBe(0);
+
+    unlockViaStorage(9);
+    expect(activeHeroObserverCount()).toBe(2);
+  });
+
+  it("chapterChanged イベント経由の章解放でも新規展開した画像が監視に登録される", () => {
+    const { context, activeHeroObserverCount, unlockViaChapterChanged } =
+      createChapterUnlockContext();
+
+    vm.runInContext("applySpoilerGates(); initScrollReveal();", context);
+    expect(activeHeroObserverCount()).toBe(0);
+
+    unlockViaChapterChanged(9);
+    expect(activeHeroObserverCount()).toBe(2);
+  });
+
+  it("章解放後に繰り返し storage イベントが来ても登録が累積しない", () => {
+    const { context, activeHeroObserverCount, unlockViaStorage } =
+      createChapterUnlockContext();
+
+    vm.runInContext("applySpoilerGates(); initScrollReveal();", context);
+    unlockViaStorage(9);
+    unlockViaStorage(9);
+    unlockViaStorage(9);
+
+    expect(activeHeroObserverCount()).toBe(2);
+  });
+});
