@@ -272,6 +272,118 @@ function createChapterUnlockContext() {
   };
 }
 
+// 「動きを減らす」への切替中、直前の heroEnterObserver コールバックが
+// 予約した requestAnimationFrame が取り消されず、reduced 再初期化後に
+// 古い callback が is-in-view クラスを復活させていた（#297）。
+// requestAnimationFrame を即時実行せずキューに積むモックで、
+// 「入域 → frame 実行前に reduced へ切替・再初期化 → 古い frame を flush」
+// の順序を再現し、古い frame が古いクラスを書き戻さないことを検証する。
+function createQueuedRafContext() {
+  const classes = new Set<string>();
+  const frames = new Map<number, () => void>();
+  let nextFrameId = 0;
+  let heroEnterCallback:
+    | ((entries: Array<{ isIntersecting: boolean; target: unknown }>) => void)
+    | null = null;
+  let heroObserverIndex = 0;
+
+  const heroImage = {
+    classList: {
+      add(...xs: string[]) {
+        for (const x of xs) classes.add(x);
+      },
+      remove(...xs: string[]) {
+        for (const x of xs) classes.delete(x);
+      },
+      toggle(x: string, on: boolean) {
+        if (on) classes.add(x);
+        else classes.delete(x);
+      },
+    },
+  };
+
+  class IntersectionObserverMock {
+    active = true;
+    constructor(
+      callback: (
+        entries: Array<{ isIntersecting: boolean; target: unknown }>
+      ) => void
+    ) {
+      // 生成順: scrollRevealObserver(0), heroEnterObserver(1), heroLeaveObserver(2)
+      if (heroObserverIndex === 1) heroEnterCallback = callback;
+      heroObserverIndex += 1;
+    }
+    observe() {}
+    unobserve() {}
+    disconnect() {
+      this.active = false;
+    }
+  }
+
+  const dataset: Record<string, string> = {};
+  const context = vm.createContext({
+    IntersectionObserver: IntersectionObserverMock,
+    navigator: { maxTouchPoints: 1 },
+    localStorage: { getItem: () => null, setItem: () => {} },
+    window: {
+      matchMedia: (query: string) => ({ matches: query.includes("820px") }),
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    },
+    document: {
+      documentElement: { dataset },
+      querySelector: () => null,
+      querySelectorAll: (selector: string) =>
+        selector === ".phase-hero" ? [heroImage] : [],
+      addEventListener: () => {},
+    },
+    requestAnimationFrame: (fn: () => void) => {
+      const id = ++nextFrameId;
+      frames.set(id, fn);
+      return id;
+    },
+    cancelAnimationFrame: (id: number) => {
+      frames.delete(id);
+    },
+  });
+
+  vm.runInContext(
+    stripTypeScriptTypes(extractUiPrefsAndScrollReveal()),
+    context
+  );
+
+  function enterHero() {
+    heroEnterCallback?.([{ isIntersecting: true, target: heroImage }]);
+  }
+
+  function flushFrames() {
+    for (const [id, fn] of [...frames]) {
+      frames.delete(id);
+      fn();
+    }
+  }
+
+  return { context, classes, dataset, frames, enterHero, flushFrames };
+}
+
+describe("reduced 再初期化と予約済み画像用 requestAnimationFrame(#297)", () => {
+  it("reduced 再初期化前に予約された frame は実行されても is-in-view を復活させない", () => {
+    const { context, classes, dataset, frames, enterHero, flushFrames } =
+      createQueuedRafContext();
+
+    vm.runInContext("initScrollReveal();", context);
+    enterHero();
+    expect(frames.size).toBe(1);
+
+    dataset.motion = "reduced";
+    vm.runInContext("initScrollReveal();", context);
+    expect(classes.has("is-in-view")).toBe(false);
+
+    flushFrames();
+    expect(classes.has("is-in-view")).toBe(false);
+  });
+});
+
 describe("別タブの章変更で解放された画像とスクロール監視(#294)", () => {
   it("storage イベント経由の章解放で新規展開した画像が監視に登録される", () => {
     const { context, activeHeroObserverCount, unlockViaStorage } =
