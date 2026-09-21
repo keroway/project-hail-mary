@@ -24,11 +24,11 @@
   "devDependencies": {
     "@astrojs/check": "0.9.10",
     "@axe-core/playwright": "^4.12.1",
-    "@biomejs/biome": "2.5.13",
+    "@biomejs/biome": "2.5.14",
     "@playwright/test": "1.63.0",
     "lefthook": "2.1.14",
     "typescript": "5.9.3",
     "vitest": "4.1.11",
-    "wrangler": "4.131.2"
+    "wrangler": "4.132.0"
   }
 }
