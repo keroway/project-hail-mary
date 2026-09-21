@@ -122,3 +122,9 @@ pnpm run test:e2e # Playwright e2e smoke テスト（全7ページ、chromium �
 - GitHub Secrets に `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID` が必要（設定済み）。
   Secret scanning + push protection が有効なため、トークン等を誤コミットするとブロックされる。
 - 依存更新は Renovate（`renovate.json`）が npm と GitHub Actions を毎週末チェックし、公開後5日経過したバージョンのみ PR を作成する（major は Dependency Dashboard で承認するまで PR を作成しない、minor/patch はエコシステムごとにグループ化して 1 PR にまとめる）。
+
+## Codex 向け運用ルール
+
+Codex 向けの横断運用ルールは `keroway/CLAUDE.md` ではなく
+[agent-assets `docs/codex-common-instructions.md`](https://github.com/keroway/agent-assets/blob/main/docs/codex-common-instructions.md)
+を正典とする（Codex は git ルートより上の AGENTS.md を読まないため）。
