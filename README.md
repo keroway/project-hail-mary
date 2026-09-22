@@ -103,7 +103,7 @@ pnpm run dev
 `main` 向けの Pull Request を作成すると `.github/workflows/ci.yml` が実行されます（`src/**` 等コードに影響する変更のみ、以下のジョブが走ります）。
 
 1. **Lint** — `pnpm run lint`（Biome）・`typos` によるタイポ検査・`pnpm run test:unit`（Vitest ユニットテスト）
-2. **Typecheck** — `pnpm run check`（`astro check` による型チェック）
+2. **Typecheck** — `pnpm run check`（`astro check` による型チェック。`tsconfig.json` の `include` に従い `src/` と `tests/` の両方が対象）
 3. **Build** — `pnpm run build`
 4. **E2E Smoke Tests** — `pnpm run test:e2e`（Playwright、全ページ smoke + axe-core によるアクセシビリティ検査）
 5. **Preview Deploy** — `cloudflare/wrangler-action@v3` による Cloudflare Pages へのプレビューデプロイ（プレビュー URL を PR にコメント。必須チェックではない）
