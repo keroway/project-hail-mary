@@ -81,6 +81,7 @@ project-hail-mary/
 │       ├── index-chapter-max.test.ts # index.astro の章数上限 MAX_CHAPTER 検証
 │       ├── spoiler-gate.test.ts     # SpoilerGate 外へのネタバレ露出検知
 │       ├── scroll-mascot.test.ts    # initScrollMascot の再初期化時リスナー解除
+│       ├── scroll-hero-observer.test.ts # 表示設定変更時の画像用 Observer 再追従(本体/別タブ同期の両経路)
 │       └── ci-workflow-filters.test.ts  # ci.yml/deploy.yml の変更検知フィルタ検証
 ├── astro.config.mjs                 # Astro 設定（@astrojs/sitemap 統合）
 ├── package.json
