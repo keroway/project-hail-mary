@@ -677,7 +677,9 @@ import { MAX_CHAPTER } from "../scripts/chapter";
     try {
       return !localStorage.getItem(ONBOARDED_KEY);
     } catch {
-      return false;
+      // ストレージ自体にアクセスできない環境では初回訪問として扱い、
+      // オンボーディング案内を毎回表示する(未読状態と区別できないため)
+      return true;
     }
   }
 

@@ -37,6 +37,29 @@ test.describe("初回訪問オンボーディング", () => {
     expect(errors).toEqual([]);
   });
 
+  test("localStorageへのアクセスが失敗しても例外を投げず、初回訪問として扱いダイアログは自動的に開く(#307)", async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      // Storage.prototype はlocalStorageとsessionStorageで共有されるため、
+      // プロトタイプではなくインスタンス自身に上書きしてlocalStorageのみ失敗させる。
+      window.localStorage.getItem = () => {
+        throw new DOMException("SecurityError");
+      };
+      window.localStorage.setItem = () => {
+        throw new DOMException("SecurityError");
+      };
+    });
+
+    const errors: Error[] = [];
+    page.on("pageerror", (err) => errors.push(err));
+
+    await page.goto("/");
+
+    await expect(page.locator("#chapter-dialog")).toBeVisible();
+    expect(errors).toEqual([]);
+  });
+
   test("2回目以降の訪問(localStorageに既読フラグあり)ではダイアログは自動的に開かない", async ({
     page,
   }) => {
