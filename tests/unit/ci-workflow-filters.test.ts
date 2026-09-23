@@ -62,3 +62,40 @@ it("deploy.yml の code filter は ci.yml の code filter と完全に一致す�
   const deployPatterns = extractCodeFilterPatterns("deploy.yml");
   expect(new Set(deployPatterns)).toEqual(new Set(ciPatterns));
 });
+
+// ci.yml と deploy.yml は actions/checkout・pnpm/action-setup・
+// actions/setup-node・cloudflare/wrangler-action のバージョンピン（SHA）を
+// 共通で使う運用だが、#281 で deploy.yml 側の1箇所だけ更新が漏れ、
+// 本番デプロイ経路が約3ヶ月古いピンのまま残った。CI・テストはどちらも
+// green のまま進行し人間のレビューでしか気づけないため、両ファイル間で
+// SHA の集合が一致することを機械的に検証する（#318）。
+const PINNED_ACTIONS = [
+  "actions/checkout",
+  "pnpm/action-setup",
+  "actions/setup-node",
+  "cloudflare/wrangler-action",
+];
+
+function extractActionPins(workflowFile: string, action: string): Set<string> {
+  const source = readFileSync(join(WORKFLOWS_DIR, workflowFile), "utf8");
+  const pattern = new RegExp(
+    `uses:\\s*${action.replace("/", "\\/")}@([0-9a-f]{40})`,
+    "g"
+  );
+  const shas = new Set<string>();
+  for (const match of source.matchAll(pattern)) {
+    shas.add(match[1]);
+  }
+  if (shas.size === 0) {
+    throw new Error(`${workflowFile}: ${action} の uses: 行が見つからない`);
+  }
+  return shas;
+}
+
+describe.each(PINNED_ACTIONS)("%s のバージョンピン", (action) => {
+  it("ci.yml と deploy.yml で一致する", () => {
+    const ciShas = extractActionPins("ci.yml", action);
+    const deployShas = extractActionPins("deploy.yml", action);
+    expect(deployShas).toEqual(ciShas);
+  });
+});
