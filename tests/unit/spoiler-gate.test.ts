@@ -61,3 +61,35 @@ describe("SpoilerGate開始タグ（hint/label属性）へのネタバレ用語�
     }
   );
 });
+
+// SpoilerGate は id をそのまま外側の div.spoiler-gate にレンダリングするため
+// （SpoilerGate.astro）、直下の div.phase に同じ id を重複して付けると
+// DOM上に同一idの要素が2つ存在する状態になる（#326 の回帰防止）。
+function extractSpoilerGateIdToInnerPhaseId(
+  source: string
+): Array<{ gateId: string; innerId: string | null }> {
+  const blocks =
+    source.match(/<SpoilerGate\b[^>]*>[\s\S]*?<\/SpoilerGate>/g) ?? [];
+  return blocks.map((block) => {
+    const gateIdMatch = block.match(/<SpoilerGate\b[^>]*\bid="([^"]*)"/);
+    const innerDivMatch = block.match(/<div\s+class="phase"([^>]*)>/);
+    const innerIdMatch = innerDivMatch?.[1]?.match(/\bid="([^"]*)"/);
+    return {
+      gateId: gateIdMatch?.[1] ?? "",
+      innerId: innerIdMatch?.[1] ?? null,
+    };
+  });
+}
+
+describe("SpoilerGate idと内側div.phase idの重複検知", () => {
+  it.each(TARGET_PAGES)(
+    "%s のSpoilerGate idは内側div.phaseのidと重複しない",
+    (file) => {
+      const source = readFileSync(join(PAGES_DIR, file), "utf-8");
+      const pairs = extractSpoilerGateIdToInnerPhaseId(source);
+      for (const { gateId, innerId } of pairs) {
+        expect(innerId).not.toBe(gateId);
+      }
+    }
+  );
+});
