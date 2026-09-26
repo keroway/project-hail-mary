@@ -16,10 +16,13 @@ function actualTestFiles(dir: string, suffix: string): Set<string> {
   );
 }
 
+function escapeRegExp(literal: string): string {
+  return literal.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 function docTestFileMentions(docFile: string, suffix: string): Set<string> {
   const source = readFileSync(join(ROOT, docFile), "utf8");
-  const escapedSuffix = suffix.replace(/\./g, "\\.");
-  const pattern = new RegExp(`[\\w-]+${escapedSuffix}`, "g");
+  const pattern = new RegExp(`[\\w-]+${escapeRegExp(suffix)}`, "g");
   return new Set(source.match(pattern) ?? []);
 }
 
