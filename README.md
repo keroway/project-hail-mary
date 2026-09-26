@@ -78,6 +78,7 @@ project-hail-mary/
 │   │   ├── external-links.spec.ts   # 外部リンクの新規タブ予告(WCAG 3.2.5、動的挿入分含む)
 │   │   └── nav-active-state.spec.ts # SPA遷移後のナビ active/aria-current 更新
 │   └── unit/                       # Vitest ユニットテスト
+│       ├── base-layout-fouc-sync.test.ts # BaseLayout.astro の FOUC防止インラインスクリプトとDEFAULT_UI_PREFSのキー集合一致を検証
 │       ├── chapter.test.ts
 │       ├── citations.test.ts
 │       ├── index-chapter-max.test.ts # index.astro の章数上限 MAX_CHAPTER 検証
@@ -85,7 +86,8 @@ project-hail-mary/
 │       ├── scroll-mascot.test.ts    # initScrollMascot の再初期化時リスナー解除
 │       ├── scroll-hero-observer.test.ts # 表示設定変更時の画像用 Observer 再追従(本体/別タブ同期の両経路)
 │       ├── ci-workflow-filters.test.ts  # ci.yml/deploy.yml の変更検知フィルタ検証
-│       └── tsconfig-unused-detection.test.ts # tsconfig.json の noUnusedLocals/noUnusedParameters 検証
+│       ├── tsconfig-unused-detection.test.ts # tsconfig.json の noUnusedLocals/noUnusedParameters 検証
+│       └── docs-test-list-sync.test.ts  # README.md/CLAUDE.md のテスト一覧と実ファイルの一致検証
 ├── astro.config.mjs                 # Astro 設定（@astrojs/sitemap 統合）
 ├── package.json
 └── README.md
