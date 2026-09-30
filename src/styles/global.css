@@ -526,12 +526,8 @@ html[data-mobile-hero='enabled'] .phase-hero.is-in-view {
   opacity: 1;
   filter: brightness(1.0) saturate(1.0);
 }
-@media (prefers-reduced-motion: reduce) {
-  html[data-mobile-hero='enabled'] .phase-hero,
-  html[data-mobile-hero='enabled'] .phase-hero.is-in-view {
-    transition: none;
-  }
-}
+/* 動きの抑制は html[data-motion='reduced'] の一括規則に任せる。
+   OS 設定を直接参照すると、表示設定で「通常」を選んでも上書きできない(#339)。 */
 
 /* ===== Phase sections ===== */
 .phase {
