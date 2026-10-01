@@ -269,6 +269,15 @@ const pageTransition = {
     motionSource: 'system',
   };
 
+  // 設定パネルのボタン(data-ui-value)と対応する許可値。保存値がこれに含まれない場合は既定値へ戻す(#340)
+  const ALLOWED_UI_PREF_VALUES: { [K in keyof UiPrefs]: readonly string[] } = {
+    fontScale: ['default', 'large', 'xlarge'],
+    diagramScale: ['default', 'large'],
+    contrast: ['default', 'high'],
+    motion: ['system', 'default', 'reduced'],
+    motionSource: ['system', 'explicit'],
+  };
+
   // localStorage への永続化が失敗する環境でも、同一タブ内の連続した設定変更が
   // 直前の変更を巻き戻さないよう、最後に確定した値をメモリ上に保持する(#242)
   let cachedPrefs: UiPrefs | null = null;
@@ -276,7 +285,15 @@ const pageTransition = {
   function readUiPrefsFromStorage(): UiPrefs {
     try {
       const raw = JSON.parse(localStorage.getItem(UI_PREFS_KEY) ?? '{}');
-      return { ...DEFAULT_UI_PREFS, ...raw };
+      const prefs: UiPrefs = { ...DEFAULT_UI_PREFS };
+      if (raw === null || typeof raw !== 'object') return prefs;
+      for (const key of Object.keys(ALLOWED_UI_PREF_VALUES) as (keyof UiPrefs)[]) {
+        const value = raw[key];
+        if (typeof value === 'string' && ALLOWED_UI_PREF_VALUES[key].includes(value)) {
+          prefs[key] = value;
+        }
+      }
+      return prefs;
     } catch {
       return { ...DEFAULT_UI_PREFS };
     }
