@@ -37,6 +37,8 @@ overrides:
   # GHSA-4cwx-7wf7-3272 ほか計 5 件 (undici <7.29.0)、GHSA-3wwx-pv8p-q78v (undici <7.29.1)。
   # wrangler のローカル実行ランタイム miniflare 経由 (デプロイ成果物には含まれない)。
   "undici@<7.29.1": ">=7.29.1 <8"
+  # GHSA-mcm9-63f2-9j32 ほか計 7 件 (devalue <5.9.3)。astro 経由 (SSG ビルド時のシリアライズ)。
+  "devalue@<5.9.3": ">=5.9.3 <6"
   # GHSA-rgj7-g3m4-5g8c (sharp <0.35.4) — 直接依存は既に 0.35.4 だが、
   # wrangler > miniflare が sharp@0.35.2 を厳密固定しているため引き上げる (#252)。
   "sharp@<0.35.4": ">=0.35.4"
