@@ -116,19 +116,34 @@ async function expectNoA11yViolations(
   expect(summary).toEqual([]);
 }
 
-for (const { path } of PAGES) {
-  test(`${path} ページに WCAG 2.2 AA の違反が無い（未読了・ロック状態）`, async ({
-    page,
-  }) => {
-    await expectNoA11yViolations(page, path, 0);
-  });
+/**
+ * 検査する viewport。デスクトップ (Playwright 既定) に加え、スマートフォン幅でのみ
+ * 現れるレイアウト・操作部品の違反を拾うために 375x667 (iPhone SE 相当) を追加する (#346)。
+ */
+const VIEWPORTS = [
+  { label: "", size: null },
+  { label: "モバイル幅・", size: { width: 375, height: 667 } },
+] as const;
 
-  // ロック画面のUIだけでなく、SpoilerGateの <template> 内に置かれた解説本文
-  // （実際の閲覧者の大半が目にするコンテンツ）も検査対象に含める (#204)。
-  test(`${path} ページに WCAG 2.2 AA の違反が無い（ネタバレ全解放後）`, async ({
-    page,
-  }) => {
-    await expectNoA11yViolations(page, path, FULL_UNLOCK_CHAPTER);
+for (const { label, size } of VIEWPORTS) {
+  test.describe(label ? "モバイル幅" : "デスクトップ幅", () => {
+    if (size) test.use({ viewport: size });
+
+    for (const { path } of PAGES) {
+      test(`${path} ページに WCAG 2.2 AA の違反が無い（${label}未読了・ロック状態）`, async ({
+        page,
+      }) => {
+        await expectNoA11yViolations(page, path, 0);
+      });
+
+      // ロック画面のUIだけでなく、SpoilerGateの <template> 内に置かれた解説本文
+      // （実際の閲覧者の大半が目にするコンテンツ）も検査対象に含める (#204)。
+      test(`${path} ページに WCAG 2.2 AA の違反が無い（${label}ネタバレ全解放後）`, async ({
+        page,
+      }) => {
+        await expectNoA11yViolations(page, path, FULL_UNLOCK_CHAPTER);
+      });
+    }
   });
 }
 
