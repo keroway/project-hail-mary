@@ -25,7 +25,8 @@ const captionId = caption ? `diagram-cap-${crypto.randomUUID()}` : undefined;
     <span class="science-diagram-title">{title}</span>
   </figcaption>
 
-  <div class="science-diagram-stage">
+  <!-- モバイル幅では横スクロールになるため、キーボード利用者が操作できるよう focusable にする (axe: scrollable-region-focusable) -->
+  <div class="science-diagram-stage" tabindex="0" role="region" aria-label={title}>
   {kind === 'orbit' && (
     <svg class="science-diagram-svg" viewBox="0 0 680 240" role="img" aria-label={title} aria-describedby={captionId}>
       <title>{title}</title>
