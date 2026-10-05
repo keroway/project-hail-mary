@@ -92,7 +92,7 @@ export function statusLabel(chapter: number): string {
   if (chapter >= 25) return `第${chapter}章まで読了（終盤・タウメーバ漏洩）`;
   if (chapter >= 9)
     return `第${chapter}章まで読了（ロッキー登場以降の内容解除）`;
-  return `第${chapter}章まで読了（ロッキー登場前まで）`;
+  return `第${chapter}章まで読了（序盤の内容まで解除）`;
 }
 
 /**

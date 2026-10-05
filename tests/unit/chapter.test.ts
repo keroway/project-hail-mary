@@ -103,9 +103,11 @@ describe("statusLabel", () => {
     );
   });
 
-  it("1章以上9章未満はロッキー登場前の文言", () => {
-    expect(statusLabel(1)).toBe("第1章まで読了（ロッキー登場前まで）");
-    expect(statusLabel(8)).toBe("第8章まで読了（ロッキー登場前まで）");
+  it("1章以上9章未満は固有名詞を含まない序盤の文言", () => {
+    expect(statusLabel(1)).toBe("第1章まで読了（序盤の内容まで解除）");
+    expect(statusLabel(8)).toBe("第8章まで読了（序盤の内容まで解除）");
+    expect(statusLabel(1)).not.toContain("ロッキー");
+    expect(statusLabel(8)).not.toContain("ロッキー");
   });
 });
 
