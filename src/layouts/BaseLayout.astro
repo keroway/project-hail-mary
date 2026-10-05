@@ -307,9 +307,13 @@ const pageTransition = {
     initScrollMascot();
   }
 
+  function followsSystemMotion(prefs: UiPrefs) {
+    if (prefs.motion === 'reduced' && prefs.motionSource === 'explicit') return false;
+    return prefs.motion !== 'default';
+  }
+
   function getEffectiveMotion(prefs = readUiPrefs()) {
-    if (prefs.motion === 'reduced' && prefs.motionSource === 'explicit') return 'reduced';
-    if (prefs.motion === 'default') return 'default';
+    if (!followsSystemMotion(prefs)) return prefs.motion === 'reduced' ? 'reduced' : 'default';
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduced' : 'default';
   }
 
@@ -727,7 +731,7 @@ const pageTransition = {
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const handleReducedMotionChange = () => {
-    if (readUiPrefs().motion !== 'system') return;
+    if (!followsSystemMotion(readUiPrefs())) return;
     applyUiPrefs();
     initScrollReveal();
     initScrollMascot();

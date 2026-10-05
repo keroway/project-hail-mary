@@ -249,6 +249,67 @@ test.describe("表示設定パネル: 開閉・トグル操作・localStorage �
     await expect(page.locator("html")).not.toHaveAttribute("data-motion");
   });
 
+  test.describe("OS の動き設定の変更イベント追従(#348)", () => {
+    async function gotoWithStoredMotion(
+      page: import("@playwright/test").Page,
+      stored: Record<string, string>
+    ) {
+      await page.emulateMedia({ reducedMotion: "no-preference" });
+      await page.addInitScript(
+        ([key, value]) => window.localStorage.setItem(key, value),
+        [STORAGE_KEY, JSON.stringify(stored)]
+      );
+      await page.goto("/physics");
+    }
+
+    test("motionSourceがsystemのreduced保存値でもOS設定の変更に追従する", async ({
+      page,
+    }) => {
+      await gotoWithStoredMotion(page, {
+        motion: "reduced",
+        motionSource: "system",
+      });
+      await expect(page.locator("html")).not.toHaveAttribute("data-motion");
+
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await expect(page.locator("html")).toHaveAttribute(
+        "data-motion",
+        "reduced"
+      );
+    });
+
+    test("明示的な「通常」はOS設定が変わっても維持される", async ({ page }) => {
+      await gotoWithStoredMotion(page, {
+        motion: "default",
+        motionSource: "explicit",
+      });
+
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.waitForTimeout(200);
+      await expect(page.locator("html")).not.toHaveAttribute("data-motion");
+    });
+
+    test("明示的な「少なめ」はOS設定が変わっても維持される", async ({
+      page,
+    }) => {
+      await gotoWithStoredMotion(page, {
+        motion: "reduced",
+        motionSource: "explicit",
+      });
+      await expect(page.locator("html")).toHaveAttribute(
+        "data-motion",
+        "reduced"
+      );
+
+      await page.emulateMedia({ reducedMotion: "no-preference" });
+      await page.waitForTimeout(200);
+      await expect(page.locator("html")).toHaveAttribute(
+        "data-motion",
+        "reduced"
+      );
+    });
+  });
+
   test.describe("head の FOUC防止スクリプト単体の先行適用（末尾スクリプトをブロックして検証、#198）", () => {
     async function blockTailModuleScript(
       page: import("@playwright/test").Page
