@@ -32,8 +32,10 @@ let unpersistedChapter: number | null = null;
 export function readChapter(): number {
   if (unpersistedChapter !== null) return unpersistedChapter;
   try {
-    const raw = Number.parseInt(localStorage.getItem(STORAGE_KEY) ?? "0", 10);
-    return clampChapter(raw);
+    const stored = localStorage.getItem(STORAGE_KEY) ?? "0";
+    // "25junk" のような数値接頭辞つきの不正値は parseInt が受理してしまうため、全体を検証する
+    if (!/^-?\d+$/.test(stored)) return 0;
+    return clampChapter(Number.parseInt(stored, 10));
   } catch {
     return 0;
   }
