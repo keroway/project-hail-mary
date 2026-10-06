@@ -154,6 +154,34 @@ describe("readChapter/setChapter", () => {
     expect(readChapter()).toBe(12);
   });
 
+  it.each([
+    "25junk",
+    "9invalid",
+    "9.5",
+    "1e1",
+    " 9",
+    "9 ",
+    "0x10",
+    "",
+    "garbage",
+  ])("不正な保存値 %j は未読0に戻す", (stored) => {
+    syncChapterFromStorage();
+    vi.stubGlobal("localStorage", { getItem: () => stored });
+    expect(readChapter()).toBe(0);
+  });
+
+  it("正常な数値文字列は従来どおりクランプして受理する", () => {
+    syncChapterFromStorage();
+    const read = (stored: string | null) => {
+      vi.stubGlobal("localStorage", { getItem: () => stored });
+      return readChapter();
+    };
+    expect(read("25")).toBe(25);
+    expect(read("999")).toBe(MAX_CHAPTER);
+    expect(read("-3")).toBe(0);
+    expect(read(null)).toBe(0);
+  });
+
   it("保存失敗後、別タブでの永続化変更を受けたらsyncChapterFromStorageで上書き値を破棄し実値へ戻る", () => {
     // 1. 保存失敗（このタブ内は unpersistedChapter=25 が優先される）
     stubThrowingStorage();
