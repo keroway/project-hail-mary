@@ -22,4 +22,21 @@ test.describe("SPA遷移後のナビ active/aria-current 更新", () => {
     await expect(physicsLink).not.toHaveClass(/active/);
     await expect(physicsLink).not.toHaveAttribute("aria-current", "page");
   });
+
+  for (const modifier of ["Control", "Meta", "Shift", "Alt"] as const) {
+    test(`${modifier} 付きクリックでは元タブのナビに読み込み中・押下状態を付けない`, async ({
+      page,
+    }) => {
+      await page.goto("/physics");
+
+      const chemistryLink = page.locator('[data-nav-link][href="/chemistry"]');
+      await chemistryLink.click({ modifiers: [modifier] });
+
+      await expect(page.locator(".site-nav")).not.toHaveAttribute(
+        "data-nav-loading",
+        "true"
+      );
+      await expect(chemistryLink).not.toHaveClass(/is-pressed/);
+    });
+  }
 });

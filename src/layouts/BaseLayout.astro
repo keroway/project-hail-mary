@@ -512,7 +512,8 @@ const pageTransition = {
       const option = target instanceof Element ? target.closest('[data-ui-setting][data-ui-value]') : null;
       const tools = target instanceof Element ? target.closest('.accessibility-tools') : null;
 
-      if (navLink instanceof HTMLElement) {
+      const opensInSameTab = event.button === 0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey;
+      if (navLink instanceof HTMLElement && opensInSameTab) {
         const nav = document.querySelector('.site-nav');
         nav?.setAttribute('data-nav-loading', 'true');
         document.querySelectorAll('.site-nav .is-pressed').forEach((el) => el.classList.remove('is-pressed'));
