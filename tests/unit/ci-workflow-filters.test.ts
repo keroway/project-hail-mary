@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { join, matchesGlob } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const WORKFLOWS_DIR = join(__dirname, "../../.github/workflows");
@@ -12,19 +12,25 @@ const DEPENDENCY_FILES = [
   "pnpm-workspace.yaml",
 ];
 
-function extractCodeFilterPatterns(workflowFile: string): string[] {
+function extractFilterPatterns(workflowFile: string, filter: string): string[] {
   const source = readFileSync(join(WORKFLOWS_DIR, workflowFile), "utf8");
-  const codeSection = source.split(/^\s*code:\s*$/m)[1];
-  if (!codeSection) {
-    throw new Error(`${workflowFile}: \`code:\` filter section not found`);
+  const lines = source.split("\n");
+  const start = lines.findIndex((line) => line.trim() === `${filter}:`);
+  if (start === -1) {
+    throw new Error(`${workflowFile}: \`${filter}:\` filter section not found`);
   }
+  const indent = lines[start].search(/\S/);
   const patterns: string[] = [];
-  for (const line of codeSection.split("\n")) {
-    if (/^\S/.test(line)) break;
+  for (const line of lines.slice(start + 1)) {
+    if (line.trim() && line.search(/\S/) <= indent) break;
     const match = line.match(/^\s+- '([^']+)'/);
     if (match) patterns.push(match[1]);
   }
   return patterns;
+}
+
+function extractCodeFilterPatterns(workflowFile: string): string[] {
+  return extractFilterPatterns(workflowFile, "code");
 }
 
 describe.each(["ci.yml", "deploy.yml"])("%s の code filter", (workflowFile) => {
@@ -98,4 +104,53 @@ describe.each(PINNED_ACTIONS)("%s のバージョンピン", (action) => {
     const deployShas = extractActionPins("deploy.yml", action);
     expect(deployShas).toEqual(ciShas);
   });
+});
+
+// docs を code に混ぜると文書だけで build・deploy まで起動するため、
+// filter の境界と job の条件を含めて回帰検証する (#359)。
+describe("文書のテスト一覧検査の起動条件", () => {
+  const source = readFileSync(join(WORKFLOWS_DIR, "ci.yml"), "utf8");
+  const codePatterns = extractCodeFilterPatterns("ci.yml");
+  const docsPatterns = extractFilterPatterns("ci.yml", "docs");
+
+  it.each([
+    ["README.md", false, true],
+    ["CLAUDE.md", false, true],
+    ["docs/guide.md", false, false],
+    ["SECURITY.md", false, false],
+    ["src/pages/index.astro", true, false],
+    ["tests/unit/docs-test-list-sync.test.ts", true, false],
+    [".github/workflows/ci.yml", true, false],
+  ])("%s の code=%s / docs=%s", (path, code, docs) => {
+    expect(codePatterns.some((pattern) => matchesGlob(path, pattern))).toBe(
+      code
+    );
+    expect(docsPatterns.some((pattern) => matchesGlob(path, pattern))).toBe(
+      docs
+    );
+  });
+
+  it("docs filter の出力を下流 job に公開する", () => {
+    // biome-ignore lint/suspicious/noTemplateCurlyInString: GitHub Actions expression
+    expect(source).toContain("docs: ${{ steps.filter.outputs.docs }}");
+  });
+
+  it("Lint は code または docs の変更で unit test を実行する", () => {
+    const lint = source.split(/^ {2}lint:$/m)[1].split(/^ {2}typecheck:$/m)[0];
+    expect(lint).toContain("needs: [changes]");
+    expect(lint).toContain(
+      "if: needs.changes.outputs.code == 'true' || needs.changes.outputs.docs == 'true'"
+    );
+    expect(lint).toContain("run: pnpm run test:unit");
+  });
+
+  it.each(["typecheck", "build", "e2e", "deploy-preview"])(
+    "%s は code 変更だけで起動する",
+    (job) => {
+      const section = source.split(new RegExp(`^  ${job}:$`, "m"))[1];
+      const condition = section.split("runs-on:")[0];
+      expect(condition).toContain("needs.changes.outputs.code == 'true'");
+      expect(condition).not.toContain("needs.changes.outputs.docs");
+    }
+  );
 });

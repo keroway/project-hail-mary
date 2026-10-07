@@ -16,7 +16,8 @@ permissions:
 jobs:
   # コード（src/**, astro.config.*, package.json 等）に影響する変更かどうかを判定する。
   # README.md / CLAUDE.md など「コードとみなすパス」に含まれないファイルのみの変更では
-  # 下流の Lint / Typecheck / Build / E2E / Preview Deploy を job 単位の `if:` でスキップする。
+  # Typecheck / Build / E2E / Preview Deploy を job 単位の `if:` でスキップする。
+  # Lint は README.md / CLAUDE.md の変更でも実行し、テスト一覧の整合性を検査する。
   # ワークフロー自体は pull_request で必ず起動させ、スキップした job も success/skipped で
   # 完了させることで、ブランチ保護の必須チェックが pending のまま止まらないようにする。
   changes:
@@ -28,6 +29,7 @@ jobs:
       pull-requests: read
     outputs:
       code: ${{ steps.filter.outputs.code }}
+      docs: ${{ steps.filter.outputs.docs }}
     steps:
       - name: Filter changed paths
         id: filter
@@ -54,11 +56,15 @@ jobs:
               - 'justfile'
               - 'lefthook.yml'
               - 'mise.toml'
+            # テスト一覧を検査する unit test は文書だけの変更でも実行する (#359)。
+            docs:
+              - 'README.md'
+              - 'CLAUDE.md'
 
   lint:
     name: Lint
     needs: [changes]
-    if: needs.changes.outputs.code == 'true'
+    if: needs.changes.outputs.code == 'true' || needs.changes.outputs.docs == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
