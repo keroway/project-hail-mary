@@ -12,3 +12,7 @@
 enabled: true
 max_issues_per_cycle: 1
 allow_merge: true
+
+# Codex による非対話 issue 実装を許可しない。ローカル clone に .wrangler/ 等の資格情報が
+# 置かれうるため(agent-assets#371)。資格情報を Codex 用 checkout から分離できたら true にする。
+allow_codex_implementation: false
