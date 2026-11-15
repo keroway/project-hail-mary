@@ -56,10 +56,13 @@ jobs:
               - 'justfile'
               - 'lefthook.yml'
               - 'mise.toml'
-            # テスト一覧を検査する unit test は文書だけの変更でも実行する (#359)。
+            # テスト一覧を検査する unit test と typos は文書だけの変更でも実行する (#359 / #336)。
+            # typos は Lint job 内で走るため、README.md / CLAUDE.md 以外の Markdown
+            # (docs/**, SECURITY.md, .claude/** など) も対象にしないと誤字を検知できない。
             docs:
-              - 'README.md'
-              - 'CLAUDE.md'
+              - '**/*.md'
+              # ドット始まりのディレクトリは glob の実装によって '**' に含まれないため明示する。
+              - '.claude/**/*.md'
 
   lint:
     name: Lint
