@@ -20,7 +20,7 @@ pre-commit:
       stage_fixed: true
 
     - name: typecheck
-      glob: "*.astro"
+      glob: "*.{astro,ts}"
       run: pnpm exec astro check
 
 pre-push:
