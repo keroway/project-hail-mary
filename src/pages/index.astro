@@ -673,7 +673,11 @@ import { MAX_CHAPTER } from "../scripts/chapter";
     // ナビのチップ更新は chapterChanged → BaseLayout(updateNavIndicator) に一元化
   }
 
+  // 保存失敗環境でも同一タブのクライアント遷移中はガイドを閉じた状態を保持する
+  let onboardingDismissedInMemory = false;
+
   function isFirstVisit(): boolean {
+    if (onboardingDismissedInMemory) return false;
     try {
       return !localStorage.getItem(ONBOARDED_KEY);
     } catch {
@@ -703,6 +707,7 @@ import { MAX_CHAPTER } from "../scripts/chapter";
   function dismissOnboarding() {
     const guide = document.getElementById('onboarding-guide');
     if (guide) guide.setAttribute('hidden', '');
+    onboardingDismissedInMemory = true;
     try {
       localStorage.setItem(ONBOARDED_KEY, 'true');
     } catch {
