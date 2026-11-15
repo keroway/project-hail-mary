@@ -152,6 +152,38 @@ test.describe("表示設定パネル: 開閉・トグル操作・localStorage �
     ).toHaveAttribute("aria-pressed", "true");
   });
 
+  test("有効なJSONに未知の値が含まれても不正値だけ既定値に戻り、選択状態が維持される", async ({
+    page,
+  }) => {
+    await page.addInitScript((key) => {
+      window.localStorage.setItem(
+        key,
+        JSON.stringify({
+          fontScale: "unknown",
+          diagramScale: "unknown",
+          contrast: "high",
+        })
+      );
+    }, STORAGE_KEY);
+    await page.goto("/physics");
+
+    const html = page.locator("html");
+    await expect(html).not.toHaveAttribute("data-font-scale");
+    await expect(html).not.toHaveAttribute("data-diagram-scale");
+    await expect(html).toHaveAttribute("data-contrast", "high");
+
+    await page.locator("#accessibility-toggle").click();
+    await expect(
+      page.locator('[data-ui-setting="fontScale"][data-ui-value="default"]')
+    ).toHaveAttribute("aria-pressed", "true");
+    await expect(
+      page.locator('[data-ui-setting="diagramScale"][data-ui-value="default"]')
+    ).toHaveAttribute("aria-pressed", "true");
+    await expect(
+      page.locator('[data-ui-setting="contrast"][data-ui-value="high"]')
+    ).toHaveAttribute("aria-pressed", "true");
+  });
+
   test("localStorageへの書き込みが失敗しても当該セッション内の表示設定は反映される", async ({
     page,
   }) => {
