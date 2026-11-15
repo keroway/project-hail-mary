@@ -90,4 +90,31 @@ test.describe("初回訪問オンボーディング", () => {
     await expect(page.locator("#chapter-dialog")).not.toBeVisible();
     await expect(page.locator("#onboarding-guide")).toBeVisible();
   });
+
+  test("localStorageへの保存が失敗しても、閉じたガイドは同一タブのトップ再訪で再表示されない(#363)", async ({
+    page,
+  }) => {
+    await page.addInitScript(
+      ({ key }) => {
+        window.sessionStorage.setItem(key, "true");
+        window.localStorage.setItem = () => {
+          throw new DOMException("QuotaExceededError");
+        };
+      },
+      { key: SESSION_DIALOG_KEY }
+    );
+
+    await page.goto("/");
+    await expect(page.locator("#onboarding-guide")).toBeVisible();
+    await page.locator("#og-close").click();
+    await expect(page.locator("#onboarding-guide")).toBeHidden();
+
+    // クライアント遷移(ClientRouter)で教科ページへ移動し、トップへ戻る
+    await page.locator('a[href="/physics"]').first().click();
+    await expect(page).toHaveURL(/\/physics\/?$/);
+    await page.locator('a[href="/"]').first().click();
+    await expect(page).toHaveURL(/\/$/);
+
+    await expect(page.locator("#onboarding-guide")).toBeHidden();
+  });
 });
