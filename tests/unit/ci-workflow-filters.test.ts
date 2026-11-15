@@ -116,8 +116,9 @@ describe("文書のテスト一覧検査の起動条件", () => {
   it.each([
     ["README.md", false, true],
     ["CLAUDE.md", false, true],
-    ["docs/guide.md", false, false],
-    ["SECURITY.md", false, false],
+    ["docs/guide.md", false, true],
+    ["SECURITY.md", false, true],
+    [".claude/agents/hail-mary-fact-checker.md", false, true],
     ["src/pages/index.astro", true, false],
     ["tests/unit/docs-test-list-sync.test.ts", true, false],
     [".github/workflows/ci.yml", true, false],
