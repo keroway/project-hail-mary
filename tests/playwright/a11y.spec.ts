@@ -67,7 +67,8 @@ const SETTLE_STYLE = [
 async function expectNoA11yViolations(
   page: import("@playwright/test").Page,
   path: string,
-  chapter: number
+  chapter: number,
+  options: { openPanel?: boolean } = {}
 ) {
   await page.addInitScript(
     ({ key, value }) => {
@@ -78,6 +79,16 @@ async function expectNoA11yViolations(
   await page.goto(path);
   // main が描画されるまで待つ。描画途中で解析すると偽陰性になりうる。
   await expect(page.locator("main")).toBeVisible();
+
+  // 表示設定パネルは hidden 属性で閉じているため、開かないと axe の検査対象外になる (#390)。
+  if (options.openPanel) {
+    await page.locator("#accessibility-toggle").click();
+    await expect(page.locator("#accessibility-toggle")).toHaveAttribute(
+      "aria-expanded",
+      "true"
+    );
+    await expect(page.locator("#accessibility-panel")).toBeVisible();
+  }
 
   await page.addStyleTag({ content: SETTLE_STYLE });
   // スタイル適用が反映されてから解析する。
@@ -144,6 +155,13 @@ for (const { label, size } of VIEWPORTS) {
         await expectNoA11yViolations(page, path, FULL_UNLOCK_CHAPTER);
       });
     }
+
+    // 表示設定パネルを開いた状態 (全ページ共通UI) を検査する (#390)。
+    test(`表示設定パネルを開いた状態に WCAG 2.2 AA の違反が無い（${label}物理ページ）`, async ({
+      page,
+    }) => {
+      await expectNoA11yViolations(page, "/physics", 0, { openPanel: true });
+    });
   });
 }
 
