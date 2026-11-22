@@ -45,7 +45,9 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { PAGES } from "./pages";
 
-const WCAG_TAGS = ["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"];
+// WCAG 2.2 AA は 2.0/2.1/2.2 の A・AA 基準の累積。wcag21a を欠くと
+// label-content-name-mismatch (WCAG 2.5.3) が検査対象外になる (#392)。
+const WCAG_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
 const STORAGE_KEY = "hailmary-chapter";
 
 /**
