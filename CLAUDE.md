@@ -62,6 +62,7 @@ tests/
     ├── scroll-hero-observer.test.ts # 表示設定変更時の画像用 Observer 再追従（本体/別タブ同期の両経路）
     ├── ci-workflow-filters.test.ts  # ci.yml/deploy.yml の変更検知フィルタ検証
     ├── tsconfig-unused-detection.test.ts # tsconfig.json の noUnusedLocals/noUnusedParameters 検証
+    ├── a11y-wcag-tags.test.ts  # a11y.spec.ts の WCAG_TAGS が axe の A/AA 系ルールを取りこぼさないことを検証
     └── docs-test-list-sync.test.ts  # README.md/CLAUDE.md のテスト一覧と実ファイルの一致検証
 playwright.config.ts           # Playwright 設定（CI では dist 再利用、ローカルはフルビルド）
 public/
