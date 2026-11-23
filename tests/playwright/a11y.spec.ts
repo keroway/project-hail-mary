@@ -70,17 +70,28 @@ async function expectNoA11yViolations(
   page: import("@playwright/test").Page,
   path: string,
   chapter: number,
-  options: { openPanel?: boolean } = {}
+  options: {
+    openPanel?: boolean;
+    /** 追加で localStorage に保存する値 (例: 初回訪問フラグの解除) */
+    storage?: Record<string, string>;
+    /** main 描画後・解析前に検査状態を整え、その状態を assert する */
+    prepare?: (page: import("@playwright/test").Page) => Promise<void>;
+  } = {}
 ) {
   await page.addInitScript(
-    ({ key, value }) => {
+    ({ key, value, extra }) => {
       window.localStorage.setItem(key, String(value));
+      for (const [k, v] of Object.entries(extra)) {
+        window.localStorage.setItem(k, v);
+      }
     },
-    { key: STORAGE_KEY, value: chapter }
+    { key: STORAGE_KEY, value: chapter, extra: options.storage ?? {} }
   );
   await page.goto(path);
   // main が描画されるまで待つ。描画途中で解析すると偽陰性になりうる。
   await expect(page.locator("main")).toBeVisible();
+
+  await options.prepare?.(page);
 
   // 表示設定パネルは hidden 属性で閉じているため、開かないと axe の検査対象外になる (#390)。
   if (options.openPanel) {
@@ -163,6 +174,43 @@ for (const { label, size } of VIEWPORTS) {
       page,
     }) => {
       await expectNoA11yViolations(page, "/physics", 0, { openPanel: true });
+    });
+
+    // トップページは初回訪問で章設定ダイアログが自動表示される。ダイアログ表示中・
+    // 閉じた直後のガイド表示・ガイドも閉じた通常表示を明示的に分けて検査する (#395)。
+    test(`トップページの章設定ダイアログ表示中に WCAG 2.2 AA の違反が無い（${label}初回訪問）`, async ({
+      page,
+    }) => {
+      await expectNoA11yViolations(page, "/", 0, {
+        prepare: async (p) => {
+          await expect(p.locator("#chapter-dialog")).toBeVisible();
+        },
+      });
+    });
+
+    test(`トップページのオンボーディングガイド表示に WCAG 2.2 AA の違反が無い（${label}ダイアログを閉じた後）`, async ({
+      page,
+    }) => {
+      await expectNoA11yViolations(page, "/", 0, {
+        prepare: async (p) => {
+          await expect(p.locator("#chapter-dialog")).toBeVisible();
+          await p.locator("#cd-confirm").click();
+          await expect(p.locator("#chapter-dialog")).toBeHidden();
+          await expect(p.locator("#onboarding-guide")).toBeVisible();
+        },
+      });
+    });
+
+    test(`トップページの通常表示に WCAG 2.2 AA の違反が無い（${label}オンボーディング済み）`, async ({
+      page,
+    }) => {
+      await expectNoA11yViolations(page, "/", FULL_UNLOCK_CHAPTER, {
+        storage: { "hailmary-onboarded": "true" },
+        prepare: async (p) => {
+          await expect(p.locator("#chapter-dialog")).toBeHidden();
+          await expect(p.locator("#onboarding-guide")).toBeHidden();
+        },
+      });
     });
   });
 }
