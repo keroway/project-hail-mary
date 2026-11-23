@@ -1,7 +1,7 @@
 {
   "name": "project-hail-mary",
   "type": "module",
-  "packageManager": "pnpm@11.28.12",
+  "packageManager": "pnpm@11.28.13",
   "engines": {
     "node": ">=26"
   },
