@@ -36,6 +36,19 @@ function extractGates(source: string): Map<string, number> {
   return gates;
 }
 
+// 遷移先ソースに id="<id>" が存在するか（ゲートなしリンクの破損検出用）。
+function hasAnchor(source: string, id: string): boolean {
+  return new RegExp(`\\bid="${id}"`).test(source);
+}
+
+describe("hasAnchor", () => {
+  it("存在する ID は true、存在しない ID は false を返す", () => {
+    const src = '<section id="phase01"></section>';
+    expect(hasAnchor(src, "phase01")).toBe(true);
+    expect(hasAnchor(src, "missing999")).toBe(false);
+  });
+});
+
 // ストーリー順リンクの章ロックが遷移先 SpoilerGate と一致することを検証する
 // （#356 の回帰防止）。
 describe("story.astro のリンクと遷移先 SpoilerGate の章条件の一致", () => {
@@ -48,6 +61,18 @@ describe("story.astro のリンクと遷移先 SpoilerGate の章条件の一致
   it("リンクを抽出できている", () => {
     expect(links.length).toBeGreaterThan(0);
   });
+
+  const sources = new Map<string, string>();
+  for (const page of new Set(links.map((l) => l.page))) {
+    sources.set(page, read(`${page}.astro`));
+  }
+
+  it.each(links.map((l) => [`${l.page}#${l.id}`, l] as const))(
+    "%s の遷移先アンカーが存在する",
+    (_name, link) => {
+      expect(hasAnchor(sources.get(link.page) ?? "", link.id)).toBe(true);
+    }
+  );
 
   it.each(links.map((l) => [`${l.page}#${l.id}`, l] as const))(
     "%s のリンク側 data-min-chapter が遷移先ゲートと一致する",
