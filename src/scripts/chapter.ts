@@ -17,6 +17,15 @@ export function clampChapter(raw: number): number {
 }
 
 /**
+ * 数値入力欄の文字列全体を数値として解釈する。空欄は 0、解釈できない入力は NaN
+ * （clampChapter が 0 とみなす）。parseInt の整数接頭辞解釈で "25e-1" が 25 になるのを防ぐ。
+ */
+export function parseChapterInput(raw: string): number {
+  const s = raw.trim();
+  return s === "" ? 0 : Number(s);
+}
+
+/**
  * setChapter の localStorage 書き込みが失敗した際に、当該ページ・クライアント遷移内で
  * 読み書き双方が同じ値を見られるようにするための上書き値。
  * getItem 自体は例外を投げず空文字/nullを返す環境があり、書込み失敗を読取り側だけでは

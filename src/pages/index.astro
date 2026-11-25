@@ -639,6 +639,7 @@ import { MAX_CHAPTER } from "../scripts/chapter";
     compactLabel,
     statusLabel,
     STORAGE_KEY,
+    parseChapterInput,
     syncChapterFromStorage,
   } from '../scripts/chapter';
 
@@ -742,9 +743,9 @@ import { MAX_CHAPTER } from "../scripts/chapter";
 
     // Number input
     const numEl = document.getElementById('chapter-number') as HTMLInputElement | null;
-    numEl?.addEventListener('change', () => setChapter(Number.parseInt(numEl.value || '0', 10)));
+    numEl?.addEventListener('change', () => setChapter(parseChapterInput(numEl.value)));
     numEl?.addEventListener('input', () => {
-      const v = Number.parseInt(numEl.value || '0', 10);
+      const v = parseChapterInput(numEl.value);
       if (Number.isFinite(v)) setChapter(v);
     });
 

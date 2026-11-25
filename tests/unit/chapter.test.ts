@@ -4,6 +4,7 @@ import {
   compactLabel,
   MAX_CHAPTER,
   navLabel,
+  parseChapterInput,
   readChapter,
   STORAGE_KEY,
   setChapter,
@@ -25,6 +26,26 @@ function stubThrowingStorage() {
 function stubDocument() {
   vi.stubGlobal("document", { dispatchEvent: vi.fn() });
 }
+
+describe("parseChapterInput", () => {
+  it("指数表記は入力全体の数値として解釈する", () => {
+    expect(clampChapter(parseChapterInput("25e-1"))).toBe(2);
+    expect(clampChapter(parseChapterInput("9e-1"))).toBe(0);
+    expect(clampChapter(parseChapterInput("1e1"))).toBe(10);
+  });
+
+  it("小数は切り捨て、整数はそのまま", () => {
+    expect(clampChapter(parseChapterInput("2.5"))).toBe(2);
+    expect(clampChapter(parseChapterInput("12"))).toBe(12);
+  });
+
+  it("空欄は0、解釈できない入力は NaN（clamp で0）", () => {
+    expect(parseChapterInput("")).toBe(0);
+    expect(parseChapterInput("  ")).toBe(0);
+    expect(Number.isNaN(parseChapterInput("25abc"))).toBe(true);
+    expect(clampChapter(parseChapterInput("abc"))).toBe(0);
+  });
+});
 
 describe("clampChapter", () => {
   it("負の値は0に丸める", () => {
