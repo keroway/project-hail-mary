@@ -435,6 +435,23 @@ test.describe("表示設定パネル: 開閉・トグル操作・localStorage �
       await expect(html).not.toHaveAttribute("data-motion");
     });
 
+    test("破損したlocalStorageデータでもOSがreduceならhead側スクリプト単体でdata-motionを先行適用する(#402)", async ({
+      page,
+    }) => {
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.addInitScript((key) => {
+        window.localStorage.setItem(key, "{not valid json");
+      }, STORAGE_KEY);
+      await blockTailModuleScript(page);
+
+      await page.goto("/physics");
+
+      await expect(page.locator("html")).toHaveAttribute(
+        "data-motion",
+        "reduced"
+      );
+    });
+
     test("motionが未設定の場合、head側スクリプト単体でも prefers-reduced-motion に従って先行適用される", async ({
       page,
     }) => {
