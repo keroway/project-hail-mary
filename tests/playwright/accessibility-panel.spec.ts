@@ -342,6 +342,43 @@ test.describe("表示設定パネル: 開閉・トグル操作・localStorage �
     });
   });
 
+  test.describe("トップページの動き抑制は表示設定の実効値に従う(#402)", () => {
+    async function headingAnimationName(
+      page: import("@playwright/test").Page,
+      stored: Record<string, string>
+    ) {
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.addInitScript(
+        ([key, value]) => window.localStorage.setItem(key, value),
+        [STORAGE_KEY, JSON.stringify(stored)]
+      );
+      await page.goto("/");
+      return page
+        .locator(".page-header h1")
+        .evaluate((el) => getComputedStyle(el).animationName);
+    }
+
+    test("OS が reduce でもサイト設定が明示的な「通常」ならアニメーションが維持される", async ({
+      page,
+    }) => {
+      const name = await headingAnimationName(page, {
+        motion: "default",
+        motionSource: "explicit",
+      });
+      expect(name).not.toBe("none");
+    });
+
+    test("サイト設定が「少なめ」ならアニメーションが無効になる", async ({
+      page,
+    }) => {
+      const name = await headingAnimationName(page, {
+        motion: "reduced",
+        motionSource: "explicit",
+      });
+      expect(name).toBe("none");
+    });
+  });
+
   test.describe("head の FOUC防止スクリプト単体の先行適用（末尾スクリプトをブロックして検証、#198）", () => {
     async function blockTailModuleScript(
       page: import("@playwright/test").Page
