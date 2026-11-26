@@ -214,21 +214,8 @@ import { MAX_CHAPTER } from "../scripts/chapter";
     animation: fadeSlideUp 0.55s 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
-  /* Respect prefers-reduced-motion */
-  @media (prefers-reduced-motion: reduce) {
-    .page-header .header-eyebrow,
-    .page-header h1,
-    .page-header .header-sub,
-    .chapter-compact,
-    .onboarding-guide {
-      animation: none;
-    }
-    .chapter-dialog[open],
-    .chapter-dialog::backdrop {
-      animation: none;
-    }
-  }
-
+  /* 動きの抑制は表示設定の実効値 data-motion のみで判定する
+     （OS 設定の反映は BaseLayout の followsSystemMotion が data-motion に集約する） */
   html[data-motion='reduced'] .page-header .header-eyebrow,
   html[data-motion='reduced'] .page-header h1,
   html[data-motion='reduced'] .page-header .header-sub,

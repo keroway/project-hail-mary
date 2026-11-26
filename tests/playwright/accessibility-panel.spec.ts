@@ -342,6 +342,43 @@ test.describe("表示設定パネル: 開閉・トグル操作・localStorage �
     });
   });
 
+  test.describe("トップページの動き抑制は表示設定の実効値に従う(#402)", () => {
+    async function headingAnimationName(
+      page: import("@playwright/test").Page,
+      stored: Record<string, string>
+    ) {
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.addInitScript(
+        ([key, value]) => window.localStorage.setItem(key, value),
+        [STORAGE_KEY, JSON.stringify(stored)]
+      );
+      await page.goto("/");
+      return page
+        .locator(".page-header h1")
+        .evaluate((el) => getComputedStyle(el).animationName);
+    }
+
+    test("OS が reduce でもサイト設定が明示的な「通常」ならアニメーションが維持される", async ({
+      page,
+    }) => {
+      const name = await headingAnimationName(page, {
+        motion: "default",
+        motionSource: "explicit",
+      });
+      expect(name).not.toBe("none");
+    });
+
+    test("サイト設定が「少なめ」ならアニメーションが無効になる", async ({
+      page,
+    }) => {
+      const name = await headingAnimationName(page, {
+        motion: "reduced",
+        motionSource: "explicit",
+      });
+      expect(name).toBe("none");
+    });
+  });
+
   test.describe("head の FOUC防止スクリプト単体の先行適用（末尾スクリプトをブロックして検証、#198）", () => {
     async function blockTailModuleScript(
       page: import("@playwright/test").Page
@@ -396,6 +433,23 @@ test.describe("表示設定パネル: 開閉・トグル操作・localStorage �
       await expect(html).not.toHaveAttribute("data-diagram-scale");
       await expect(html).not.toHaveAttribute("data-contrast");
       await expect(html).not.toHaveAttribute("data-motion");
+    });
+
+    test("破損したlocalStorageデータでもOSがreduceならhead側スクリプト単体でdata-motionを先行適用する(#402)", async ({
+      page,
+    }) => {
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.addInitScript((key) => {
+        window.localStorage.setItem(key, "{not valid json");
+      }, STORAGE_KEY);
+      await blockTailModuleScript(page);
+
+      await page.goto("/physics");
+
+      await expect(page.locator("html")).toHaveAttribute(
+        "data-motion",
+        "reduced"
+      );
     });
 
     test("motionが未設定の場合、head側スクリプト単体でも prefers-reduced-motion に従って先行適用される", async ({

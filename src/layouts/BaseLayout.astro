@@ -125,8 +125,13 @@ const pageTransition = {
         else motion = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduced' : 'default';
         if (motion !== 'default') d.dataset.motion = motion;
       } catch (e) {
-        // ストレージが無効化・破損している環境では先行適用を諦め、
-        // 末尾 <script> の applyUiPrefs() によるデフォルト適用に委ねる
+        // ストレージが無効化・破損している環境では設定を既定値として扱い、
+        // OS が reduce の場合のみ動きの抑制を先行適用する(他の項目は末尾 <script> に委ねる)
+        try {
+          if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.documentElement.dataset.motion = 'reduced';
+          }
+        } catch (e2) {}
       }
     })();
   </script>
