@@ -81,6 +81,7 @@ project-hail-mary/
 │       ├── base-layout-fouc-sync.test.ts # BaseLayout.astro の FOUC防止インラインスクリプトとDEFAULT_UI_PREFSのキー集合一致を検証
 │       ├── chapter.test.ts
 │       ├── citations.test.ts
+│       ├── diagram-dashed-stroke.test.ts
 │       ├── index-chapter-max.test.ts # index.astro の章数上限 MAX_CHAPTER 検証
 │       ├── spoiler-gate.test.ts     # SpoilerGate 外へのネタバレ露出検知
 │       ├── story-link-gate-sync.test.ts # story.astro のリンク章条件と遷移先 SpoilerGate の minChapter 一致検証
