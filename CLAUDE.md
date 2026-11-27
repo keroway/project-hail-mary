@@ -49,12 +49,14 @@ tests/
 │   ├── accessibility-panel.spec.ts  # 表示設定パネルの開閉・トグル・永続化
 │   ├── onboarding.spec.ts      # 初回訪問オンボーディング（章設定ダイアログ自動表示・sessionStorage例外時のフォールバック）
 │   ├── spoiler-gate.spec.ts    # ネタバレゲートの解放・再ロック挙動
+│   ├── diagram-dashed-stroke.spec.ts # ScienceDiagram 補助破線の computed stroke が none でないこと
 │   ├── external-links.spec.ts  # 外部リンクの新規タブ予告（WCAG 3.2.5、動的挿入分含む）
 │   └── nav-active-state.spec.ts # SPA遷移後のナビ active/aria-current 更新
 └── unit/                        # Vitest ユニットテスト
     ├── base-layout-fouc-sync.test.ts # BaseLayout.astro の FOUC防止インラインスクリプトとDEFAULT_UI_PREFSのキー集合一致を検証
     ├── chapter.test.ts
     ├── citations.test.ts
+    ├── diagram-dashed-stroke.test.ts # ScienceDiagram の破線クラスに stroke 色指定があることを検証
     ├── index-chapter-max.test.ts # index.astro の章数上限 MAX_CHAPTER 検証
     ├── spoiler-gate.test.ts    # SpoilerGate 外へのネタバレ露出検知
     ├── story-link-gate-sync.test.ts # story.astro のリンク章条件と遷移先 SpoilerGate の minChapter 一致検証
