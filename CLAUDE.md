@@ -49,6 +49,7 @@ tests/
 │   ├── accessibility-panel.spec.ts  # 表示設定パネルの開閉・トグル・永続化
 │   ├── onboarding.spec.ts      # 初回訪問オンボーディング（章設定ダイアログ自動表示・sessionStorage例外時のフォールバック）
 │   ├── spoiler-gate.spec.ts    # ネタバレゲートの解放・再ロック挙動
+│   ├── diagram-dashed-stroke.spec.ts # ScienceDiagram 補助破線の computed stroke が none でないこと
 │   ├── external-links.spec.ts  # 外部リンクの新規タブ予告（WCAG 3.2.5、動的挿入分含む）
 │   └── nav-active-state.spec.ts # SPA遷移後のナビ active/aria-current 更新
 └── unit/                        # Vitest ユニットテスト
